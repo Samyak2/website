@@ -27,7 +27,202 @@ to {
 top: 0.2em;
 }
 }
-&lt;/style></description></item><item><title>My old games</title><link>https://beta.samyaks.xyz/post/my-old-games/</link><pubDate>Mon, 03 Feb 2020 00:00:00 +0000</pubDate><guid>https://beta.samyaks.xyz/post/my-old-games/</guid><description>&lt;p>When I was in school, about 6-7 years ago, I had found a new hobby and passion - making games.
+&lt;/style></description></item><item><title>On water and systems</title><link>https://beta.samyaks.xyz/post/water-docker/</link><pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate><guid>https://beta.samyaks.xyz/post/water-docker/</guid><description>&lt;p>There&amp;rsquo;s a lake a few hundred meters from your house, with plenty of water in it. Can you actually use the water though? Sure, you can take a bucket to the lake, fill it up, bring it back and use it. You&amp;rsquo;ll need more than a bucket of water, so you make multiple trips and take two buckets at a time. Now you&amp;rsquo;re spending quite a bit of your time and energy everyday in this. To make your life easier, you build a rudimentary plumbing system. You take a long enough pipe, connect a motor and that&amp;rsquo;s it, you now have easy access to water. You can use this, but what about your neighbour, your colony? Everyone will need to build their own pipelines, which isn&amp;rsquo;t sustainable as every one of them needs to do all of the maintenance themselves, costing a lot of time and resources. You would need a real plumbing system that has robust pipes, a temporary storage (a tank), a better motor and you would have to rethink your home&amp;rsquo;s architecture to stuff all the pipes in there. Only then do you get water at your tap.&lt;/p>
+&lt;p>My point is that you could say that the water is right there but it&amp;rsquo;s not actually useful without all the plumbing around it. With the plumbing it&amp;rsquo;s a lot more convenient to do the things you do with water as you have it right at your tap, anytime you need it.&lt;/p>
+&lt;hr>
+&lt;p>I realized this when I was brushing my teeth one morning. The day before, I was working on &lt;a href="https://github.com/Samyak2/guntainer">making my own container runtime&lt;/a> to learn how containers work. I made a connection between this water story and containers.
+Namespaces and cgroups in Linux together let you isolate a process and limit the amount of resources it can use. That is basically what containers do, but to use them you need to jump through lots of hoops. My container runtime is that rudimentary pipeline that works but isn&amp;rsquo;t sustainable and cannot be (or will not be) used by anyone other than me. To make this useful you would need an entire system that is maintained by a group of people who know what they are doing - like &lt;a href="https://www.docker.com/">Docker&lt;/a>.&lt;/p>
+&lt;hr>
+&lt;p>Whenever there&amp;rsquo;s a discussion of using Linux over Windows/MacOS, one argument that often comes up is that Linux allows you to do basically anything you want to and if you miss a feature from Windows/MacOS you can implement it yourself or use a community made alternative (if it exists). Again, the difference between something being possible and actually usable is bigger than what AWS Infinidash will be in a few months (trust me it&amp;rsquo;s going to huge :)).
+One example of this is MacOS' Time Machine - the snapshot tool. On Linux, &lt;a href="https://btrfs.wiki.kernel.org/index.php/Main_Page">Btrfs&lt;/a> supports snapshots but to use it you need an app that makes managing snapshots easier (&lt;a href="http://snapper.io/">snapper&lt;/a> is one).&lt;/p>
+&lt;hr>
+&lt;p>Those were my thoughts. I realize that this is quite obvious in hindsight, but I wanted to share this anyway. Have you noticed this pattern somewhere else? Let me know down below or reach out to me on any of the links to the left.&lt;/p>
+&lt;p>Thank you for reading. Bye!&lt;/p></description></item><item><title>Solving A Git Murder Mystery</title><link>https://beta.samyaks.xyz/post/gitstery/</link><pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate><guid>https://beta.samyaks.xyz/post/gitstery/</guid><description>&lt;p>On the night of Friday the 13th, I came across an &lt;a href="https://github.com/nivbend/gitstery">interesting repository&lt;/a> on GitHub.
+At first I did not understand what it was, after all &amp;ldquo;gitstery&amp;rdquo; is not a very obvious name. I read through the README
+(seems like I missed the part where they say it was designed to be solved using git commands alone) and got some idea of
+what it was. It seemed really interesting and I was bored, so I cloned it. There was an &lt;code>instructions.txt&lt;/code> file which
+contained&amp;hellip;. instructions.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">A murder had been committed in Git Town!
+The detective, Kyle Pumbinner, said the crime scene report is on the `gtpd-archive` branch. He
+doesn&amp;#39;t really remember the report ID... But he knows it was the first report he submitted after his
+son&amp;#39;s ninth birthday (which was Saturday, July 20th), and it was the only report he submitted that
+week.
+When you find a suspect, you&amp;#39;d probably want to interview them. To do that, first find out their
+address. To go to that street, look for the street&amp;#39;s name in the repository (Hint: it&amp;#39;s a tag). To
+go to house number N on that street, go to the Nth ancestor. If you&amp;#39;d like to inspect the
+perimeters, you can look into the commit&amp;#39;s contents - it&amp;#39;ll contain a hash that you can view with
+certain git commands.
+Think you found the culprit? Check your answer with the following command:
+echo &amp;#34;John Doe&amp;#34; | git hash-object --stdin | grep -iq -f /dev/stdin &amp;lt;(git show solution) &amp;amp;&amp;amp; echo &amp;#39;You found the murderer!&amp;#39; || echo &amp;#39;No cigar, chief... Try again.&amp;#39;
+Replace John Doe with the name of the suspect that you want to check.
+For an extra challenge, try and solve the mystery without ever using `git checkout`.
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Spoiler Warning&lt;/strong>: The following section contains spoilers for gitstery. I suggest you try it on your own before reading. Or you can read this as a guide.
+{: .notice&amp;ndash;warning}&lt;/p>
+&lt;p>The instructions hint that we need to check out the &lt;code>gtpd-archive&lt;/code> branch. We can do so by using &lt;code>git checkout gtpd-archive&lt;/code>.
+It seems there is no difference between the two branches, all the files are the same.&lt;/p>
+&lt;figure>&lt;img src="https://beta.samyaks.xyz/images/gitstery/gitstery-files.webp"
+alt="Files in the gtpd-archive branch" width="100%"/>&lt;figcaption>
+&lt;p>Files in the gtpd-archive branch&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>So we check the logs, using &lt;code>git log&lt;/code> and we see all the reports here. The date starts from December and, as indicated by
+the instructions files, we need to find the logs which were submitted in the week after July 20th. We can search the log
+by typing &lt;code>/July&lt;/code> and pressing the &lt;code>n&lt;/code> key to go to the next search result. There is only one report by Kyle Pumbinner in
+that week.&lt;/p>
+&lt;figure>&lt;img src="https://beta.samyaks.xyz/images/gitstery/gitstery-log-July-24.webp"
+alt="Git log showing the report we need" width="100%"/>&lt;figcaption>
+&lt;p>Git log showing the report we need&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Hmm, so we need to check out the &lt;code>detectives/kpumbinner&lt;/code> branch.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">git checkout detectives/kpumbinner
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://beta.samyaks.xyz/images/gitstery/gitstery-kpumbineer-branch-files.webp"
+alt="Files in the detectives/kpumbinner branch" width="100%"/>&lt;figcaption>
+&lt;p>Files in the detectives/kpumbinner branch&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Here we have a new directory with an &lt;code>access.log&lt;/code> inside. There are three entries of &lt;code>BACKDOOR_332&lt;/code> here, we need to find
+the names of the people who made these entries. There is an aptly named git subcommand for this, it is called &lt;code>git blame&lt;/code>,
+running &lt;code>git blame access.log&lt;/code> will show the names of the people who made each entry in the file. At this point you could
+search through this by using &lt;code>/BACKDOOR_332&lt;/code>, but here we can use the very useful &lt;code>grep&lt;/code> tool.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">git blame access.log | grep BACKDOOR_332
+&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://beta.samyaks.xyz/images/gitstery/git-blame-grep.webp"
+alt="This gives the names of the three people who accessed the backdoor" width="100%"/>&lt;figcaption>
+&lt;p>This gives the names of the three people who accessed the backdoor&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>Now, we need to investigate these people. Going back to the instructions.txt, it describes the process to investigate a
+person. First, we need to find the person&amp;rsquo;s address. This is simple, we just have to search for the person&amp;rsquo;s name in the
+residents.txt file. Using cat and grep commands, we can easily get the address (or you can open the files using an editor
+and search in it).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cat residents.txt | grep &lt;span style="color:#e6db74">&amp;#34;Lyndon&amp;#34;&lt;/span>
+Lyndon Huskupper &lt;span style="color:#ae81ff">73&lt;/span> Tamworth Drive
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cat residents.txt | grep &lt;span style="color:#e6db74">&amp;#34;Cosmo&amp;#34;&lt;/span>
+Cosmo Siwkonk &lt;span style="color:#ae81ff">26&lt;/span> Balcombe Close
+&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cat residents.txt | grep &lt;span style="color:#e6db74">&amp;#34;Brock Stuickard&amp;#34;&lt;/span>
+Brock Stuickard &lt;span style="color:#ae81ff">9&lt;/span> Beaconside
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Again going back to instructions.txt, we find a way to investigate the addresses. Now, we have to look for the street
+name in git tags. &lt;code>git tag -l&lt;/code> lists all the tags, then we use grep to get the required tags.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git tag -l | grep &lt;span style="color:#e6db74">&amp;#34;tamworth&amp;#34;&lt;/span>
+street/tamworth_drive
+$ git tag -l | grep &lt;span style="color:#e6db74">&amp;#34;balcombe&amp;#34;&lt;/span>
+street/balcombe_close
+$ git tag -l | grep &lt;span style="color:#e6db74">&amp;#34;beaconside&amp;#34;&lt;/span>
+street/beaconside
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we are ready to investigate the addresses. To visit the address, we checkout that tag and inspect the files there.
+Checking out tags is as simple as &lt;code>git checkout &amp;lt;tag name&amp;gt;&lt;/code>, for example &lt;code>git checkout street/tamworth_drive&lt;/code>. We see
+a new file here named &lt;code>investigate&lt;/code> which contains some random letters. According to instructions.txt, this is a hash.
+We haven&amp;rsquo;t reached the house number yet, so let&amp;rsquo;s do that. With the hint from instructions.txt, we look at the logs.
+The contents have the house number, street name and the investigation report/conversation. We can search for &lt;code>/73 &lt;/code>
+(notice the space after 73, this is because the commit hashes can also contain the number 73) and get the investigation
+result.&lt;/p>
+&lt;pre tabindex="0">&lt;code>commit f8a5b218b1eaee3b111ae5ef536f919e8d3afca2
+Author: Dolores Wholfump &amp;lt;mayor@gittown.gov&amp;gt;
+Date: Tue Jan 1 00:00:00 2019 +0000
+73 Tamworth Drive
+No one's home...
+Maybe take a look around the perimeter?
+&lt;/code>&lt;/pre>&lt;p>How do we look around? That&amp;rsquo;s easy, we simply checkout that commit and take a look at the files. To checkout to a
+specific commit, copy the commit hash and do &lt;code>git checkout &amp;lt;commit hash here&amp;gt;&lt;/code> like &lt;code>git checkout f8a5b218b1eaee3b111ae5ef536f919e8d3afca2&lt;/code>.
+We can see that the &lt;code>investigate&lt;/code> file has changed, so we need to somehow get the actual contents of it. For that,
+we use a git subcommand called &lt;code>cat-file&lt;/code> can be used, this subcommand is used to find information about repository
+objects (which are hashed). &lt;code>git cat-file -t&lt;/code> is used to get the object&amp;rsquo;s type (in this case, it is a blob which is
+a general type for files in git) and &lt;code>git cat-file -p&lt;/code> is used to print the object&amp;rsquo;s content.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ cat investigate
+22f733298423b814f1da31bee3e0063c72ed6e71
+$ git cat-file -p 22f733298423b814f1da31bee3e0063c72ed6e71
+&lt;span style="color:#e6db74">&amp;#34;There&amp;#39;s no one answering the door. Obviously you won&amp;#39;t break in because you don&amp;#39;t have a warrant or
+&lt;/span>&lt;span style="color:#e6db74">anything. But nothing&amp;#39;s wrong with looking around the place...
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">You check around the house, there&amp;#39;s no car. Not even a driveway. You do find a bike resting against
+&lt;/span>&lt;span style="color:#e6db74">the fence. It&amp;#39;s pretty close to the factory, so makes sense the suspect bikes to work.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">Just to make sure, you ask some of the neighbors, they confirm that the suspect doesn&amp;#39;t own a car.
+&lt;/span>&lt;span style="color:#e6db74">One of them says he doesn&amp;#39;t even have a license.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">Another neighbor says he saw the suspect coming back from work on the day of the murder at about
+&lt;/span>&lt;span style="color:#e6db74">5PM, they chatted for a bit before his sister picked him up to visit their parents. They live pretty
+&lt;/span>&lt;span style="color:#e6db74">far away, so that places him away from Git Town at the time of the murder.&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Hmm, looks like this one is not our culprit. (They seem to emphasize having a car a lot for some reason&amp;hellip;).
+We can now look at the other suspects.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git checkout street/balcombe_close
+$ git log | grep -5 &lt;span style="color:#e6db74">&amp;#34;26 &amp;#34;&lt;/span>
+commit bc6870d8093a33d9a69acc94a1cda16ee2d7195d
+Author: Dolores Wholfump &amp;lt;mayor@gittown.gov&amp;gt;
+Date: Tue Jan &lt;span style="color:#ae81ff">1&lt;/span> 00:00:00 &lt;span style="color:#ae81ff">2019&lt;/span> +0000
+&lt;span style="color:#e6db74">&amp;#34;
+&lt;/span>&lt;span style="color:#e6db74"> 26 Balcombe Close
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> No one&amp;#39;s home...
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> You can take a look around though.
+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+$ git checkout bc6870d8093a33d9a69acc94a1cda16ee2d7195d
+HEAD is now at bc6870d &lt;span style="color:#ae81ff">26&lt;/span> Balcombe Close
+$ cat investigate
+c8411c73e49372dbdb644beef2ea841b403fc476
+$ git cat-file -p c8411c73e49372dbdb644beef2ea841b403fc476
+&lt;span style="color:#e6db74">&amp;#34;Nobody&amp;#39;s home. From the stack of letters in the mailbox nobody&amp;#39;s been here for a good few days.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">Without a warrant you can&amp;#39;t get into the house, but you can still checkout the area. Maybe talk with
+&lt;/span>&lt;span style="color:#e6db74">some of the neighbors.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">The guy next door says he barely ever spoke to the suspect, &amp;#34;&lt;/span>was a bit of a loner&lt;span style="color:#e6db74">&amp;#34; is what he says.
+&lt;/span>&lt;span style="color:#e6db74">Doesn&amp;#39;t know what type of vehicle he drives.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74">You take a stroll around the house, there&amp;#39;s a back porch that probably seen better days. You spot a
+&lt;/span>&lt;span style="color:#e6db74">driveway next to it leading to a garage. The door&amp;#39;s open and you see a green Hyundai parked there.&amp;#34;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Hmm. Strange. Now onto the third suspect.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ git checkout street/beaconside
+HEAD is now at 5e37024 Beaconside
+$ git log | grep -B &lt;span style="color:#ae81ff">4&lt;/span> -A &lt;span style="color:#ae81ff">21&lt;/span> &lt;span style="color:#e6db74">&amp;#34; 9 &amp;#34;&lt;/span>
+commit 92f6e05c6aa06c791f402d7e19649fa1f0ec76c6
+Author: Dolores Wholfump &amp;lt;mayor@gittown.gov&amp;gt;
+Date: Tue Jan &lt;span style="color:#ae81ff">1&lt;/span> 00:00:00 &lt;span style="color:#ae81ff">2019&lt;/span> +0000
+&lt;span style="color:#e6db74">&amp;#34;
+&lt;/span>&lt;span style="color:#e6db74"> 9 Beaconside
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> Yeah, of course I used the backdoor to the factory, that&amp;#39;s the closest entrance to the freezer and I
+&lt;/span>&lt;span style="color:#e6db74"> brought in some ingrediants that can&amp;#39;t really stand the heat.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> At the time of the murder I was at a block party right down the street from here, we threw the party
+&lt;/span>&lt;span style="color:#e6db74"> for one of the neighbors who got back from the hospital after an accident. I was with my kids. You
+&lt;/span>&lt;span style="color:#e6db74"> can ask anyone who&amp;#39;s been there.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> Oh wait, you know what? We took a picture... Let me get my phone.
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> See? That&amp;#39;s me, that&amp;#39;s the neighbor, here&amp;#39;s my little girl. And you see the timestamp?
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> So yeah, I really don&amp;#39;t have anything to do with that... Barely knew the victim...
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> But you know what? I did see someone rushing out of the factory... He got into a green Hyundai, you
+&lt;/span>&lt;span style="color:#e6db74"> don&amp;#39;t see many of those around here... Probably a rental. I didn&amp;#39;t catch his face, was just weird
+&lt;/span>&lt;span style="color:#e6db74"> seeing someone running off like that... Come to think about it, maybe that person had something to
+&lt;/span>&lt;span style="color:#e6db74"> do with it?
+&lt;/span>&lt;span style="color:#e6db74">
+&lt;/span>&lt;span style="color:#e6db74"> Anyways, best of luck catching whoever did it!
+&lt;/span>&lt;span style="color:#e6db74">&amp;#34;&lt;/span>
+$ git checkout 92f6e05c6aa06c791f402d7e19649fa1f0ec76c6
+Previous HEAD position was 5e37024 Beaconside
+HEAD is now at 92f6e05 &lt;span style="color:#ae81ff">9&lt;/span> Beaconside
+$ cat investigate
+d1278ebc164050fe1e5526fbba6a8cfbe763f1d2
+$ git cat-file -p d1278ebc164050fe1e5526fbba6a8cfbe763f1d2
+You ask around with the neighbors, just to make sure. Everyone you ask verify that suspect&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>s alibi.
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Aha, we have a new lead. The culprit has a green Hyundai. As we saw before, the second suspect has a
+green Hyundai. That suspect&amp;rsquo;s name is Cosmo Siwkonk. We can now verify if we have solved the case by
+using the command given in instructions.txt.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-bash" data-lang="bash">$ echo &lt;span style="color:#e6db74">&amp;#34;Cosmo Siwkonk&amp;#34;&lt;/span> | git hash-object --stdin | grep -iq -f /dev/stdin &amp;lt;&lt;span style="color:#f92672">(&lt;/span>git show solution&lt;span style="color:#f92672">)&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> echo &lt;span style="color:#e6db74">&amp;#39;You found the murderer!&amp;#39;&lt;/span> &lt;span style="color:#f92672">||&lt;/span> echo &lt;span style="color:#e6db74">&amp;#39;No cigar, chief... Try again.&amp;#39;&lt;/span>
+You found the murderer!
+&lt;/code>&lt;/pre>&lt;/div>
+&lt;div class="video-container" style="padding: 0% 10%;">
+&lt;video autoplay="autoplay" loop="loop" preload="auto" style="width: 100%">
+&lt;source src="https://beta.samyaks.xyz/images/yes-yes-yes.mp4" type="video/mp4" />
+&lt;/video>
+&lt;/div>
+&lt;p>We solved the case!&lt;/p>
+&lt;p>Well, that was fun. Checkout the repository &lt;a href="https://github.com/nivbend/gitstery">here&lt;/a>.
+Give a thumbs up if this was helpful and/or interesting.&lt;/p></description></item><item><title>My old games</title><link>https://beta.samyaks.xyz/post/my-old-games/</link><pubDate>Mon, 03 Feb 2020 00:00:00 +0000</pubDate><guid>https://beta.samyaks.xyz/post/my-old-games/</guid><description>&lt;p>When I was in school, about 6-7 years ago, I had found a new hobby and passion - making games.
 I&amp;rsquo;m not sure how but I found a free 3D game maker named &lt;a href="http://web.archive.org/web/20150514120532/http://www.3drad.com/">&lt;strong>3D Rad&lt;/strong>&lt;/a>.
 I played around a lot with it on my ancient PC, which had a Pentium 4 and 1 Gigabyte of RAM.&lt;/p>
 &lt;p>3D Rad is no longer being developed,

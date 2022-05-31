@@ -24,15 +24,15 @@ But why?
 &lt;/li>
 &lt;li>The work that is produced is of a higher quality than what a single person could do. It&amp;rsquo;s a combined product of the experiences of everyone in the mob.&lt;/li>
 &lt;li>You won&amp;rsquo;t use a hacky solution or a workaround unless everyone agrees that that is the best way to do it.&lt;/li>
-&lt;li>If it&amp;rsquo;s a side project or something else that you do in your free time, doing it together with a mob really gives you motivation. You look forward to doing it everyday with the mob.&lt;/li>
+&lt;li>If it&amp;rsquo;s a side project or something else that you do in your free time, doing it together with a mob really gives you motivation. You look forward to doing it everyday with the mob. For me personally, mob programming was the only time I did something (almost) everyday, consistently for months &lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>.&lt;/li>
 &lt;/ul>
 &lt;h1 id="its-mobbin-time-3">
-It&amp;rsquo;s Mobbin&amp;rsquo; time &lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>
+It&amp;rsquo;s Mobbin&amp;rsquo; time &lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>
 &lt;a class="heading-anchor" href="#its-mobbin-time-3">
 #
 &lt;/a>
 &lt;/h1>
-&lt;p>I have been a part of a mob for a few months now. At &lt;a href="https://github.com/mobusoperandi">Mobus Operandi&lt;/a> &lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>, I&amp;rsquo;m a part of Mob Otter that works on &lt;a href="https://github.com/mobusoperandi/michie">michie&lt;/a> — a Rust macro that adds memoization to any function. I started when I knew nothing about Rust macros and when I was a beginner in Rust. I learnt a lot about Rust (declarative macros, procedural macros, &lt;code>static&lt;/code>, generics, traits, &lt;code>Any&lt;/code>, &lt;code>Once&lt;/code> and a lot more), Git, Shell/bash, Nix and non-technical things like communication/collaboration, teaching and learning &lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>I have been a part of a mob for a few months now. At &lt;a href="https://github.com/mobusoperandi">Mobus Operandi&lt;/a> &lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>, I&amp;rsquo;m a part of Mob Otter that works on &lt;a href="https://github.com/mobusoperandi/michie">michie&lt;/a> — a Rust macro that adds memoization to any function. I started when I knew nothing about Rust macros and when I was a beginner in Rust. I learnt a lot about Rust (declarative macros, procedural macros, &lt;code>static&lt;/code>, generics, traits, &lt;code>Any&lt;/code>, &lt;code>Once&lt;/code> and a lot more), Git, Shell/bash, Nix and non-technical things like communication/collaboration, teaching and learning &lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>.&lt;/p>
 &lt;p>Thank you &lt;a href="https://twitter.com/mightyiam">Dawn&lt;/a> for inviting me to Mobus Operandi and thank you to everyone in Mob Otter for helping me grow &amp;lt;3.&lt;/p>
 &lt;h1 id="it-may-not-be-for-everyone">
 It may not be for everyone
@@ -64,13 +64,16 @@ Where to go from here
 &lt;p>We don&amp;rsquo;t talk about Copilot here.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:2">
-&lt;p>Did you know that in the highest-grossing superhero movie of all time, &lt;em>Morbius&lt;/em>, the title character, &lt;em>Morbius&lt;/em>, does not actually say &amp;ldquo;It&amp;rsquo;s &lt;em>Morbin&lt;/em> time&amp;rdquo; because it would not fit the character &lt;em>Morbius&lt;/em> whose actual name is Dr. &lt;em>Morbius&lt;/em>&lt;a href="https://knowyourmeme.com/memes/its-morbin-time">?&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>This does not include things that have a clear incentive, such as school/university or job.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:3">
-&lt;p>BTW this is such a great name :o&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Did you know that in the highest-grossing superhero movie of all time, &lt;em>Morbius&lt;/em>, the title character, &lt;em>Morbius&lt;/em>, does not actually say &amp;ldquo;It&amp;rsquo;s &lt;em>Morbin&lt;/em> time&amp;rdquo; because it would not fit the character &lt;em>Morbius&lt;/em> whose actual name is Dr. &lt;em>Morbius&lt;/em>&lt;a href="https://knowyourmeme.com/memes/its-morbin-time">?&lt;/a>&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:4">
-&lt;p>As a small (and easy to explain) example, I used to skip straight to the answer section on stackoverflow. I learnt that it&amp;rsquo;s useful to skim through the question to see if it&amp;rsquo;s really what I need.&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>BTW this is such a great name :o&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:5">
+&lt;p>As a small (and easy to explain) example, I used to skip straight to the answer section on stackoverflow. I learnt that it&amp;rsquo;s useful to skim through the question to see if it&amp;rsquo;s really what I need.&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/div></description></item><item><title>Hello there!</title><link>https://samyaks.xyz/post/first/</link><pubDate>Sat, 28 Aug 2021 23:36:15 +0530</pubDate><guid>https://samyaks.xyz/post/first/</guid><description>&lt;p>Hi!

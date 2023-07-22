@@ -1,0 +1,19 @@
+<a href="#bfs-graph">
+  <button class="generic-button" id="demo-node-1">Start simulations with `quote`</button>
+</a>
+<script>
+document.getElementById("demo-node-1").addEventListener("click", () => {
+  resetSim2(cy2.$("#8"));
+  resetSim(cy.$("#8"));
+});
+</script>
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+</script>

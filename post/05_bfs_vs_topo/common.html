@@ -1,0 +1,341 @@
+<style>
+  .play-button {
+    --wide: 10px;
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+    width: 0;
+    height: calc(var(--wide)*2);
+    border-color: transparent transparent transparent #F6F6F6;
+    transition: 100ms all ease;
+    cursor: pointer;
+    border-style: solid;
+    border-width: var(--wide) 0 var(--wide) calc(var(--wide)*60/37);
+  }
+  .play-button.playing {
+    border-style: double;
+    border-width: 0px 0 0px calc(var(--wide)*60/37);
+  }
+  .play-button:hover {
+    border-color: transparent transparent transparent #FFE2E2;
+  }
+  .generic-button {
+    background-color: white;
+    border-radius: 1rem;
+    border-width: 0;
+    margin-left: 0.5rem;
+  }
+  .generic-button.dark {
+    background-color: #1d2021;
+  }
+  .generic-button:hover {
+    cursor: pointer;
+  }
+</style>
+<script>
+  const textColorDark = "#F6F6F6";
+  const textColorLight = "#454545";
+  const startingEl = "#1";
+  const traverseStarting = "#6";
+  const graphStyle = [
+    {
+      selector: 'node',
+      style: {
+        'background-color': '#8785A2',
+        'color': textColorDark,
+        'label': 'data(name)',
+        'text-valign': 'center',
+        'text-halign': 'right',
+        'text-margin-x': '3px',
+      }
+    },
+    {
+      selector: 'edge',
+      style: {
+        'width': 3,
+        'line-color': textColorDark,
+        'target-arrow-color': textColorDark,
+        'target-arrow-shape': 'triangle',
+        'curve-style': 'bezier',
+        'line-opacity': 0.5,
+      }
+    },
+    {
+      selector: '.light',
+      style: {
+        'color': textColorLight,
+        'line-color': textColorLight,
+        'target-arrow-color': textColorLight,
+      }
+    },
+    {
+      selector: '.traversed',
+      style: {
+        'background-color': '#FFC7C7',
+        'line-color': '#FFC7C7',
+        'target-arrow-color': '#FFC7C7',
+      },
+    },
+    {
+      selector: '.traversed.light',
+      style: {
+        'line-color': '#990000',
+        'target-arrow-color': '#990000',
+      },
+    },
+  ];
+  const graphConfig = {
+    boxSelectionEnabled: false,
+    autoungrabify: true,
+    autounselectify: true,
+    minZoom: 0.1,
+    maxZoom: 5,
+    elements: [
+      {
+        data: {id: '1', name: 'pest'},
+      },
+      {
+        data: {id: '2', name: 'serde_json'},
+      },
+      {
+        data: {id: '3', name: 'serde'},
+      },
+      {
+        data: {id: '4', name: 'thiserror'},
+      },
+      {
+        data: {id: '5', name: 'itoa'},
+      },
+      {
+        data: {id: '6', name: 'ryu'},
+      },
+      {
+        data: {id: '7', name: 'proc-macro2'},
+      },
+      {
+        data: {id: '8', name: 'quote'},
+      },
+      {
+        data: {id: '9', name: 'syn'},
+      },
+      {
+          "data": {
+              "id": "21",
+              "source": "2",
+              "target": "1"
+          }
+      },
+      {
+          "data": {
+              "id": "31",
+              "source": "3",
+              "target": "1"
+          }
+      },
+      {
+          "data": {
+              "id": "41",
+              "source": "4",
+              "target": "1"
+          }
+      },
+      {
+          "data": {
+              "id": "32",
+              "source": "3",
+              "target": "2"
+          }
+      },
+      {
+          "data": {
+              "id": "52",
+              "source": "5",
+              "target": "2"
+          }
+      },
+      {
+          "data": {
+              "id": "62",
+              "source": "6",
+              "target": "2"
+          }
+      },
+      {
+          "data": {
+              "id": "74",
+              "source": "7",
+              "target": "4"
+          }
+      },
+      {
+          "data": {
+              "id": "84",
+              "source": "8",
+              "target": "4"
+          }
+      },
+      {
+          "data": {
+              "id": "78",
+              "source": "7",
+              "target": "8"
+          }
+      },
+      {
+          "data": {
+              "id": "79",
+              "source": "7",
+              "target": "9"
+          }
+      },
+      {
+          "data": {
+              "id": "89",
+              "source": "8",
+              "target": "9"
+          }
+      },
+      {
+          "data": {
+              "id": "94",
+              "source": "9",
+              "target": "4"
+          }
+      }
+    ],
+    style: graphStyle,
+  };
+  const graphConfig3 = {
+    boxSelectionEnabled: false,
+    autoungrabify: true,
+    autounselectify: true,
+    minZoom: 0.1,
+    maxZoom: 5,
+    elements: [
+      {
+        data: {id: '1', name: 'pest'},
+      },
+      {
+        data: {id: '2', name: 'serde_json'},
+      },
+      {
+        data: {id: '3', name: 'serde'},
+      },
+      {
+        data: {id: '4', name: 'thiserror'},
+      },
+      {
+        data: {id: '5', name: 'itoa'},
+      },
+      {
+        data: {id: '6', name: 'ryu'},
+      },
+      {
+        data: {id: '7', name: 'proc-macro2'},
+      },
+      {
+        data: {id: '8', name: 'quote'},
+      },
+      {
+        data: {id: '9', name: 'syn'},
+      },
+      {
+          "data": {
+              "id": "21",
+              "source": "2",
+              "target": "1"
+          }
+      },
+      {
+          "data": {
+              "id": "41",
+              "source": "4",
+              "target": "1"
+          }
+      },
+      {
+          "data": {
+              "id": "32",
+              "source": "3",
+              "target": "2"
+          }
+      },
+      {
+          "data": {
+              "id": "52",
+              "source": "5",
+              "target": "2"
+          }
+      },
+      {
+          "data": {
+              "id": "62",
+              "source": "6",
+              "target": "2"
+          }
+      },
+      {
+          "data": {
+              "id": "84",
+              "source": "8",
+              "target": "4"
+          }
+      },
+      {
+          "data": {
+              "id": "78",
+              "source": "7",
+              "target": "8"
+          }
+      },
+      {
+          "data": {
+              "id": "73",
+              "source": "7",
+              "target": "3"
+          }
+      },
+      {
+          "data": {
+              "id": "79",
+              "source": "7",
+              "target": "9"
+          }
+      },
+      {
+          "data": {
+              "id": "94",
+              "source": "9",
+              "target": "4"
+          }
+      }
+    ],
+    style: graphStyle,
+  };
+  const rootConfig = {
+    'text-valign': 'center',
+    'text-halign': 'left',
+    'text-margin-x': '-5px',
+  };
+  const levelOneConfig = {
+    'text-valign': 'top',
+    'text-halign': 'center',
+    'text-margin-x': '0',
+  };
+  const layoutConfig = (origBoundingBox) => {
+    return {
+      name: 'breadthfirst',
+      animate: true,
+      spacingFactor: 1.7,
+      boundingBox: {
+        x1: origBoundingBox.y1,
+        y1: origBoundingBox.x1,
+        x2: origBoundingBox.y2,
+        y2: origBoundingBox.x2
+      },
+      transform: (_node, position) => {
+        return {x: position.y, y: position.x}
+      },
+    }
+  };
+</script>

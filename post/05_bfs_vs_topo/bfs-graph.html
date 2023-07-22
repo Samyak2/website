@@ -1,0 +1,83 @@
+<div style="display: flex; justify-content: center;">
+  <div id="bfs-graph" style="width: 100%; max-width 500px; height: 300px;"></div>
+</div>
+<div style="display: flex; justify-content: center; height: 2rem; align-items: center;">
+  <button class="play-button playing" id="play-button"></button>
+  <input type="range" id="frame-num" name="frame-num" min="-1">
+  <button class="generic-button" id="restart-button">reset</button>
+</div>
+<script>
+  const cy = cytoscape({
+    container: document.getElementById("bfs-graph"),
+    ...graphConfig,
+  });
+  cy.$("#1").style(rootConfig);
+  cy.$("#2,#3,#4").style(levelOneConfig);
+  cy.fit();
+  const origBoundingBox = cy.elements().boundingBox();
+  cy.layout({
+    roots: cy.$(startingEl),
+    ...layoutConfig(origBoundingBox),
+  }).run();
+  cy.nodes().on("tap", (e) => {
+    console.log("reseting sim to tap");
+    resetSim(e.target);
+  });
+  let interval = null;
+  let previousSliderHandler = null;
+  let paused = false;
+  const slider = document.getElementById("frame-num");
+  const playBtn = document.getElementById("play-button");
+  playBtn.addEventListener("click", () => {
+    paused = !paused;
+    playBtn.classList.toggle("playing");
+  });
+  const resetSim = (traverseStartEl) => {
+    if (interval !== null) {
+      clearInterval(interval);
+    }
+    if (previousSliderHandler !== null) {
+      slider.removeEventListener("input", previousSliderHandler);
+    }
+    const bfsRes = cy.elements().breadthFirstSearch({
+      root: traverseStartEl,
+      directed: true,
+    });
+    const pathLen = (bfsRes.path.length - 1) / 2;
+    console.log("got bfs path", pathLen, bfsRes);
+    slider.max = pathLen;
+    slider.value = 0;
+    const sliderHandler = () => {
+      cy.elements().removeClass("traversed");
+      // console.log(slider.value);
+      for (let i = 0; i <= slider.value; ++i) {
+        const pathPos = 2 * i - 1;
+        const nodePos = 2 * i;
+        if (pathPos >= 0) {
+          bfsRes.path[pathPos].addClass("traversed");
+        }
+        bfsRes.path[nodePos].addClass("traversed");
+      }
+    };
+    sliderHandler();
+    slider.addEventListener("input", () => {
+      paused = true;
+      playBtn.classList.remove("playing");
+      sliderHandler();
+    });
+    previousSliderHandler = sliderHandler;
+    paused = false;
+    playBtn.classList.add("playing");
+    interval = setInterval(() => {
+      if (!paused) {
+        slider.value = (Number(slider.value) + 2) % (pathLen + 2) - 1;
+        sliderHandler();
+      }
+    }, 1000);
+  };
+  resetSim(cy.$(traverseStarting));
+  document.getElementById("restart-button").addEventListener("click", () => {
+    resetSim(cy.$(traverseStarting));
+    cy.fit();
+  });
+</script>

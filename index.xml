@@ -1,4 +1,751 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Samyak Sarnayak</title><link>https://samyaks.xyz/</link><description>Recent posts from on Samyak Sarnayak</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 19 Apr 2023 19:07:07 +0530</lastBuildDate><atom:link href="https://samyaks.xyz/index.xml" rel="self" type="application/rss+xml"/><item><title>Thoughts on migrating DNS from Netlify to Cloudflare</title><link>https://samyaks.xyz/post/netlify-cloudflare/</link><pubDate>Wed, 19 Apr 2023 19:07:07 +0530</pubDate><guid>https://samyaks.xyz/post/netlify-cloudflare/</guid><description>&lt;p>Recently, I was involved in the migration of a domain from &lt;a href="https://docs.netlify.com/domains-https/netlify-dns/">Netlify DNS&lt;/a> to &lt;a href="https://www.cloudflare.com/dns/">Cloudflare&lt;/a>.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Samyak Sarnayak</title><link>https://samyaks.xyz/</link><description>Recent posts from on Samyak Sarnayak</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 21 May 2023 20:51:42 +0530</lastBuildDate><atom:link href="https://samyaks.xyz/index.xml" rel="self" type="application/rss+xml"/><item><title>Turns out that BFS is not the same as topological sort</title><link>https://samyaks.xyz/post/bfs-topo/</link><pubDate>Sun, 21 May 2023 20:51:42 +0530</pubDate><guid>https://samyaks.xyz/post/bfs-topo/</guid><description>
+&lt;script src="https://cdn.jsdelivr.net/npm/cytoscape@3.25.0/dist/cytoscape.min.js">&lt;/script>
+&lt;p>The title may seem very obvious to people who know graph algorithms. Unfortunately, I&amp;rsquo;m not one of them.&lt;/p>
+&lt;h2 id="the-problem">
+The problem
+&lt;a class="heading-anchor" href="#the-problem">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>This is about implementing a &lt;strong>dependency graph&lt;/strong>. Think of a project&amp;rsquo;s npm/pip/maven/cargo dependencies. Or a data pipeline with SQL tables depending on each other.&lt;/p>
+&lt;p>Here is the problem that needed to be solved.
+Given a project or a table (a &amp;ldquo;node&amp;rdquo;) in the tree, how do I get all the other nodes that &lt;em>depend&lt;/em> on it (the &lt;em>dependents&lt;/em>)?
+In other words, if I change the given node/project/table, which other nodes will I need to recompile/recreate?
+The graph is structured specifically to help with this. Given a node, we know the &lt;em>direct&lt;/em> dependents. So we just need to follow this trail to get all the dependents. The hard part here is getting the nodes in the right order. The right order being that all dependencies of a node are &amp;ldquo;visited&amp;rdquo; before the node itself.&lt;/p>
+&lt;p>At the time, it seemed that a simple breadth-first search will give me all the nodes in order. Let&amp;rsquo;s see how.&lt;/p>
+&lt;h2 id="breadth-first-search-bfs">
+Breadth-first search (BFS)
+&lt;a class="heading-anchor" href="#breadth-first-search-bfs">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>In this graph search algorithm, we visit all the neighbours of the node in arbitrary order. Let&amp;rsquo;s consider the direct neighbours as the first level and the neighbours of the neighbours as the second level and so on. BFS will visit all nodes on the first level before visiting all nodes on the second level and so on.&lt;/p>
+&lt;p>Here&amp;rsquo;s a visualization of BFS on a graph of project dependencies. The edges indicate dependents i.e, &lt;code>pest&lt;/code> depends on &lt;code>serde_json&lt;/code>, etc.
+Feel free to pause and explore the order in which nodes are visited. You can click on a node to start BFS from that node.&lt;/p>
+&lt;style>
+.play-button {
+--wide: 10px;
+border: 0;
+background: transparent;
+box-sizing: border-box;
+width: 0;
+height: calc(var(--wide)*2);
+border-color: transparent transparent transparent #F6F6F6;
+transition: 100ms all ease;
+cursor: pointer;
+border-style: solid;
+border-width: var(--wide) 0 var(--wide) calc(var(--wide)*60/37);
+}
+.play-button.playing {
+border-style: double;
+border-width: 0px 0 0px calc(var(--wide)*60/37);
+}
+.play-button:hover {
+border-color: transparent transparent transparent #FFE2E2;
+}
+.generic-button {
+background-color: white;
+border-radius: 1rem;
+border-width: 0;
+margin-left: 0.5rem;
+}
+.generic-button.dark {
+background-color: #1d2021;
+}
+.generic-button:hover {
+cursor: pointer;
+}
+&lt;/style>
+&lt;script>
+const textColorDark = "#F6F6F6";
+const textColorLight = "#454545";
+const startingEl = "#1";
+const traverseStarting = "#6";
+const graphStyle = [
+{
+selector: 'node',
+style: {
+'background-color': '#8785A2',
+'color': textColorDark,
+'label': 'data(name)',
+'text-valign': 'center',
+'text-halign': 'right',
+'text-margin-x': '3px',
+}
+},
+{
+selector: 'edge',
+style: {
+'width': 3,
+'line-color': textColorDark,
+'target-arrow-color': textColorDark,
+'target-arrow-shape': 'triangle',
+'curve-style': 'bezier',
+'line-opacity': 0.5,
+}
+},
+{
+selector: '.light',
+style: {
+'color': textColorLight,
+'line-color': textColorLight,
+'target-arrow-color': textColorLight,
+}
+},
+{
+selector: '.traversed',
+style: {
+'background-color': '#FFC7C7',
+'line-color': '#FFC7C7',
+'target-arrow-color': '#FFC7C7',
+},
+},
+{
+selector: '.traversed.light',
+style: {
+'line-color': '#990000',
+'target-arrow-color': '#990000',
+},
+},
+];
+const graphConfig = {
+boxSelectionEnabled: false,
+autoungrabify: true,
+autounselectify: true,
+minZoom: 0.1,
+maxZoom: 5,
+elements: [
+{
+data: {id: '1', name: 'pest'},
+},
+{
+data: {id: '2', name: 'serde_json'},
+},
+{
+data: {id: '3', name: 'serde'},
+},
+{
+data: {id: '4', name: 'thiserror'},
+},
+{
+data: {id: '5', name: 'itoa'},
+},
+{
+data: {id: '6', name: 'ryu'},
+},
+{
+data: {id: '7', name: 'proc-macro2'},
+},
+{
+data: {id: '8', name: 'quote'},
+},
+{
+data: {id: '9', name: 'syn'},
+},
+{
+"data": {
+"id": "21",
+"source": "2",
+"target": "1"
+}
+},
+{
+"data": {
+"id": "31",
+"source": "3",
+"target": "1"
+}
+},
+{
+"data": {
+"id": "41",
+"source": "4",
+"target": "1"
+}
+},
+{
+"data": {
+"id": "32",
+"source": "3",
+"target": "2"
+}
+},
+{
+"data": {
+"id": "52",
+"source": "5",
+"target": "2"
+}
+},
+{
+"data": {
+"id": "62",
+"source": "6",
+"target": "2"
+}
+},
+{
+"data": {
+"id": "74",
+"source": "7",
+"target": "4"
+}
+},
+{
+"data": {
+"id": "84",
+"source": "8",
+"target": "4"
+}
+},
+{
+"data": {
+"id": "78",
+"source": "7",
+"target": "8"
+}
+},
+{
+"data": {
+"id": "79",
+"source": "7",
+"target": "9"
+}
+},
+{
+"data": {
+"id": "89",
+"source": "8",
+"target": "9"
+}
+},
+{
+"data": {
+"id": "94",
+"source": "9",
+"target": "4"
+}
+}
+],
+style: graphStyle,
+};
+const graphConfig3 = {
+boxSelectionEnabled: false,
+autoungrabify: true,
+autounselectify: true,
+minZoom: 0.1,
+maxZoom: 5,
+elements: [
+{
+data: {id: '1', name: 'pest'},
+},
+{
+data: {id: '2', name: 'serde_json'},
+},
+{
+data: {id: '3', name: 'serde'},
+},
+{
+data: {id: '4', name: 'thiserror'},
+},
+{
+data: {id: '5', name: 'itoa'},
+},
+{
+data: {id: '6', name: 'ryu'},
+},
+{
+data: {id: '7', name: 'proc-macro2'},
+},
+{
+data: {id: '8', name: 'quote'},
+},
+{
+data: {id: '9', name: 'syn'},
+},
+{
+"data": {
+"id": "21",
+"source": "2",
+"target": "1"
+}
+},
+{
+"data": {
+"id": "41",
+"source": "4",
+"target": "1"
+}
+},
+{
+"data": {
+"id": "32",
+"source": "3",
+"target": "2"
+}
+},
+{
+"data": {
+"id": "52",
+"source": "5",
+"target": "2"
+}
+},
+{
+"data": {
+"id": "62",
+"source": "6",
+"target": "2"
+}
+},
+{
+"data": {
+"id": "84",
+"source": "8",
+"target": "4"
+}
+},
+{
+"data": {
+"id": "78",
+"source": "7",
+"target": "8"
+}
+},
+{
+"data": {
+"id": "73",
+"source": "7",
+"target": "3"
+}
+},
+{
+"data": {
+"id": "79",
+"source": "7",
+"target": "9"
+}
+},
+{
+"data": {
+"id": "94",
+"source": "9",
+"target": "4"
+}
+}
+],
+style: graphStyle,
+};
+const rootConfig = {
+'text-valign': 'center',
+'text-halign': 'left',
+'text-margin-x': '-5px',
+};
+const levelOneConfig = {
+'text-valign': 'top',
+'text-halign': 'center',
+'text-margin-x': '0',
+};
+const layoutConfig = (origBoundingBox) => {
+return {
+name: 'breadthfirst',
+animate: true,
+spacingFactor: 1.7,
+boundingBox: {
+x1: origBoundingBox.y1,
+y1: origBoundingBox.x1,
+x2: origBoundingBox.y2,
+y2: origBoundingBox.x2
+},
+transform: (_node, position) => {
+return {x: position.y, y: position.x}
+},
+}
+};
+&lt;/script>
+&lt;div style="display: flex; justify-content: center;">
+&lt;div id="bfs-graph" style="width: 100%; max-width 500px; height: 300px;">&lt;/div>
+&lt;/div>
+&lt;div style="display: flex; justify-content: center; height: 2rem; align-items: center;">
+&lt;button class="play-button playing" id="play-button">&lt;/button>
+&lt;input type="range" id="frame-num" name="frame-num" min="-1">
+&lt;button class="generic-button" id="restart-button">reset&lt;/button>
+&lt;/div>
+&lt;script>
+const cy = cytoscape({
+container: document.getElementById("bfs-graph"),
+...graphConfig,
+});
+cy.$("#1").style(rootConfig);
+cy.$("#2,#3,#4").style(levelOneConfig);
+cy.fit();
+const origBoundingBox = cy.elements().boundingBox();
+cy.layout({
+roots: cy.$(startingEl),
+...layoutConfig(origBoundingBox),
+}).run();
+cy.nodes().on("tap", (e) => {
+console.log("reseting sim to tap");
+resetSim(e.target);
+});
+let interval = null;
+let previousSliderHandler = null;
+let paused = false;
+const slider = document.getElementById("frame-num");
+const playBtn = document.getElementById("play-button");
+playBtn.addEventListener("click", () => {
+paused = !paused;
+playBtn.classList.toggle("playing");
+});
+const resetSim = (traverseStartEl) => {
+if (interval !== null) {
+clearInterval(interval);
+}
+if (previousSliderHandler !== null) {
+slider.removeEventListener("input", previousSliderHandler);
+}
+const bfsRes = cy.elements().breadthFirstSearch({
+root: traverseStartEl,
+directed: true,
+});
+const pathLen = (bfsRes.path.length - 1) / 2;
+console.log("got bfs path", pathLen, bfsRes);
+slider.max = pathLen;
+slider.value = 0;
+const sliderHandler = () => {
+cy.elements().removeClass("traversed");
+// console.log(slider.value);
+for (let i = 0; i &lt;= slider.value; ++i) {
+const pathPos = 2 * i - 1;
+const nodePos = 2 * i;
+if (pathPos >= 0) {
+bfsRes.path[pathPos].addClass("traversed");
+}
+bfsRes.path[nodePos].addClass("traversed");
+}
+};
+sliderHandler();
+slider.addEventListener("input", () => {
+paused = true;
+playBtn.classList.remove("playing");
+sliderHandler();
+});
+previousSliderHandler = sliderHandler;
+paused = false;
+playBtn.classList.add("playing");
+interval = setInterval(() => {
+if (!paused) {
+slider.value = (Number(slider.value) + 2) % (pathLen + 2) - 1;
+sliderHandler();
+}
+}, 1000);
+};
+resetSim(cy.$(traverseStarting));
+document.getElementById("restart-button").addEventListener("click", () => {
+resetSim(cy.$(traverseStarting));
+cy.fit();
+});
+&lt;/script>
+&lt;h2 id="topological-sort">
+Topological sort
+&lt;a class="heading-anchor" href="#topological-sort">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>A topological sorting is an order of the nodes of the graph such that a node is visited only after all nodes that connect to that node are visited.
+On a dependency graph, this is exactly the order we need.&lt;/p>
+&lt;p>There are many different algorithms to arrive at a topological ordering. Also, a graph can have more than one valid topological ordering.&lt;/p>
+&lt;p>Here&amp;rsquo;s a visualization of one such topological sorting algorithm &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> on a graph of project dependencies. The edges indicate dependents i.e, &lt;code>pest&lt;/code> depends on &lt;code>serde_json&lt;/code>, etc.
+Feel free to pause and explore the order in which nodes are visited. You can click on a node to start topological sort on that node.
+Note that we are not performing topological sort on the whole graph, but only the &lt;em>subgraph&lt;/em> that is accessible from the selected node.&lt;/p>
+&lt;div style="display: flex; justify-content: center;">
+&lt;div id="topo-graph" style="width: 100%; max-width 500px; height: 300px;">&lt;/div>
+&lt;/div>
+&lt;div style="display: flex; justify-content: center; height: 2rem; align-items: center;">
+&lt;button class="play-button playing" id="play-button-2">&lt;/button>
+&lt;input type="range" id="frame-num-2" name="frame-num-2" min="-1">
+&lt;button class="generic-button" id="restart-button-2">reset&lt;/button>
+&lt;/div>
+&lt;script>
+const cy2 = cytoscape({
+container: document.getElementById("topo-graph"),
+...graphConfig,
+});
+cy2.$("#1").style(rootConfig);
+cy2.$("#2,#3,#4").style(levelOneConfig);
+cy2.fit();
+const origBoundingBox2 = cy2.elements().boundingBox();
+cy2.layout({
+roots: cy2.$(startingEl),
+...layoutConfig(origBoundingBox2),
+}).run();
+cy2.nodes().on("tap", (e) => {
+console.log("reseting sim to tap");
+resetSim2(e.target);
+});
+let interval2 = null;
+let previousSliderHandler2 = null;
+let paused2 = false;
+const slider2 = document.getElementById("frame-num-2");
+const playBtn2 = document.getElementById("play-button-2");
+playBtn2.addEventListener("click", () => {
+paused2 = !paused2;
+playBtn2.classList.toggle("playing");
+});
+function getSubgraph(cy2, root) {
+let toTraverse = root.outgoers();
+let subgraph = root.union(toTraverse);
+while (toTraverse.length > 0) {
+const consider = toTraverse[0];
+toTraverse = toTraverse.splice(1);
+if (consider.isNode()) {
+const out = consider.outgoers();
+toTraverse = toTraverse.concat(out);
+subgraph = subgraph.union(out);
+}
+}
+// console.log("subgraph", subgraph.map(e => `${e.id()} - ${e.data("name")}`));
+return subgraph;
+}
+function topoSort(cy2, root) {
+const path = [];
+let subgraph = getSubgraph(cy2, root);
+let free = [root];
+while (free.length > 0) {
+const consider = free[0];
+// console.log("consider", consider.data("name"));
+free = free.splice(1);
+path.push(consider);
+const outgoers = consider.outgoers();
+// console.log("outgoers", outgoers.map(e => `${e.id()} - ${e.data("name")}`));
+subgraph = subgraph.filter(e => e.id() != consider.id());
+for (const outgoer of outgoers) {
+if (outgoer.isEdge()) {
+path.push(outgoer);
+// console.log("removing edge", outgoer.id());
+subgraph = subgraph.filter((e) => e.id() != outgoer.id());
+}
+}
+for (const outgoer of outgoers) {
+if (outgoer.isNode()) {
+// console.log("subgraph", subgraph.map(e => `${e.id()} - ${e.data("name")}`));
+const incomingEdges = subgraph.edgesTo(outgoer);
+// console.log("incomingEdges", outgoer.data("name"), incomingEdges.map(e => `${e.id()}`));
+if (incomingEdges.length == 0) {
+free.push(outgoer);
+}
+}
+}
+}
+console.log("path", path);
+return path;
+}
+const resetSim2 = (traverseStartEl) => {
+if (interval2 !== null) {
+clearInterval(interval2);
+}
+if (previousSliderHandler2 !== null) {
+slider2.removeEventListener("input", previousSliderHandler2);
+}
+const path = topoSort(cy2, traverseStartEl);
+const pathNodesOnly = path.filter(e => e.isNode());
+const pathLen = pathNodesOnly.length - 1;
+console.log("got topo path", pathLen, path);
+slider2.max = pathLen;
+slider2.value = 0;
+const sliderHandler = () => {
+cy2.elements().removeClass("traversed");
+// console.log(slider.value);
+for (let i = 0; i &lt;= slider2.value; ++i) {
+const node = pathNodesOnly[i];
+cy2.$(`#${node.id()}`).addClass("traversed");
+const edges = node.outgoers().filter(e => e.isEdge());
+edges.addClass("traversed");
+}
+};
+sliderHandler();
+slider2.addEventListener("input", () => {
+paused2 = true;
+playBtn2.classList.remove("playing");
+sliderHandler();
+});
+previousSliderHandler2 = sliderHandler;
+paused2 = false;
+playBtn2.classList.add("playing");
+interval2 = setInterval(() => {
+if (!paused2) {
+slider2.value = (Number(slider2.value) + 2) % (pathLen + 2) - 1;
+sliderHandler();
+}
+}, 1000);
+};
+resetSim2(cy2.$(traverseStarting));
+document.getElementById("restart-button-2").addEventListener("click", () => {
+resetSim2(cy2.$(traverseStarting));
+cy2.fit();
+});
+function customThemeCallback(theme) {
+console.log(theme);
+let textColor;
+if (theme == 'dark') {
+textColor = textColorDark;
+cy.$('node').removeClass('light');
+cy.$('edge').removeClass('light');
+cy2.$('node').removeClass('light');
+cy2.$('edge').removeClass('light');
+} else {
+textColor = textColorLight;
+cy.$('node').addClass('light');
+cy.$('edge').addClass('light');
+cy2.$('node').addClass('light');
+cy2.$('edge').addClass('light');
+}
+playBtn.style.borderLeftColor = textColor;
+playBtn2.style.borderLeftColor = textColor;
+}
+customThemeCallback(currentTheme);
+&lt;/script>
+&lt;h2 id="bfs-vs-topological-sort---where-do-they-differ">
+BFS vs Topological sort - where do they differ?
+&lt;a class="heading-anchor" href="#bfs-vs-topological-sort---where-do-they-differ">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>As we see from the simulations above, when we perform BFS and topological sort starting with the node &lt;code>ryu&lt;/code>, we get the same path (or ordering) in both cases.&lt;/p>
+&lt;p>So it can seem like BFS, which is much simpler to implement, works when you actually need a topological ordering. Depending on your graph, it may even work for all nodes in your graph. But of course, BFS makes no guarantees that all dependencies are completed before visiting a node. It just happened to work for that particular graph or that particular node.&lt;/p>
+&lt;!-- With graph algorithms especially, it's important to test your algorithms on graphs beyond your use case. Things may *look* right but will fail in unexpected ways. -->
+&lt;p>Let&amp;rsquo;s see an example of this. Click on the &lt;code>quote&lt;/code> node on the graphs above. Or use this button to do so.&lt;/p>
+&lt;a href="#bfs-graph">
+&lt;button class="generic-button" id="demo-node-1">Start simulations with `quote`&lt;/button>
+&lt;/a>
+&lt;script>
+document.getElementById("demo-node-1").addEventListener("click", () => {
+resetSim2(cy2.$("#8"));
+resetSim(cy.$("#8"));
+});
+&lt;/script>
+&lt;script>
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+document.querySelector(this.getAttribute('href')).scrollIntoView({
+behavior: 'smooth'
+});
+});
+});
+&lt;/script>
+&lt;p>The order in which BFS visits the nodes is obviously wrong! It visits &lt;code>thiserror&lt;/code> before &lt;code>syn&lt;/code>. That&amp;rsquo;s equivalent to compiling a package before all of it&amp;rsquo;s dependencies are compiled. The topological sort is correct, because by definition it needs to visit all the dependencies before visiting a node.&lt;/p>
+&lt;p>Some of the other nodes in the example graph show this behavior too. For example, &lt;code>serde&lt;/code> and &lt;code>proc-macro2&lt;/code>. So why did I use BFS for this use case in the first place?&lt;/p>
+&lt;h2 id="when-are-they-the-same">
+When are they the same?
+&lt;a class="heading-anchor" href="#when-are-they-the-same">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>In some cases though, you can get BFS to give you the same ordering of nodes that a full fledged topological sort can. Since BFS is much easier to implement, it can be a good choice.&lt;/p>
+&lt;p>Here&amp;rsquo;s an example graph that shows this behavior. This is simple BFS, but it visits the nodes in the correct order.&lt;/p>
+&lt;div style="display: flex; justify-content: center;">
+&lt;div id="bfs-graph-3" style="width: 100%; max-width 500px; height: 300px;">&lt;/div>
+&lt;/div>
+&lt;div style="display: flex; justify-content: center; height: 2rem; align-items: center;">
+&lt;button class="play-button playing" id="play-button-3">&lt;/button>
+&lt;input type="range" id="frame-num-3" name="frame-num" min="-1">
+&lt;button class="generic-button" id="restart-button-3">reset&lt;/button>
+&lt;/div>
+&lt;script>
+const cy3 = cytoscape({
+container: document.getElementById("bfs-graph-3"),
+...graphConfig3,
+});
+cy3.$("#1").style(rootConfig);
+cy3.$("#2,#3,#4,#5,#6,#8,#9").style(levelOneConfig);
+cy3.fit();
+const origBoundingBox3 = cy3.elements().boundingBox();
+cy3.layout({
+roots: cy3.$(startingEl),
+...layoutConfig(origBoundingBox3),
+}).run();
+cy3.nodes().on("tap", (e) => {
+console.log("reseting sim to tap");
+resetSim3(e.target);
+});
+let interval3 = null;
+let previousSliderHandler3 = null;
+let paused3 = false;
+const slider3 = document.getElementById("frame-num-3");
+const playBtn3 = document.getElementById("play-button-3");
+playBtn3.addEventListener("click", () => {
+paused3 = !paused3;
+playBtn3.classList.toggle("playing");
+});
+const resetSim3 = (traverseStartEl) => {
+if (interval3 !== null) {
+clearInterval(interval3);
+}
+if (previousSliderHandler3 !== null) {
+slider3.removeEventListener("input", previousSliderHandler3);
+}
+const bfsRes = cy3.elements().breadthFirstSearch({
+root: traverseStartEl,
+directed: true,
+});
+const pathLen = (bfsRes.path.length - 1) / 2;
+console.log("got bfs path", pathLen, bfsRes);
+slider3.max = pathLen;
+slider3.value = 0;
+const sliderHandler = () => {
+cy3.elements().removeClass("traversed");
+// console.log(slider.value);
+for (let i = 0; i &lt;= slider3.value; ++i) {
+const pathPos = 2 * i - 1;
+const nodePos = 2 * i;
+if (pathPos >= 0) {
+bfsRes.path[pathPos].addClass("traversed");
+}
+bfsRes.path[nodePos].addClass("traversed");
+}
+};
+sliderHandler();
+slider3.addEventListener("input", () => {
+paused3 = true;
+playBtn3.classList.remove("playing");
+sliderHandler();
+});
+previousSliderHandler3 = sliderHandler;
+paused3 = false;
+playBtn3.classList.add("playing");
+interval3 = setInterval(() => {
+if (!paused3) {
+slider3.value = (Number(slider3.value) + 2) % (pathLen + 2) - 1;
+sliderHandler();
+}
+}, 1000);
+};
+const traverseStarting3 = "#7";
+resetSim3(cy3.$(traverseStarting3));
+document.getElementById("restart-button-3").addEventListener("click", () => {
+resetSim3(cy3.$(traverseStarting3));
+cy3.fit();
+});
+&lt;/script>
+&lt;p>The requirement for this behavior is that all the nodes must be connected to only their &lt;em>direct dependents&lt;/em>. If any node is connected to both a node and a connection of that node, BFS will not work.&lt;/p>
+&lt;h2 id="conclusion">
+Conclusion
+&lt;a class="heading-anchor" href="#conclusion">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>Comparing BFS and Topological sort is like comparing an apple and a bicycle. Though, sometimes you don&amp;rsquo;t need to go out to a restaurant when an apple in the fridge will do.&lt;/p>
+&lt;p>That is to say, in some cases BFS will do what you need without having to implement topological sort.&lt;/p>
+&lt;p>Thank you for reading!&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm">Kahn&amp;rsquo;s algorithm&lt;/a> but only on the subgraph accessible from the selected node.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>Thoughts on migrating DNS from Netlify to Cloudflare</title><link>https://samyaks.xyz/post/netlify-cloudflare/</link><pubDate>Wed, 19 Apr 2023 19:07:07 +0530</pubDate><guid>https://samyaks.xyz/post/netlify-cloudflare/</guid><description>&lt;p>Recently, I was involved in the migration of a domain from &lt;a href="https://docs.netlify.com/domains-https/netlify-dns/">Netlify DNS&lt;/a> to &lt;a href="https://www.cloudflare.com/dns/">Cloudflare&lt;/a>.
 This short post describes my experiences and thoughts on it.&lt;/p>
 &lt;h2 id="why-cloudflare">
 Why Cloudflare?
@@ -6,11 +753,11 @@ Why Cloudflare?
 #
 &lt;/a>
 &lt;/h2>
-&lt;!-- raw HTML omitted -->
+&lt;!-- Because it provides an easy to set up CDN and a reverse proxy. Netlify's DNS was very basic in comparison. -->
 &lt;p>We were moving our static sites away from Netlify anyway and it did not make sense to keep it just for the basic DNS it provides.&lt;/p>
 &lt;p>Also because Cloudflare provides an easy to set up &lt;a href="https://www.cloudflare.com/cdn/">CDN&lt;/a> and a &lt;a href="https://developers.cloudflare.com/dns/manage-dns-records/reference/proxied-dns-records/#proxied-records">reverse proxy&lt;/a>.&lt;/p>
-&lt;!-- raw HTML omitted -->
-&lt;!-- raw HTML omitted -->
+&lt;!-- ## Why were you using Netlify for DNS anyway? -->
+&lt;!-- No idea. -->
 &lt;h2 id="why-not-route53">
 Why not Route53?
 &lt;a class="heading-anchor" href="#why-not-route53">

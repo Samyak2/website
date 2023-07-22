@@ -1,0 +1,147 @@
+<div style="display: flex; justify-content: center;">
+  <div id="topo-graph" style="width: 100%; max-width 500px; height: 300px;"></div>
+</div>
+<div style="display: flex; justify-content: center; height: 2rem; align-items: center;">
+  <button class="play-button playing" id="play-button-2"></button>
+  <input type="range" id="frame-num-2" name="frame-num-2" min="-1">
+  <button class="generic-button" id="restart-button-2">reset</button>
+</div>
+<script>
+  const cy2 = cytoscape({
+    container: document.getElementById("topo-graph"),
+    ...graphConfig,
+  });
+  cy2.$("#1").style(rootConfig);
+  cy2.$("#2,#3,#4").style(levelOneConfig);
+  cy2.fit();
+  const origBoundingBox2 = cy2.elements().boundingBox();
+  cy2.layout({
+    roots: cy2.$(startingEl),
+    ...layoutConfig(origBoundingBox2),
+  }).run();
+  cy2.nodes().on("tap", (e) => {
+    console.log("reseting sim to tap");
+    resetSim2(e.target);
+  });
+  let interval2 = null;
+  let previousSliderHandler2 = null;
+  let paused2 = false;
+  const slider2 = document.getElementById("frame-num-2");
+  const playBtn2 = document.getElementById("play-button-2");
+  playBtn2.addEventListener("click", () => {
+    paused2 = !paused2;
+    playBtn2.classList.toggle("playing");
+  });
+  function getSubgraph(cy2, root) {
+    let toTraverse = root.outgoers();
+    let subgraph = root.union(toTraverse);
+    while (toTraverse.length > 0) {
+      const consider = toTraverse[0];
+      toTraverse = toTraverse.splice(1);
+      if (consider.isNode()) {
+        const out = consider.outgoers();
+        toTraverse = toTraverse.concat(out);
+        subgraph = subgraph.union(out);
+      }
+    }
+    // console.log("subgraph", subgraph.map(e => `${e.id()} - ${e.data("name")}`));
+    return subgraph;
+  }
+  function topoSort(cy2, root) {
+    const path = [];
+    let subgraph = getSubgraph(cy2, root);
+    let free = [root];
+    while (free.length > 0) {
+      const consider = free[0];
+      // console.log("consider", consider.data("name"));
+      free = free.splice(1);
+      path.push(consider);
+      const outgoers = consider.outgoers();
+      // console.log("outgoers", outgoers.map(e => `${e.id()} - ${e.data("name")}`));
+      subgraph = subgraph.filter(e => e.id() != consider.id());
+      for (const outgoer of outgoers) {
+        if (outgoer.isEdge()) {
+          path.push(outgoer);
+          // console.log("removing edge", outgoer.id());
+          subgraph = subgraph.filter((e) => e.id() != outgoer.id());
+        }
+      }
+      for (const outgoer of outgoers) {
+        if (outgoer.isNode()) {
+          // console.log("subgraph", subgraph.map(e => `${e.id()} - ${e.data("name")}`));
+          const incomingEdges = subgraph.edgesTo(outgoer);
+          // console.log("incomingEdges", outgoer.data("name"), incomingEdges.map(e => `${e.id()}`));
+          if (incomingEdges.length == 0) {
+            free.push(outgoer);
+          }
+        }
+      }
+    }
+    console.log("path", path);
+    return path;
+  }
+  const resetSim2 = (traverseStartEl) => {
+    if (interval2 !== null) {
+      clearInterval(interval2);
+    }
+    if (previousSliderHandler2 !== null) {
+      slider2.removeEventListener("input", previousSliderHandler2);
+    }
+    const path = topoSort(cy2, traverseStartEl);
+    const pathNodesOnly = path.filter(e => e.isNode());
+    const pathLen = pathNodesOnly.length - 1;
+    console.log("got topo path", pathLen, path);
+    slider2.max = pathLen;
+    slider2.value = 0;
+    const sliderHandler = () => {
+      cy2.elements().removeClass("traversed");
+      // console.log(slider.value);
+      for (let i = 0; i <= slider2.value; ++i) {
+        const node = pathNodesOnly[i];
+        cy2.$(`#${node.id()}`).addClass("traversed");
+        const edges = node.outgoers().filter(e => e.isEdge());
+        edges.addClass("traversed");
+      }
+    };
+    sliderHandler();
+    slider2.addEventListener("input", () => {
+      paused2 = true;
+      playBtn2.classList.remove("playing");
+      sliderHandler();
+    });
+    previousSliderHandler2 = sliderHandler;
+    paused2 = false;
+    playBtn2.classList.add("playing");
+    interval2 = setInterval(() => {
+      if (!paused2) {
+        slider2.value = (Number(slider2.value) + 2) % (pathLen + 2) - 1;
+        sliderHandler();
+      }
+    }, 1000);
+  };
+  resetSim2(cy2.$(traverseStarting));
+  document.getElementById("restart-button-2").addEventListener("click", () => {
+    resetSim2(cy2.$(traverseStarting));
+    cy2.fit();
+  });
+  function customThemeCallback(theme) {
+    console.log(theme);
+    let textColor;
+    if (theme == 'dark') {
+      textColor = textColorDark;
+      cy.$('node').removeClass('light');
+      cy.$('edge').removeClass('light');
+      cy2.$('node').removeClass('light');
+      cy2.$('edge').removeClass('light');
+    } else {
+      textColor = textColorLight;
+      cy.$('node').addClass('light');
+      cy.$('edge').addClass('light');
+      cy2.$('node').addClass('light');
+      cy2.$('edge').addClass('light');
+    }
+    playBtn.style.borderLeftColor = textColor;
+    playBtn2.style.borderLeftColor = textColor;
+  }
+  customThemeCallback(currentTheme);
+</script>

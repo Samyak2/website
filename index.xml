@@ -19,7 +19,7 @@ Breadth-first search (BFS)
 #
 &lt;/a>
 &lt;/h2>
-&lt;p>In this graph search algorithm, we visit all the neighbours of the node in arbitrary order. Let&amp;rsquo;s consider the direct neighbours as the first level and the neighbours of the neighbours as the second level and so on. BFS will visit all nodes on the first level before visiting all nodes on the second level and so on.&lt;/p>
+&lt;p>In this graph search algorithm, we visit all the neighbours of the node in an arbitrary order. Let&amp;rsquo;s consider the direct neighbours as the first level and the neighbours of the neighbours as the second level and so on. BFS will visit all nodes on the first level before visiting all nodes on the second level and so on.&lt;/p>
 &lt;p>Here&amp;rsquo;s a visualization of BFS on a graph of project dependencies. The edges indicate dependents, i.e, &lt;code>pest&lt;/code> depends on &lt;code>serde_json&lt;/code>, etc.
 Feel free to pause and explore the order in which nodes are visited. You can click on a node to start BFS from that node.&lt;/p>
 &lt;style>
@@ -452,12 +452,12 @@ Topological sort
 #
 &lt;/a>
 &lt;/h2>
-&lt;p>A topological sorting is an order of the nodes of the graph such that a node is visited only after all nodes that connect to that node are visited.
+&lt;p>A topological sorting is an ordering of the nodes of the graph where a node is visited only after all nodes that connect to that node are visited.
 On a dependency graph, this is exactly the order we need.&lt;/p>
 &lt;p>There are many different algorithms to arrive at a topological ordering. Also, a graph can have more than one valid topological ordering.&lt;/p>
 &lt;p>Here&amp;rsquo;s a visualization of one such topological sorting algorithm&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> on a graph of project dependencies. The edges indicate dependents, i.e, &lt;code>pest&lt;/code> depends on &lt;code>serde_json&lt;/code>, etc.
 Feel free to pause and explore the order in which nodes are visited. You can click on a node to start topological sort on that node.
-Note that we are not performing topological sort on the whole graph, but only the &lt;em>subgraph&lt;/em> that is accessible from the selected node.&lt;/p>
+Note that we are not performing topological sort on the whole graph but only the &lt;em>subgraph&lt;/em> that is accessible from the selected node.&lt;/p>
 &lt;div style="display: flex; justify-content: center;">
 &lt;div id="topo-graph" style="width: 100%; max-width 500px; height: 300px;">&lt;/div>
 &lt;/div>
@@ -593,15 +593,20 @@ cy.$('node').removeClass('light');
 cy.$('edge').removeClass('light');
 cy2.$('node').removeClass('light');
 cy2.$('edge').removeClass('light');
+cy3.$('node').removeClass('light');
+cy3.$('edge').removeClass('light');
 } else {
 textColor = textColorLight;
 cy.$('node').addClass('light');
 cy.$('edge').addClass('light');
 cy2.$('node').addClass('light');
 cy2.$('edge').addClass('light');
+cy3.$('node').addClass('light');
+cy3.$('edge').addClass('light');
 }
 playBtn.style.borderLeftColor = textColor;
 playBtn2.style.borderLeftColor = textColor;
+playBtn3.style.borderLeftColor = textColor;
 }
 customThemeCallback(currentTheme);
 &lt;/script>
@@ -612,7 +617,7 @@ BFS vs Topological sort - where do they differ?
 &lt;/a>
 &lt;/h2>
 &lt;p>As we see from the simulations above, when we perform BFS and topological sort starting with the node &lt;code>ryu&lt;/code>, we get the same path (or ordering) in both cases.&lt;/p>
-&lt;p>So it can seem like BFS, which is much simpler to implement, works when you actually need a topological ordering. Depending on your graph, it may even work for all nodes in your graph. But of course, BFS makes no guarantees that all dependencies are completed before visiting a node. It just happened to work for that particular graph or that particular node.&lt;/p>
+&lt;p>So it can seem like BFS, which is much simpler to implement, works when you actually need a topological ordering. Depending on your graph, it may even work for all nodes in your graph. But of course, BFS makes no guarantees that all dependencies will be completed before visiting a node. It just happened to work for that particular graph or that particular node.&lt;/p>
 &lt;!-- With graph algorithms especially, it's important to test your algorithms on graphs beyond your use case. Things may *look* right but will fail in unexpected ways. -->
 &lt;p>Let&amp;rsquo;s see an example of this. Click on the &lt;code>quote&lt;/code> node on the graphs above. Or use this button to do so.&lt;/p>
 &lt;a href="#bfs-graph">
@@ -634,7 +639,7 @@ behavior: 'smooth'
 });
 });
 &lt;/script>
-&lt;p>The order in which BFS visits the nodes is obviously wrong! It visits &lt;code>thiserror&lt;/code> before &lt;code>syn&lt;/code>. That&amp;rsquo;s equivalent to compiling a package before all of it&amp;rsquo;s dependencies are compiled. The topological sort is correct, because by definition it needs to visit all the dependencies before visiting a node.&lt;/p>
+&lt;p>The order in which BFS visits the nodes is obviously wrong! It visits &lt;code>thiserror&lt;/code> before &lt;code>syn&lt;/code>. That is equivalent to compiling a package before all of its dependencies are compiled. The topological sort is correct, because by definition, it needs to visit all the dependencies before visiting a node.&lt;/p>
 &lt;p>Some of the other nodes in the example graph show this behavior too. For example, &lt;code>serde&lt;/code> and &lt;code>proc-macro2&lt;/code>. So why did I use BFS for this use case in the first place?&lt;/p>
 &lt;h2 id="when-are-they-the-same">
 When are they the same?
@@ -738,6 +743,18 @@ Conclusion
 &lt;p>Comparing BFS and Topological sort is like comparing an apple and a bicycle. Sometimes, you don&amp;rsquo;t need to go out to a restaurant when an apple in the fridge will do.&lt;/p>
 &lt;p>That is to say, in some cases BFS will do what you need without having to implement topological sort.&lt;/p>
 &lt;p>Thank you for reading!&lt;/p>
+&lt;h2 id="further-reading">
+Further reading
+&lt;a class="heading-anchor" href="#further-reading">
+#
+&lt;/a>
+&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://stackoverflow.com/a/62969342/11199009">The original stackoverflow answer that prompted this post&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://stackoverflow.com/a/44986459">Using BFS &lt;em>for&lt;/em> topological sort - stackoverflow&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://en.wikipedia.org/wiki/Topological_sorting#Algorithms">Other algorithms for topological sorting - Wikipedia&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Acknowledgements: Thank you, &lt;em>Sathvik Srinivas&lt;/em>, for proofreading and suggesting improvements to this post.&lt;/p>
 &lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>

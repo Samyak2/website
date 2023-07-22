@@ -133,15 +133,20 @@
       cy.$('edge').removeClass('light');
       cy2.$('node').removeClass('light');
       cy2.$('edge').removeClass('light');
+      cy3.$('node').removeClass('light');
+      cy3.$('edge').removeClass('light');
     } else {
       textColor = textColorLight;
       cy.$('node').addClass('light');
       cy.$('edge').addClass('light');
       cy2.$('node').addClass('light');
       cy2.$('edge').addClass('light');
+      cy3.$('node').addClass('light');
+      cy3.$('edge').addClass('light');
     }
     playBtn.style.borderLeftColor = textColor;
     playBtn2.style.borderLeftColor = textColor;
+    playBtn3.style.borderLeftColor = textColor;
   }
   customThemeCallback(currentTheme);
 </script>

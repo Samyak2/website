@@ -11,7 +11,7 @@ The problem
 &lt;p>Here is the problem that needed to be solved.
 Given a project or a table (a &amp;ldquo;node&amp;rdquo;) in the tree, how do I get all the other nodes that &lt;em>depend&lt;/em> on it (the &lt;em>dependents&lt;/em>)?
 In other words, if I change the given node/project/table, which other nodes will I need to recompile/recreate?
-The graph is structured specifically to help with this. Given a node, we know the &lt;em>direct&lt;/em> dependents. So we just need to follow this trail to get all the dependents. The hard part here is getting the nodes in the right order. The right order being that all dependencies of a node are &amp;ldquo;visited&amp;rdquo; before the node itself.&lt;/p>
+The graph is structured specifically to help with this. Given a node, we know the &lt;em>direct&lt;/em> dependents. So we just need to follow this trail to get all the dependents. The hard part here is getting the nodes in the right order. The right order is one where all dependencies of a node are &amp;ldquo;visited&amp;rdquo; before the node itself.&lt;/p>
 &lt;p>At the time, it seemed that a simple breadth-first search will give me all the nodes in order. Let&amp;rsquo;s see how.&lt;/p>
 &lt;h2 id="breadth-first-search-bfs">
 Breadth-first search (BFS)
@@ -20,7 +20,7 @@ Breadth-first search (BFS)
 &lt;/a>
 &lt;/h2>
 &lt;p>In this graph search algorithm, we visit all the neighbours of the node in arbitrary order. Let&amp;rsquo;s consider the direct neighbours as the first level and the neighbours of the neighbours as the second level and so on. BFS will visit all nodes on the first level before visiting all nodes on the second level and so on.&lt;/p>
-&lt;p>Here&amp;rsquo;s a visualization of BFS on a graph of project dependencies. The edges indicate dependents i.e, &lt;code>pest&lt;/code> depends on &lt;code>serde_json&lt;/code>, etc.
+&lt;p>Here&amp;rsquo;s a visualization of BFS on a graph of project dependencies. The edges indicate dependents, i.e, &lt;code>pest&lt;/code> depends on &lt;code>serde_json&lt;/code>, etc.
 Feel free to pause and explore the order in which nodes are visited. You can click on a node to start BFS from that node.&lt;/p>
 &lt;style>
 .play-button {
@@ -455,7 +455,7 @@ Topological sort
 &lt;p>A topological sorting is an order of the nodes of the graph such that a node is visited only after all nodes that connect to that node are visited.
 On a dependency graph, this is exactly the order we need.&lt;/p>
 &lt;p>There are many different algorithms to arrive at a topological ordering. Also, a graph can have more than one valid topological ordering.&lt;/p>
-&lt;p>Here&amp;rsquo;s a visualization of one such topological sorting algorithm &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> on a graph of project dependencies. The edges indicate dependents i.e, &lt;code>pest&lt;/code> depends on &lt;code>serde_json&lt;/code>, etc.
+&lt;p>Here&amp;rsquo;s a visualization of one such topological sorting algorithm&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> on a graph of project dependencies. The edges indicate dependents, i.e, &lt;code>pest&lt;/code> depends on &lt;code>serde_json&lt;/code>, etc.
 Feel free to pause and explore the order in which nodes are visited. You can click on a node to start topological sort on that node.
 Note that we are not performing topological sort on the whole graph, but only the &lt;em>subgraph&lt;/em> that is accessible from the selected node.&lt;/p>
 &lt;div style="display: flex; justify-content: center;">
@@ -735,7 +735,7 @@ Conclusion
 #
 &lt;/a>
 &lt;/h2>
-&lt;p>Comparing BFS and Topological sort is like comparing an apple and a bicycle. Though, sometimes you don&amp;rsquo;t need to go out to a restaurant when an apple in the fridge will do.&lt;/p>
+&lt;p>Comparing BFS and Topological sort is like comparing an apple and a bicycle. Sometimes, you don&amp;rsquo;t need to go out to a restaurant when an apple in the fridge will do.&lt;/p>
 &lt;p>That is to say, in some cases BFS will do what you need without having to implement topological sort.&lt;/p>
 &lt;p>Thank you for reading!&lt;/p>
 &lt;div class="footnotes" role="doc-endnotes">

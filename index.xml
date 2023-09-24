@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Samyak Sarnayak</title><link>https://samyaks.xyz/</link><description>Recent posts from on Samyak Sarnayak</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 22 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://samyaks.xyz/index.xml" rel="self" type="application/rss+xml"/><item><title>Turns out that BFS is not the same as topological sort</title><link>https://samyaks.xyz/post/bfs-topo/</link><pubDate>Sat, 22 Jul 2023 00:00:00 +0000</pubDate><guid>https://samyaks.xyz/post/bfs-topo/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Samyak Sarnayak</title><link>https://samyak.me/</link><description>Recent posts from on Samyak Sarnayak</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 22 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://samyak.me/index.xml" rel="self" type="application/rss+xml"/><item><title>Turns out that BFS is not the same as topological sort</title><link>https://samyak.me/post/bfs-topo/</link><pubDate>Sat, 22 Jul 2023 00:00:00 +0000</pubDate><guid>https://samyak.me/post/bfs-topo/</guid><description>
 &lt;script src="https://cdn.jsdelivr.net/npm/cytoscape@3.25.0/dist/cytoscape.min.js">&lt;/script>
 &lt;p>The title may seem very obvious to people who know graph algorithms. Unfortunately, I&amp;rsquo;m not one of them.&lt;/p>
 &lt;h2 id="the-problem">
@@ -762,7 +762,7 @@ Further reading
 &lt;p>&lt;a href="https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm">Kahn&amp;rsquo;s algorithm&lt;/a> but only on the subgraph accessible from the selected node.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/div></description></item><item><title>Thoughts on migrating DNS from Netlify to Cloudflare</title><link>https://samyaks.xyz/post/netlify-cloudflare/</link><pubDate>Wed, 19 Apr 2023 19:07:07 +0530</pubDate><guid>https://samyaks.xyz/post/netlify-cloudflare/</guid><description>&lt;p>Recently, I was involved in the migration of a domain from &lt;a href="https://docs.netlify.com/domains-https/netlify-dns/">Netlify DNS&lt;/a> to &lt;a href="https://www.cloudflare.com/dns/">Cloudflare&lt;/a>.
+&lt;/div></description></item><item><title>Thoughts on migrating DNS from Netlify to Cloudflare</title><link>https://samyak.me/post/netlify-cloudflare/</link><pubDate>Wed, 19 Apr 2023 19:07:07 +0530</pubDate><guid>https://samyak.me/post/netlify-cloudflare/</guid><description>&lt;p>Recently, I was involved in the migration of a domain from &lt;a href="https://docs.netlify.com/domains-https/netlify-dns/">Netlify DNS&lt;/a> to &lt;a href="https://www.cloudflare.com/dns/">Cloudflare&lt;/a>.
 This short post describes my experiences and thoughts on it.&lt;/p>
 &lt;h2 id="why-cloudflare">
 Why Cloudflare?
@@ -801,7 +801,7 @@ Your website was down???
 &lt;/a>
 &lt;/h2>
 &lt;p>So Cloudflare has an SSL/TLS mode called &amp;ldquo;Flexible&amp;rdquo; which, apparently, &amp;ldquo;Encrypts traffic between the browser and Cloudflare&amp;rdquo;. Turns out that it&amp;rsquo;s not really flexible. It adds its own SSL/TLS on all proxied domains and that &lt;a href="https://community.cloudflare.com/t/cloudflare-all-time-classic-how-to-fix-error-code-ssl-error-no-cypher-overlap/314844">caused a problem&lt;/a>. We changed the mode to &amp;ldquo;Full&amp;rdquo; which just means that the servers manage their own SSL/TLS.&lt;/p>
-&lt;p>I&amp;rsquo;m not really sure what the exact issue here was, but I would be interested in figuring it out.&lt;/p></description></item><item><title>Mob Programming and Rust</title><link>https://samyaks.xyz/post/mob/</link><pubDate>Sun, 29 May 2022 16:30:31 +0530</pubDate><guid>https://samyaks.xyz/post/mob/</guid><description>&lt;h1 id="what-is-it">
+&lt;p>I&amp;rsquo;m not really sure what the exact issue here was, but I would be interested in figuring it out.&lt;/p></description></item><item><title>Mob Programming and Rust</title><link>https://samyak.me/post/mob/</link><pubDate>Sun, 29 May 2022 16:30:31 +0530</pubDate><guid>https://samyak.me/post/mob/</guid><description>&lt;h1 id="what-is-it">
 What is it?
 &lt;a class="heading-anchor" href="#what-is-it">
 #
@@ -857,7 +857,7 @@ Where to go from here
 &lt;p>Dawn had a &lt;a href="https://youtu.be/nxNDo-7Fyfk">nice discussion&lt;/a> with the folks at the &lt;a href="https://www.youtube.com/channel/UCgt1lVMrdwlZKBaerxxp2iQ">Mob Mentality Show&lt;/a> about Mobus Operandi, Rust, mob for hire and teal organizations.&lt;/p>
 &lt;p>&lt;a href="https://youtu.be/28S4CVkYhWA">Here&amp;rsquo;s&lt;/a> a talk on mob programming by Woody Zuill who popularized the concept.&lt;/p>
 &lt;hr>
-&lt;p>This what I think of mob programming. I realize that this reads like an appreciation post xD. &lt;a href="https://samyaks.xyz/about#reach-out-to-me-at">Reach out to me&lt;/a> if you have any thoughts.&lt;/p>
+&lt;p>This what I think of mob programming. I realize that this reads like an appreciation post xD. &lt;a href="https://samyak.me/about#reach-out-to-me-at">Reach out to me&lt;/a> if you have any thoughts.&lt;/p>
 &lt;p>Side note: my appreciation for mob programming has nothing to do with the fact that the character in my profile picture (on my website, GitHub, Twitter, etc.) is nicknamed Mob :)&lt;/p>
 &lt;p>Acknowledgements: Thank you, &lt;em>Sathvik Srinivas&lt;/em>, for proofreading and suggesting improvements to this post.&lt;/p>
 &lt;div class="footnotes" role="doc-endnotes">
@@ -879,12 +879,12 @@ Where to go from here
 &lt;p>As a small (and easy to explain) example, I used to skip straight to the answer section on stackoverflow. I learnt that it&amp;rsquo;s useful to skim through the question to see if it&amp;rsquo;s really what I need.&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/div></description></item><item><title>Hello there!</title><link>https://samyaks.xyz/post/first/</link><pubDate>Sat, 28 Aug 2021 23:36:15 +0530</pubDate><guid>https://samyaks.xyz/post/first/</guid><description>&lt;p>Hi!
-&lt;img class="smol-logo" src="https://samyaks.xyz/img/logo.png" />
+&lt;/div></description></item><item><title>Hello there!</title><link>https://samyak.me/post/first/</link><pubDate>Sat, 28 Aug 2021 23:36:15 +0530</pubDate><guid>https://samyak.me/post/first/</guid><description>&lt;p>Hi!
+&lt;img class="smol-logo" src="https://samyak.me/img/logo.png" />
 &lt;/p>
 &lt;p>I&amp;rsquo;m Samyak Sarnayak. This post is mostly a placeholder to test &lt;a href="https://gohugo.io/">Hugo&lt;/a> and the &lt;a href="https://gitlab.com/avron/gruvhugo">gruvhugo&lt;/a> theme.&lt;/p>
 &lt;p>After porting over my old posts here, I have planned for a few more. Hopefully I will get to them soon.&lt;/p>
-&lt;p>The &lt;a href="https://samyaks.xyz/about">about&lt;/a> page will be the first one to be filled here, after this one of course.&lt;/p>
+&lt;p>The &lt;a href="https://samyak.me/about">about&lt;/a> page will be the first one to be filled here, after this one of course.&lt;/p>
 &lt;style>
 .smol-logo {
 height: 1em;
@@ -908,7 +908,7 @@ to {
 top: 0.2em;
 }
 }
-&lt;/style></description></item><item><title>On water and systems</title><link>https://samyaks.xyz/post/water-docker/</link><pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate><guid>https://samyaks.xyz/post/water-docker/</guid><description>&lt;p>There&amp;rsquo;s a lake a few hundred meters from your house, with plenty of water in it. Can you actually use the water though? Sure, you can take a bucket to the lake, fill it up, bring it back and use it. You&amp;rsquo;ll need more than a bucket of water, so you make multiple trips and take two buckets at a time. Now you&amp;rsquo;re spending quite a bit of your time and energy everyday in this. To make your life easier, you build a rudimentary plumbing system. You take a long enough pipe, connect a motor and that&amp;rsquo;s it, you now have easy access to water. You can use this, but what about your neighbour, your colony? Everyone will need to build their own pipelines, which isn&amp;rsquo;t sustainable as every one of them needs to do all of the maintenance themselves, costing a lot of time and resources. You would need a real plumbing system that has robust pipes, a temporary storage (a tank), a better motor and you would have to rethink your home&amp;rsquo;s architecture to stuff all the pipes in there. Only then do you get water at your tap.&lt;/p>
+&lt;/style></description></item><item><title>On water and systems</title><link>https://samyak.me/post/water-docker/</link><pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate><guid>https://samyak.me/post/water-docker/</guid><description>&lt;p>There&amp;rsquo;s a lake a few hundred meters from your house, with plenty of water in it. Can you actually use the water though? Sure, you can take a bucket to the lake, fill it up, bring it back and use it. You&amp;rsquo;ll need more than a bucket of water, so you make multiple trips and take two buckets at a time. Now you&amp;rsquo;re spending quite a bit of your time and energy everyday in this. To make your life easier, you build a rudimentary plumbing system. You take a long enough pipe, connect a motor and that&amp;rsquo;s it, you now have easy access to water. You can use this, but what about your neighbour, your colony? Everyone will need to build their own pipelines, which isn&amp;rsquo;t sustainable as every one of them needs to do all of the maintenance themselves, costing a lot of time and resources. You would need a real plumbing system that has robust pipes, a temporary storage (a tank), a better motor and you would have to rethink your home&amp;rsquo;s architecture to stuff all the pipes in there. Only then do you get water at your tap.&lt;/p>
 &lt;p>My point is that you could say that the water is right there but it&amp;rsquo;s not actually useful without all the plumbing around it. With the plumbing it&amp;rsquo;s a lot more convenient to do the things you do with water as you have it right at your tap, anytime you need it.&lt;/p>
 &lt;hr>
 &lt;p>I realized this when I was brushing my teeth one morning. The day before, I was working on &lt;a href="https://github.com/Samyak2/guntainer">making my own container runtime&lt;/a> to learn how containers work. I made a connection between this water story and containers.
@@ -918,7 +918,7 @@ Namespaces and cgroups in Linux together let you isolate a process and limit the
 One example of this is MacOS&amp;rsquo; Time Machine - the snapshot tool. On Linux, &lt;a href="https://btrfs.wiki.kernel.org/index.php/Main_Page">Btrfs&lt;/a> supports snapshots but to use it you need an app that makes managing snapshots easier (&lt;a href="http://snapper.io/">snapper&lt;/a> is one).&lt;/p>
 &lt;hr>
 &lt;p>Those were my thoughts. I realize that this is quite obvious in hindsight, but I wanted to share this anyway. Have you noticed this pattern somewhere else? Let me know down below or reach out to me on any of the links to the left.&lt;/p>
-&lt;p>Thank you for reading. Bye!&lt;/p></description></item><item><title>Solving A Git Murder Mystery</title><link>https://samyaks.xyz/post/gitstery/</link><pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate><guid>https://samyaks.xyz/post/gitstery/</guid><description>&lt;p>On the night of Friday the 13th, I came across an &lt;a href="https://github.com/nivbend/gitstery">interesting repository&lt;/a> on GitHub.
+&lt;p>Thank you for reading. Bye!&lt;/p></description></item><item><title>Solving A Git Murder Mystery</title><link>https://samyak.me/post/gitstery/</link><pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate><guid>https://samyak.me/post/gitstery/</guid><description>&lt;p>On the night of Friday the 13th, I came across an &lt;a href="https://github.com/nivbend/gitstery">interesting repository&lt;/a> on GitHub.
 At first I did not understand what it was, after all &amp;ldquo;gitstery&amp;rdquo; is not a very obvious name. I read through the README
 (seems like I missed the part where they say it was designed to be solved using git commands alone) and got some idea of
 what it was. It seemed really interesting and I was bored, so I cloned it. There was an &lt;code>instructions.txt&lt;/code> file which
@@ -947,7 +947,7 @@ contained&amp;hellip;. instructions.&lt;/p>
 {: .notice&amp;ndash;warning}&lt;/p>
 &lt;p>The instructions hint that we need to check out the &lt;code>gtpd-archive&lt;/code> branch. We can do so by using &lt;code>git checkout gtpd-archive&lt;/code>.
 It seems there is no difference between the two branches, all the files are the same.&lt;/p>
-&lt;figure>&lt;img src="https://samyaks.xyz/images/gitstery/gitstery-files.webp"
+&lt;figure>&lt;img src="https://samyak.me/images/gitstery/gitstery-files.webp"
 alt="Files in the gtpd-archive branch" width="100%"/>&lt;figcaption>
 &lt;p>Files in the gtpd-archive branch&lt;/p>
 &lt;/figcaption>
@@ -956,14 +956,14 @@ alt="Files in the gtpd-archive branch" width="100%"/>&lt;figcaption>
 the instructions files, we need to find the logs which were submitted in the week after July 20th. We can search the log
 by typing &lt;code>/July&lt;/code> and pressing the &lt;code>n&lt;/code> key to go to the next search result. There is only one report by Kyle Pumbinner in
 that week.&lt;/p>
-&lt;figure>&lt;img src="https://samyaks.xyz/images/gitstery/gitstery-log-July-24.webp"
+&lt;figure>&lt;img src="https://samyak.me/images/gitstery/gitstery-log-July-24.webp"
 alt="Git log showing the report we need" width="100%"/>&lt;figcaption>
 &lt;p>Git log showing the report we need&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Hmm, so we need to check out the &lt;code>detectives/kpumbinner&lt;/code> branch.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1&lt;/span>&lt;span>git checkout detectives/kpumbinner
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://samyaks.xyz/images/gitstery/gitstery-kpumbineer-branch-files.webp"
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://samyak.me/images/gitstery/gitstery-kpumbineer-branch-files.webp"
 alt="Files in the detectives/kpumbinner branch" width="100%"/>&lt;figcaption>
 &lt;p>Files in the detectives/kpumbinner branch&lt;/p>
 &lt;/figcaption>
@@ -973,7 +973,7 @@ the names of the people who made these entries. There is an aptly named git subc
 running &lt;code>git blame access.log&lt;/code> will show the names of the people who made each entry in the file. At this point you could
 search through this by using &lt;code>/BACKDOOR_332&lt;/code>, but here we can use the very useful &lt;code>grep&lt;/code> tool.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1&lt;/span>&lt;span>git blame access.log | grep BACKDOOR_332
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://samyaks.xyz/images/gitstery/git-blame-grep.webp"
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://samyak.me/images/gitstery/git-blame-grep.webp"
 alt="This gives the names of the three people who accessed the backdoor" width="100%"/>&lt;figcaption>
 &lt;p>This gives the names of the three people who accessed the backdoor&lt;/p>
 &lt;/figcaption>
@@ -1104,12 +1104,12 @@ using the command given in instructions.txt.&lt;/p>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
 &lt;div class="video-container" style="padding: 0% 10%;">
 &lt;video autoplay="autoplay" loop="loop" preload="auto" style="width: 100%">
-&lt;source src="https://samyaks.xyz/images/yes-yes-yes.mp4" type="video/mp4" />
+&lt;source src="https://samyak.me/images/yes-yes-yes.mp4" type="video/mp4" />
 &lt;/video>
 &lt;/div>
 &lt;p>We solved the case!&lt;/p>
 &lt;p>Well, that was fun. Checkout the repository &lt;a href="https://github.com/nivbend/gitstery">here&lt;/a>.
-Give a thumbs up if this was helpful and/or interesting.&lt;/p></description></item><item><title>My old games</title><link>https://samyaks.xyz/post/my-old-games/</link><pubDate>Mon, 03 Feb 2020 00:00:00 +0000</pubDate><guid>https://samyaks.xyz/post/my-old-games/</guid><description>&lt;p>When I was in school, about 6-7 years ago, I had found a new hobby and passion - making games.
+Give a thumbs up if this was helpful and/or interesting.&lt;/p></description></item><item><title>My old games</title><link>https://samyak.me/post/my-old-games/</link><pubDate>Mon, 03 Feb 2020 00:00:00 +0000</pubDate><guid>https://samyak.me/post/my-old-games/</guid><description>&lt;p>When I was in school, about 6-7 years ago, I had found a new hobby and passion - making games.
 I&amp;rsquo;m not sure how but I found a free 3D game maker named &lt;a href="http://web.archive.org/web/20150514120532/http://www.3drad.com/">&lt;strong>3D Rad&lt;/strong>&lt;/a>.
 I played around a lot with it on my ancient PC, which had a Pentium 4 and 1 Gigabyte of RAM.&lt;/p>
 &lt;p>3D Rad is no longer being developed,
@@ -1125,7 +1125,7 @@ The Engine
 &lt;p>3D Rad had many features, especially considering that it was made by an independent developer. It had quite a few examples
 included with the engine for a range of games - third person, car racing, airplane simulator, boat simulator, underwater physics
 and many others.&lt;/p>
-&lt;figure>&lt;img src="https://samyaks.xyz/images/3D-Rad-UI.webp"
+&lt;figure>&lt;img src="https://samyak.me/images/3D-Rad-UI.webp"
 alt="The 3D Rad UI" width="100%"/>&lt;figcaption>
 &lt;p>The 3D Rad UI&lt;/p>
 &lt;/figcaption>
@@ -1248,7 +1248,7 @@ I had even made waypoints to be used in an actual race. This could have been a r
 &lt;p>That&amp;rsquo;s it for now. These were some of the games I made when I was a kid and I finally got the time to share it with everyone. If you
 want to try some of these games for yourself, they are &lt;a href="https://drive.google.com/open?id=1zUmd5GlxMWcaWKX1ENcqh-kL69DPWBCA">here&lt;/a>.
 You can find a compilation of game demos &lt;a href="https://youtu.be/IS7qfSnrNOI">here&lt;/a>.&lt;/p>
-&lt;p>Thank you for reading!&lt;/p></description></item><item><title>Multiplanetary civilisation?</title><link>https://samyaks.xyz/post/multiplanetary/</link><pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate><guid>https://samyaks.xyz/post/multiplanetary/</guid><description>&lt;p>Elon Musk recently tweeted about the logistics requirements for a Multiplanetary civilisation.
+&lt;p>Thank you for reading!&lt;/p></description></item><item><title>Multiplanetary civilisation?</title><link>https://samyak.me/post/multiplanetary/</link><pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate><guid>https://samyak.me/post/multiplanetary/</guid><description>&lt;p>Elon Musk recently tweeted about the logistics requirements for a Multiplanetary civilisation.
 He says that at a minimum, megatons of equipment and other resources have to be put in orbit &lt;em>every year&lt;/em>.
 For reference, a &lt;a href="https://en.wikipedia.org/wiki/Saturn_V">Saturn V&lt;/a> (the launch vehicle used to send humans to the moon),
 can take a payload of around 140 tons to &lt;a href="https://en.wikipedia.org/wiki/Low_Earth_orbit">Low Earth Orbit&lt;/a>.
@@ -1264,7 +1264,7 @@ Starship
 #
 &lt;/a>
 &lt;/h2>
-&lt;figure>&lt;img src="https://samyaks.xyz/images/spacex-starhopper-starship-nasa-saturn-v-apollo-mk1-height-comparison.webp"
+&lt;figure>&lt;img src="https://samyak.me/images/spacex-starhopper-starship-nasa-saturn-v-apollo-mk1-height-comparison.webp"
 alt="Size comparison of Starship and Saturn V. Source." width="100%"/>&lt;figcaption>
 &lt;p>Size comparison of Starship and Saturn V. &lt;a href="https://www.businessinsider.com/elon-musk-spacex-starship-mars-rocket-spaceship-next-generation-diameter-2019-8/commerce-on-business-insider">Source.&lt;/a>&lt;/p>
 &lt;/figcaption>
@@ -1282,7 +1282,7 @@ the record for &lt;a href="https://en.wikipedia.org/wiki/Valeri_Polyakov">longes
 &lt;p lang="und" dir="ltr">Yes&lt;/p>&amp;mdash; Elon Musk (@elonmusk) &lt;a href="https://twitter.com/elonmusk/status/1217990910052458497?ref_src=twsrc%5Etfw">January 17, 2020&lt;/a>
 &lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;p>That&amp;rsquo;s&amp;hellip; &lt;strong>0.00013%&lt;/strong> of the world population&amp;hellip; in 30 years.
-&lt;figure>&lt;img src="https://samyaks.xyz/images/uh-meme.webp" width="100%"/>
+&lt;figure>&lt;img src="https://samyak.me/images/uh-meme.webp" width="100%"/>
 &lt;/figure>
 &lt;/p>
 &lt;p>That&amp;rsquo;s way too slow. Moreover, looking at the history of Elon (and Tesla)

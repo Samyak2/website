@@ -30,7 +30,7 @@ Conference
 
 📜 Paper: [PDF](/papers/optimized-gans.pdf)
 
-💻 Live Demo: [GANs running entirely in your browser.](https://fashion.samyaks.xyz/)
+💻 Live Demo: [GANs running entirely in your browser.](https://fashion.samyak.me/)
 
 📺 Presentation: [STCAI 2021](https://youtu.be/mHeglPANT7c?t=73)
 

@@ -41,7 +41,7 @@ Last updated: 26th December 2021
 [^1]: Pun intended (this was just a test to see if footnotes work xD)
 [^2]: Though I did pick up a few things from these courses, I was mostly very bored in classes.
 [^3]: I call them "papers" and not "research papers" because they had no research in them :)
-[^4]: Here's a fun one: https://fashion.samyaks.xyz/ (works entirely client side on a static site).
+[^4]: Here's a fun one: https://fashion.samyak.me/ (works entirely client side on a static site).
 [^5]: The uni's course on this subject did not help at all in maintaining that interest :)
 [^6]: PESOS now continues to live in a different form at [UniFOSS](https://unifoss.github.io/). Join us if you too are an Indian university student interested in FOSS. Also, [here](https://atharvaraykar.com/education/building-a-community.html) is a great summary of what went down at PESOS, written by the person who (re-)started it.
 [^7]: [This](https://github.com/adblockradio/adblockradio/pull/13) was my first external (to a repo not belonging to me or my friends) PR. It was merged two years later. [This one](https://github.com/bsoyka/mystery-egg/pull/31) was my first useful, external PR.

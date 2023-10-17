@@ -238,7 +238,7 @@ You found the murderer!
 ```
 {{< rawhtml >}}
 <div class="video-container" style="padding: 0% 10%;">
-    <video autoplay="autoplay" loop="loop" preload="auto" style="width: 100%">
+    <video autoplay="autoplay" muted="true" loop="loop" preload="auto" style="width: 100%">
         <source src="/images/yes-yes-yes.mp4" type="video/mp4" />
     </video>
 </div>

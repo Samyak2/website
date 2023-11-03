@@ -13,7 +13,6 @@ Most of my projects are open sourced on [my GitHub](https://github.com/Samyak2/)
 ### Reach out to me at
 
 - `samyak201 <AT> gmail <DOT> com`
-- `samyak <AT> chaosgenius <DOT> io` (only for queries related to Chaos Genius)
 - [Twitter](https://twitter.com/Samyak210) (I may be slow to respond here) (I may have moved on to mastodon)
 - [Mastodon](https://hachyderm.io/@samyak)
 

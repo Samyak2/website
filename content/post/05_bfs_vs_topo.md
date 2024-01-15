@@ -1,5 +1,6 @@
 ---
 title: "Turns out that BFS is not the same as topological sort"
+summary: "Graph algorithms explained through interactive visualizations"
 date: 2023-07-22
 slug: "bfs-topo"
 tags:

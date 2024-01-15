@@ -1,5 +1,6 @@
 ---
 title: "Thoughts on migrating DNS from Netlify to Cloudflare"
+summary: "DNS migration and open sourcing a tool used for it"
 date: 2023-04-19T19:07:07+05:30
 slug: "netlify-cloudflare"
 tags:

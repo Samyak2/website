@@ -28,7 +28,7 @@ enableGitInfo = true
   enableKatex = true
   metaKeywords = "Samyak, Sarnayak, PES, Software"
   headerTitle = "Samyak Sarnayak"
-  copyright = "© 2021-2023 Samyak Sarnayak.  <a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/\">Some rights reserved</a>."
+  copyright = "© 2021-2024 Samyak Sarnayak.  <a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/\">Some rights reserved</a>."
   name = "samyak_sarnayak"
   img = "images/mob.png"
   img_title = "Mob-kun, traced by me over the original. Someday I will draw him myself."

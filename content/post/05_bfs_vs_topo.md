@@ -32,8 +32,8 @@ In this graph search algorithm, we visit all the neighbours of the node in an ar
 Here's a visualization of BFS on a graph of project dependencies. The edges indicate dependents, i.e., `pest` depends on `serde_json`, etc.
 Feel free to pause and explore the order in which nodes are visited. You can click on a node to start BFS from that node.
 
-{{% include "05_bfs_vs_topo/common.html" %}}
-{{% include "05_bfs_vs_topo/bfs-graph.html" %}}
+{{% includeHtmlFile "/assets/05_bfs_vs_topo/common.html" %}}
+{{% includeHtmlFile "/assets/05_bfs_vs_topo/bfs-graph.html" %}}
 
 ## Topological sort
 
@@ -46,7 +46,7 @@ Here's a visualization of one such topological sorting algorithm[^1] on a graph 
 Feel free to pause and explore the order in which nodes are visited. You can click on a node to start topological sort on that node.
 Note that we are not performing topological sort on the whole graph but only the *subgraph* that is accessible from the selected node.
 
-{{% include "05_bfs_vs_topo/topo-graph.html" %}}
+{{% includeHtmlFile "/assets/05_bfs_vs_topo/topo-graph.html" %}}
 
 ## BFS vs Topological sort - where do they differ?
 
@@ -58,7 +58,7 @@ So it can seem like BFS, which is much simpler to implement, works when you actu
 
 Let's see an example of this. Click on the `quote` node on the graphs above. Or use this button to do so.
 
-{{% include "05_bfs_vs_topo/demo-button-1.html" %}}
+{{% includeHtmlFile "/assets/05_bfs_vs_topo/demo-button-1.html" %}}
 
 The order in which BFS visits the nodes is obviously wrong! It visits `thiserror` before `syn`. That is equivalent to compiling a package before all of its dependencies are compiled. The topological sort is correct, because by definition, it needs to visit all the dependencies before visiting a node.
 
@@ -70,7 +70,7 @@ In some cases though, you can get BFS to give you the same ordering of nodes tha
 
 Here's an example graph that shows this behavior. This is simple BFS, but it visits the nodes in the correct order.
 
-{{% include "05_bfs_vs_topo/bfs-graph-3.html" %}}
+{{% includeHtmlFile "/assets/05_bfs_vs_topo/bfs-graph-3.html" %}}
 
 The requirement for this behavior is that all the nodes must be connected to only their *direct dependents*. If any node is connected to both a node and a connection of that node, BFS will not work.
 

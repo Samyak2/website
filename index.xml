@@ -948,7 +948,7 @@ contained&amp;hellip;. instructions.&lt;/p>
 &lt;p>The instructions hint that we need to check out the &lt;code>gtpd-archive&lt;/code> branch. We can do so by using &lt;code>git checkout gtpd-archive&lt;/code>.
 It seems there is no difference between the two branches, all the files are the same.&lt;/p>
 &lt;figure>&lt;img src="https://samyak.me/images/gitstery/gitstery-files.webp"
-alt="Files in the gtpd-archive branch" width="100%"/>&lt;figcaption>
+alt="Files in the gtpd-archive branch" width="100%">&lt;figcaption>
 &lt;p>Files in the gtpd-archive branch&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
@@ -957,14 +957,14 @@ the instructions files, we need to find the logs which were submitted in the wee
 by typing &lt;code>/July&lt;/code> and pressing the &lt;code>n&lt;/code> key to go to the next search result. There is only one report by Kyle Pumbinner in
 that week.&lt;/p>
 &lt;figure>&lt;img src="https://samyak.me/images/gitstery/gitstery-log-July-24.webp"
-alt="Git log showing the report we need" width="100%"/>&lt;figcaption>
+alt="Git log showing the report we need" width="100%">&lt;figcaption>
 &lt;p>Git log showing the report we need&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Hmm, so we need to check out the &lt;code>detectives/kpumbinner&lt;/code> branch.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1&lt;/span>&lt;span>git checkout detectives/kpumbinner
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://samyak.me/images/gitstery/gitstery-kpumbineer-branch-files.webp"
-alt="Files in the detectives/kpumbinner branch" width="100%"/>&lt;figcaption>
+alt="Files in the detectives/kpumbinner branch" width="100%">&lt;figcaption>
 &lt;p>Files in the detectives/kpumbinner branch&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
@@ -974,7 +974,7 @@ running &lt;code>git blame access.log&lt;/code> will show the names of the peopl
 search through this by using &lt;code>/BACKDOOR_332&lt;/code>, but here we can use the very useful &lt;code>grep&lt;/code> tool.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1&lt;/span>&lt;span>git blame access.log | grep BACKDOOR_332
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;figure>&lt;img src="https://samyak.me/images/gitstery/git-blame-grep.webp"
-alt="This gives the names of the three people who accessed the backdoor" width="100%"/>&lt;figcaption>
+alt="This gives the names of the three people who accessed the backdoor" width="100%">&lt;figcaption>
 &lt;p>This gives the names of the three people who accessed the backdoor&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
@@ -1126,7 +1126,7 @@ The Engine
 included with the engine for a range of games - third person, car racing, airplane simulator, boat simulator, underwater physics
 and many others.&lt;/p>
 &lt;figure>&lt;img src="https://samyak.me/images/3D-Rad-UI.webp"
-alt="The 3D Rad UI" width="100%"/>&lt;figcaption>
+alt="The 3D Rad UI" width="100%">&lt;figcaption>
 &lt;p>The 3D Rad UI&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
@@ -1157,7 +1157,8 @@ Car Fight
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe src="https://www.youtube.com/embed/MK5KUZ73Xok" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/MK5KUZ73Xok?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="Car Fight Game in 3DRAD"
+>&lt;/iframe>
 &lt;/div>
 &lt;p>A car &amp;ldquo;fighting&amp;rdquo; game that has mini Suns for projectiles and a random rigidbody for powerups. In this game, you fight with an enemy
 car by shooting balls at each other. The player car is Porsche 911 model that I found on the store in &lt;a href="https://www.sketchup.com/">SketchUp&lt;/a>.
@@ -1173,7 +1174,8 @@ Slingshot
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe src="https://www.youtube.com/embed/iueriTNdTMk" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/iueriTNdTMk?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="Catapult Game in 3DRAD"
+>&lt;/iframe>
 &lt;/div>
 &lt;p>A game where you slingshot a shiny ball onto a generic cuboid. That&amp;rsquo;s it, that&amp;rsquo;s the game. The game enters slow-mo as the ball nears
 the target and there is sound effect when it hits. I suspect this game was inspired by some game I played at that time.
@@ -1186,7 +1188,8 @@ Car Parking
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe src="https://www.youtube.com/embed/xtm5Dy9rJYo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/xtm5Dy9rJYo?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="Car Parking Game in 3DRAD"
+>&lt;/iframe>
 &lt;/div>
 &lt;p>Probably the only complete game I ever made. This game was most likely inspired from Dr. Driving. The objective is to park your &amp;ldquo;car&amp;rdquo;
 in the spot shown by the floating fish. There are two camera views - top down and behind.&lt;/p>
@@ -1198,7 +1201,8 @@ Space Shooter
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe src="https://www.youtube.com/embed/_6UCF294Hw8" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/_6UCF294Hw8?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="Space Shooter Game in 3DRAD"
+>&lt;/iframe>
 &lt;/div>
 &lt;p>This game was definitely inspired from Galaxy on Fire 2, which I played a lot for many years. Here, you control a spaceship that can
 shoot bullets. There are a few planets and a Sun, with distances shown on each of them and gravity simulated on them. You have two
@@ -1212,7 +1216,8 @@ Circuit Racing
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe src="https://www.youtube.com/embed/7IJX1IW6-kA" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/7IJX1IW6-kA?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="Circuit Racing game in 3DRAD"
+>&lt;/iframe>
 &lt;/div>
 &lt;p>A simple racing game with support for laps around a circuit track, which was built from the inbuilt highway pieces. Your player car
 is the same as in &lt;a href="#car-fight">Car Fight&lt;/a> and with a similar HUD (except there is no background for the minimap). Your opponents are
@@ -1226,7 +1231,8 @@ Infinite Plane
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe src="https://www.youtube.com/embed/avPZZFxP2aI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/avPZZFxP2aI?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="Infinite plane in 3DRAD"
+>&lt;/iframe>
 &lt;/div>
 &lt;p>Not a game exactly but a fun thing to work on. The ground is an infinite plane that is procedurally generated as you move. Since
 there are no obstacles, you can reach impossible speeds where the ground moves so fast you can&amp;rsquo;t look at it for long. If you try to
@@ -1239,7 +1245,8 @@ Highway Network
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe src="https://www.youtube.com/embed/8KkK1BSi9ks" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/8KkK1BSi9ks?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="Highway network in 3DRAD"
+>&lt;/iframe>
 &lt;/div>
 &lt;p>Another circuit racing game but this time with a much bigger map. The network of highways was made from small individual pieces of
 roads. Unfortunately, this project was left incomplete as I moved on to other things. The highways had many fun types of roads and
@@ -1265,7 +1272,7 @@ Starship
 &lt;/a>
 &lt;/h2>
 &lt;figure>&lt;img src="https://samyak.me/images/spacex-starhopper-starship-nasa-saturn-v-apollo-mk1-height-comparison.webp"
-alt="Size comparison of Starship and Saturn V. Source." width="100%"/>&lt;figcaption>
+alt="Size comparison of Starship and Saturn V. Source." width="100%">&lt;figcaption>
 &lt;p>Size comparison of Starship and Saturn V. &lt;a href="https://www.businessinsider.com/elon-musk-spacex-starship-mars-rocket-spaceship-next-generation-diameter-2019-8/commerce-on-business-insider">Source.&lt;/a>&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
@@ -1282,7 +1289,7 @@ the record for &lt;a href="https://en.wikipedia.org/wiki/Valeri_Polyakov">longes
 &lt;p lang="und" dir="ltr">Yes&lt;/p>&amp;mdash; Elon Musk (@elonmusk) &lt;a href="https://twitter.com/elonmusk/status/1217990910052458497?ref_src=twsrc%5Etfw">January 17, 2020&lt;/a>
 &lt;/blockquote> &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8">&lt;/script>
 &lt;p>That&amp;rsquo;s&amp;hellip; &lt;strong>0.00013%&lt;/strong> of the world population&amp;hellip; in 30 years.
-&lt;figure>&lt;img src="https://samyak.me/images/uh-meme.webp" width="100%"/>
+&lt;figure>&lt;img src="https://samyak.me/images/uh-meme.webp" width="100%">
 &lt;/figure>
 &lt;/p>
 &lt;p>That&amp;rsquo;s way too slow. Moreover, looking at the history of Elon (and Tesla)

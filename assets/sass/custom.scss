@@ -22,6 +22,17 @@ html {
     // font-family: 'Julius Sans One', sans-serif;
 }
 
+// override fonts set by gruvhugo
+.post-title {
+    font-family: 'Nunito', sans-serif;
+}
+.well h3 {
+    font-family: 'Nunito', sans-serif;
+}
+.intro-quote {
+    font-family: 'Nunito', sans-serif;
+}
+
 .nav {
     --hover-link-color: var(--link-color);
     --link-text-color: #454545;

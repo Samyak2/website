@@ -1,0 +1,27 @@
+<div id="container"></div>
+<div class="slider-container">
+  <label for="samplePoints">Number of sample points:</label>
+  <span id="samplePointsValue">24</span>
+  <input type="range" id="samplePoints" min="3" max="99" value="24" step="3" />
+</div>
+<script type="module" async src="/scripts/graphs.js"></script>
+
+<style>
+  .slider-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  label {
+    white-space: nowrap;
+  }
+  #samplePointsValue {
+    min-width: 2em;
+    text-align: right;
+  }
+  #samplePoints {
+    flex-grow: 1;
+  }
+</style>

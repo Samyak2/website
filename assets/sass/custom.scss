@@ -86,6 +86,7 @@ body {
     --insignificant-text-color: #6b6969;
     --link-color: rgb(21, 94, 117);
     --smalltag-color: rgb(229, 231, 235);
+    --highlight-color: rgb(180, 207, 237);
 }
 
 body.dark {
@@ -93,6 +94,7 @@ body.dark {
     --link-color: rgb(147, 197, 253);
     --insignificant-text-color: #a7a5a5;
     --smalltag-color: rgb(75, 85, 99);
+    --highlight-color: rgb(52, 113, 180);
     color: var(--text-color);
 }
 
@@ -172,3 +174,9 @@ code {
     margin-right: 0.5rem;
     border-radius: 0.5rem;
 }
+
+.main {
+  position: relative;
+}
+
+@import "sidenote";

@@ -4,3 +4,6 @@ resources/_gen/
 /.hugo_build.lock
 /.direnv
 /.envrc
+
+# npm is used for prettier
+node_modules/

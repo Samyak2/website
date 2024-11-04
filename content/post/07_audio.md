@@ -2,16 +2,14 @@
 title: "How is sound represented in code?"
 draft: true
 summary: "Representation of audio as data."
-date: 2024-08-11
+date: 2024-11-04
 slug: "audio"
 tags:
 - music
 - audio
 ---
 
-
-
-First, a disclaimer. I'm not a musician. I do not have any formal training in music. Though I do have an interest in it and have been learning the guitar for a few months. So I could be wrong about music-related concepts. Feel free to correct me on those.
+First, a disclaimer: I'm not a musician, nor do I have any formal training in music. However, I have a genuine interest in it and have been learning guitar for a few months. I might get some music-related concepts wrong, so please feel free to correct me.
 
 <!-- As I was writing this article, the concepts seemed too obvious to me. But that was definitely not the case before I learnt of them. I'm sure there's a name for this phenomenon. -->
 
@@ -27,11 +25,11 @@ Another way to look at sound is *vibration*. When moving air hits the eardrum, i
 
 ## Frequencies
 
-Both the waves and the vibrations happen very quickly. Humans can generally {{% sidenote "hear frequencies in the range 20Hz to 20,000Hz." %}} Those numbers are an ideal range. As we age, that range reduces a lot. If you're above 50, that range goes up to only 8000 or 12000Hz. [^3] {{%/ sidenote %}} 1 Hertz (written as 1Hz) is one back and forth movement in one second. Imagine something vibrating 20,000 times a second!
+Both the waves and the vibrations happen very quickly. Humans can generally {{% sidenote "hear frequencies in the range of 20Hz to 20,000Hz." %}} Those numbers are an ideal range. As we age, that range reduces a lot. If you're above 50, that range goes up to only 8000 or 12000Hz. [^3] {{%/ sidenote %}} 1 Hertz (written as 1Hz) is one back and forth movement in one second. Imagine something vibrating 20,000 times a second!
 
-Music (western) generally ranges from 30Hz to around 4200Hz.
+The frequency of (western) music generally ranges from 30Hz to around 4200Hz.
 
-Low frequency sounds deep and thick. This is called low pitch. High frequency sounds thin and sharp. This is high pitch.
+Low-frequency sounds are deep and thick, which is referred to as low pitch. High-frequency sounds are thin and sharp, which is known as high pitch.
 
 {{< sidenote "Here are two example sounds from a piano." >}}
 However note (hehe) that a note on an instrument doesn't just consist of a single frequency.
@@ -67,7 +65,7 @@ Here's an interactive chart. Tweak the amplitude and frequency values below and 
 A wave is, by definition, *analog*. However, in code, we only deal with the digital. The 1s and 0s. One way to go from analog to digital is by *sampling*. That is, checking the value at a regular interval and recording it. The regular interval is called the *sampling rate*.
 Sampling never perfectly represents the source wave.
 
-Here's a sine wave and a sampling of it represented by dots. We can try reconstructing it by connecting the dots. As we expect, the reconstructed wave becomes more and more accurate as we increase the sampling rate. With a high enough sample rate, the sample is close enough to the original.
+Here's a sine wave and a sampling of it represented by dots. We can try reconstructing it by connecting the dots. As can be expected, the reconstructed wave becomes more and more accurate as we increase the sampling rate. With a high enough sample rate, the sample is close enough to the original.
 
 {{% includeHtmlFile "/assets/07_audio/graphs2.html" %}}
 
@@ -84,7 +82,7 @@ Here is some of the data from the above chart, showing the sampled points.
 
 You can notice a pattern in the data above. The points are always at a regular interval. So the x-values are always a multiple of some number. There are "sampling rate" number of points in one second of data. So the distance between a data point and the next is `1/(sampling rate)` seconds.
 
-This is true even in real-world audio data. We can assume that the data points (the amplitudes) are always sampled at the correct interval. This means we can drop the x-values entirely. Those values can be recreated entirely using the sampling rate. So audio data now is just an array of numbers!
+This is true even in the case of real-world audio data. We can assume that the data points (the amplitudes) are always sampled at the correct interval. This means we can drop the x-values entirely. Those values can be recreated entirely using the sampling rate. So audio data now is just an array of numbers!
 
 {{% includeHtmlFile "/assets/07_audio/points2.html" %}}
 
@@ -100,7 +98,7 @@ Let us look at something that is a little bit easier to see as data. An image. H
 
 The resolution of this image is 256 pixels by 256 pixels. Totalling 65,536 pixels.
 Each pixel is represented by a number. 0 (the minimum value) is black and {{% sidenote "255 (the maximum value) is white." %}}This depends on the [bit depth](https://en.wikipedia.org/wiki/Color_depth) of the image. The example image uses 8-bit color, hence the range of 0-255.{{%/ sidenote %}}
-So to represent an image, all we need is the resolution (height, width) and bunch of numbers. In this case, an array of 65,536 numbers.
+So to represent an image, all we need is the resolution (height, width) and a bunch of numbers. In this case, an array of 65,536 numbers.
 
 An image can be seen as a 2-d matrix - numbers arranged in rows and columns:
 
@@ -117,7 +115,7 @@ Color images are similar. Instead of one matrix, you have three separate ones fo
 
 ## Back to audio
 
-That digression into image as data probably raises more questions than it answers. Such as: What's the range of numbers in audio data? What's the *all black* and *all white* of audio?
+That digression into image as data probably raises more questions than it answers, such as: What's the range of numbers in audio data? What's the *all black* and *all white* of audio?
 
 The sine wave we saw earlier will give us some hint into the range of values. Unlike images, audio data can be negative too. The zero value is the resting position of the drum or the string. The vibration happens in both directions, hence the positive and negative values.
 

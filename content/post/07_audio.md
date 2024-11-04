@@ -138,7 +138,7 @@ Now let's see a sample with all maximum values (+1.0 or +32,767). Maybe lower yo
 </figure>
 
 
-And... nothing? Try increasing the volume. There's nothing. Imagine you press a drum's membrane and hold it there. Or pull a guitar's string and hold it. It won't make any sound!
+And... nothing? Try increasing the volume. You may hear two glitches or beeps - one at the beginning and another at the end. Imagine you press a drum's membrane and hold it there. Or pull a guitar's string and hold it. It won't make any sound, except at two instants - once when you press and another when you release.
 
 This is a big difference between image and audio data. Sound is created by *movement*. If there's nothing changing across time, there's no sound. Audio is *temporal*. When the amplitude changes across time, like the sine wave we saw before, we get sound. A straight line is silence, no matter what amplitude it has.
 

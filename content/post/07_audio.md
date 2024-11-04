@@ -1,7 +1,7 @@
 ---
 title: "How is sound represented in code?"
 draft: true
-summary: "Representation of audio as data."
+summary: "An overview of how audio is represented as data."
 date: 2024-11-04
 slug: "audio"
 tags:

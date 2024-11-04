@@ -11,23 +11,23 @@ tags:
 
 
 
-First, a disclaimer. I'm not a musician. I do not have any formal training in music. But I do have an interest in it and have been learning the guitar for a few months. So I could be wrong about music-related concepts. Feel free to correct me on those.
+First, a disclaimer. I'm not a musician. I do not have any formal training in music. Though I do have an interest in it and have been learning the guitar for a few months. So I could be wrong about music-related concepts. Feel free to correct me on those.
 
 <!-- As I was writing this article, the concepts seemed too obvious to me. But that was definitely not the case before I learnt of them. I'm sure there's a name for this phenomenon. -->
 
 # What is sound anyway?
 
-You might have learnt about sound as *waves* traveling through air. Air repeatedly gets compressed and expanded. Our ears perceive that as sound.
+You might have learnt about sound as *waves* traveling through air. Air repeatedly gets compressed and expanded. Our ears perceive that as sound. [^1]
 
-<img alt="a GIF of waves traveling through the air towards the right. The waves are created by a pistol compressing the air from the left." src="http://blog.soton.ac.uk/soundwaves/files/2013/12/longituddots1.gif" style="max-width: 100%;" />
+<img alt="a GIF of waves traveling through the air towards the right. The waves are created by a piston compressing the air from the left." src="http://blog.soton.ac.uk/soundwaves/files/2013/12/longituddots1.gif" style="max-width: 100%;" />
 
-Another way to look at sound is *vibration*. When moving air hits the eardrum, it makes the drum vibrate and (oversimplifying it a lot) we perceive that as sound. It moves back and forth slightly from its resting position.
+Another way to look at sound is *vibration*. When moving air hits the eardrum, it makes the drum vibrate and (oversimplifying it a lot) we perceive that as sound. It moves back and forth slightly from its resting position. [^2]
 
 <img alt="a GIF of a membrane vibrating" src="https://chem.libretexts.org/@api/deki/files/54917/imageedit_1_8987729393.gif?revision=2" style="max-width: 100%;" />
 
 ## Frequencies
 
-Both the waves and the vibrations happen very quickly. Humans can generally {{% sidenote "hear 20Hz to 20,000Hz." %}} Those numbers are an ideal range. As we age, that range reduces a lot. If you're above 50, that range goes up to only 8000 or 12000Hz. [^1] {{%/ sidenote %}} 1 Hertz (written as 1Hz) is one back and forth movement in one second. Imagine something vibrating 20,000 times a second!
+Both the waves and the vibrations happen very quickly. Humans can generally {{% sidenote "hear frequencies in the range 20Hz to 20,000Hz." %}} Those numbers are an ideal range. As we age, that range reduces a lot. If you're above 50, that range goes up to only 8000 or 12000Hz. [^3] {{%/ sidenote %}} 1 Hertz (written as 1Hz) is one back and forth movement in one second. Imagine something vibrating 20,000 times a second!
 
 Music (western) generally ranges from 30Hz to around 4200Hz.
 
@@ -50,24 +50,30 @@ However note (hehe) that a note on an instrument doesn't just consist of a singl
 
 # How do we represent sound as data?
 
-Now that we know that sound is just waves, let's look at the simplest wave. The *sine* wave.
+Now that we know that sound is just waves, let's look at the simplest wave. The *sine* wave. It is called so because it's the wave created by $$y = sin(x)$$
 
-TODO: something about amplitude and frequency.
+A wave has two important properties. The *amplitude* is the maximum displacement from the reference value which, in this case, is 0. The second is *frequency*, which is how often the wave repeats and is usually measured in Hertz (Hz). For example, a sine wave of 2Hz repeats the whole wave (from 0 to 0) twice in one second. In other words, the distance between two peaks of the wave is 1/f = 0.5 seconds.
 
-TODO: another graph with sliders for amplitude and frequency.
+For a sine wave with custom amplitude (A) and frequency (f), the equation would be:
+
+{{% sidenote "$$y = A \cdot sin(f \cdot x)$$" %}}Actually, the equation used for the exact chart below is $$y = A \cdot sin(2\pi \cdot f \cdot x)$$ A simple sin(x) wave repeats every 2π distance on the x-axis. The multiplication by 2π ensures it repeats every 1.0 distance on the x-axis (or every 1/f distance).{{%/ sidenote %}}
+
+Here's an interactive chart. Tweak the amplitude and frequency values below and notice the changes in the waveform.
+
+{{% includeHtmlFile "/assets/07_audio/graphs1.html" %}}
 
 ### Into a digital world
 
-A wave is, by definition, *analog*. But in code, we only deal with the digital. The 1s and 0s. One way to go from analog to digital is by *sampling*. That is, checking the value at a regular interval and recording it. The regular interval is called the *sampling rate*.
-Sampling never perfectly represents the source wave. =
+A wave is, by definition, *analog*. However, in code, we only deal with the digital. The 1s and 0s. One way to go from analog to digital is by *sampling*. That is, checking the value at a regular interval and recording it. The regular interval is called the *sampling rate*.
+Sampling never perfectly represents the source wave.
 
 Here's a sine wave and a sampling of it represented by dots. We can try reconstructing it by connecting the dots. As we expect, the reconstructed wave becomes more and more accurate as we increase the sampling rate. With a high enough sample rate, the sample is close enough to the original.
 
-{{% includeHtmlFile "/assets/07_audio/graphs.html" %}}
+{{% includeHtmlFile "/assets/07_audio/graphs2.html" %}}
 
 ### Are we data yet?
 
-Okay, so we now have the audio as a bunch of points on a graph. To represent a point as data, we simply take its x and y-coordinates. In this case, the y-axis is time and the x is amplitude.
+Okay, so we now have the audio as a bunch of points on a graph. To represent a point as data, we simply take its x and y-coordinates. In this case, the x-axis is time and the y is amplitude.
 So audio data is just a series of: $$[(t_1, a_1), (t_2, a_2), ..., (t_n, a_n)]$$
 
 Here is some of the data from the above chart, showing the sampled points.
@@ -88,7 +94,7 @@ Now we know that audio data can be specified using two things:
 
 ## Images - a parallel
 
-Let us look at something that is a little bit easier to see as data. An image. Here's an example of a simple black & white (also called grayscale) image [^2]:
+Let us look at something that is a little bit easier to see as data. An image. Here's an example of a simple black & white (also called grayscale) image [^4]:
 
 ![An image of a plane. Top view. An old airplane, might be a toy](/images/plane.png)
 
@@ -106,7 +112,7 @@ $$
 \end{Bmatrix}
 $$
 
-Color images are similar. Instead of one matrix, you have three separate ones for {{% sidenote "red, green and blue." %}}RGB is only one of many [color models](https://en.wikipedia.org/wiki/Color_model).{{%/ sidenote %}} Or you can see each value in the matrix as a tuple of three values (r, g, b).
+Color images are similar. Instead of one matrix, you have three separate ones for {{% sidenote "red, green and blue." %}}RGB is only one of many [color models](https://en.wikipedia.org/wiki/Color_model).{{%/ sidenote %}} Another way is to represent each value in the matrix as a tuple of three values (r, g, b).
 
 
 ## Back to audio
@@ -115,7 +121,7 @@ That digression into image as data probably raises more questions than it answer
 
 The sine wave we saw earlier will give us some hint into the range of values. Unlike images, audio data can be negative too. The zero value is the resting position of the drum or the string. The vibration happens in both directions, hence the positive and negative values.
 
-The actual range depends on the sample's [bit depth](https://en.wikipedia.org/wiki/Audio_bit_depth). 16-bit audio, for example, has values in the range -32,768 to +32,767. When processing audio, the data is usually {{% sidenote "converted to floating point and sometimes normalized to the range of -1.0 to 1.0." %}}Why? I'm not sure. It may be related to the fact that audio processing usually involves a lot of addition and multiplcation. With integers, you would need to handle overflows and underflows.{{%/ sidenote %}}
+The actual range depends on the sample's [bit depth](https://en.wikipedia.org/wiki/Audio_bit_depth). 16-bit audio, for example, has values in the range -32,768 to +32,767. When processing audio, the data is usually {{% sidenote "converted to floating point and sometimes normalized to the range of -1.0 to 1.0." %}}Why? I'm not sure. It may be related to the fact that audio processing usually involves a lot of addition and multiplication. With integers, you would need to handle overflows and underflows.{{%/ sidenote %}}
 
 ### Black and white
 
@@ -158,14 +164,14 @@ $$
 [Ch_1t_1,\thickspace Ch_2t_1,\thickspace ...,\thickspace Ch_nt_1,\thickspace Ch_1t_2,\thickspace Ch_2t_2,\thickspace ...,\thickspace Ch_nt_2, ...]
 $$
 
-## Conclusion
+# Conclusion
 
 Putting all of that together, sound is represented using these three properties:
 1. The sampling rate. Example: 44.1kHz.
 1. The number of channels. Example: 2.
 1. An array of numbers representing the amplitude at regular intervals (1/(sampling rate) seconds) and for each channel.
 
-## Further reading
+# Further reading
 
 What can we do with this data? Since audio is just a signal, we can use digital signal processing (DSP) algorithms on it. One such process is the Fourier Transform, which can help find out the frequencies present in the audio data. There's a class of algorithms for efficiently calculating the fourier transform of a signal in code - the [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform).
 
@@ -180,8 +186,7 @@ You can start playing around with audio data in code. There are libraries in mos
 
 <!-- https://en.wikibooks.org/wiki/A-level_Computing/AQA/Paper_2/Fundamentals_of_data_representation/Sounds -->
 
-<!-- TODO: what is digital vs analog -->
-<!-- TODO: next steps/further reading. what can we do with audio data? processing, etc. -->
-
-[^1]: Source: [Patterns of hearing changes in women and men from denarians to nonagenarians](https://www.sciencedirect.com/science/article/pii/S2666606521000407) by Wasano et al.
-[^2]: Source: [Database of test images](https://sipi.usc.edu/database/database.php?volume=misc&image=16#top)
+[^1]: Source of the image: [Ways of showing waves by The University of Southampton](https://blog.soton.ac.uk/soundwaves/wave-basics/ways-of-showing-waves/)
+[^2]: Source of the image: [Vibrational Modes of a Circular Membrane by Dan Russell](https://www.acs.psu.edu/drussell/Demos/MembraneCircle/Circle.html)
+[^3]: Source: [Patterns of hearing changes in women and men from denarians to nonagenarians](https://www.sciencedirect.com/science/article/pii/S2666606521000407) by Wasano et al.
+[^4]: Source: [Database of test images](https://sipi.usc.edu/database/database.php?volume=misc&image=16#top)

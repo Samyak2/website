@@ -88,7 +88,7 @@ Now we know that audio data can be specified using two things:
 
 ## Images - a parallel
 
-Let us look at something that is a little bit easier to see as data. An image. Here's an example of a simple black & white (also called grayscale) image:
+Let us look at something that is a little bit easier to see as data. An image. Here's an example of a simple black & white (also called grayscale) image [^2]:
 
 ![An image of a plane. Top view. An old airplane, might be a toy](/images/plane.png)
 
@@ -117,13 +117,70 @@ The sine wave we saw earlier will give us some hint into the range of values. Un
 
 The actual range depends on the sample's [bit depth](https://en.wikipedia.org/wiki/Audio_bit_depth). 16-bit audio, for example, has values in the range -32,768 to +32,767. When processing audio, the data is usually {{% sidenote "converted to floating point and sometimes normalized to the range of -1.0 to 1.0." %}}Why? I'm not sure. It may be related to the fact that audio processing usually involves a lot of addition and multiplcation. With integers, you would need to handle overflows and underflows.{{%/ sidenote %}}
 
+### Black and white
 
+Here's a sound sample with all zeros:
+
+<figure style="margin: 10px">
+<figcaption>Black:</figcaption><audio controls src="/audio/black.wav"></audio>
+</figure>
+
+You could try increasing the volume of your speakers, but you will hear nothing. As expected, it's silent. This is the all black of audio.
+
+Now let's see a sample with all maximum values (+1.0 or +32,767). Maybe lower your volume before playing.
+
+<figure style="margin: 10px">
+<figcaption>White:</figcaption><audio controls src="/audio/white.wav"></audio>
+</figure>
+
+
+And... nothing? Try increasing the volume. There's nothing. Imagine you press a drum's membrane and hold it there. Or pull a guitar's string and hold it. It won't make any sound!
+
+This is a big difference between image and audio data. Sound is created by *movement*. If there's nothing changing across time, there's no sound. Audio is *temporal*. When the amplitude changes across time, like the sine wave we saw before, we get sound. A straight line is silence, no matter what amplitude it has.
+
+In a way, *a piece of music is a painting in time*.
+
+## Channels
+
+Similar to the R, G, B-values of color images, sound too can have multiple *channels*. For example, most music is 2-channel. This is meant to be listened to with a pair of headphones. One channel for the left speaker and the other for the right. This is called {{% sidenote "*stereo audio*" %}} You might have also heard of [5.1 channel audio](https://en.wikipedia.org/wiki/5.1_surround_sound) usually in the context of movies and home theatres. {{%/ sidenote %}}
+
+The way multi-channel audio is represented as data is similar to images. You either have multiple separate arrays of data:
+
+$$
+Ch_1 = [Ch_1t_1,\thickspace Ch_1t_2,\thickspace Ch_1t_3,\thickspace ...]\\\\
+Ch_2 = [Ch_2t_1,\thickspace Ch_2t_2,\thickspace Ch_2t_3,\thickspace ...]\\\\
+\vdots\\\\
+Ch_n = [Ch_nt_1,\thickspace Ch_nt_2,\thickspace Ch_nt_3,\thickspace ...]\\\\
+$$
+
+Or a single array with a number for each channel (so N numbers) for time1 followed by N numbers for time2 and so on:
+$$
+[Ch_1t_1,\thickspace Ch_2t_1,\thickspace ...,\thickspace Ch_nt_1,\thickspace Ch_1t_2,\thickspace Ch_2t_2,\thickspace ...,\thickspace Ch_nt_2, ...]
+$$
+
+## Conclusion
+
+Putting all of that together, sound is represented using these three properties:
+1. The sampling rate. Example: 44.1kHz.
+1. The number of channels. Example: 2.
+1. An array of numbers representing the amplitude at regular intervals (1/(sampling rate) seconds) and for each channel.
+
+## Further reading
+
+- What can we do with this data? Since audio is just a signal, we can use digital signal processing (DSP) algorithms on it. One such process is the Fourier Transform, which can help find out the frequencies present in the audio data. There's a class of algorithms for efficiently calculating the fourier transform of a signal in code - the [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform).
+- You can start playing around with audio data in code. There are libraries in most languages for reading sound from your device's mic or by reading a wav, mp3, etc file. Here are some popular ones:
+    - Python:
+        - Libraries for audio I/O: [python-sounddevice](https://github.com/spatialaudio/python-sounddevice) - has a simple interface for reading audio as a numpy array given the number of seconds, sample rate and number of channels.
+        - Libraries for audio processing: SciPy - [fourier transforms](https://docs.scipy.org/doc/scipy/tutorial/fft.html).
+    - Rust: [rust.audio](https://rust.audio/) is a good collection of resources. Some mentions:
+        - [cpal](https://github.com/rustaudio/cpal) - audio I/O library. This is not the simplest library to start with. It took me a while to figure out reading audio data into a Vec.
+        - [fundsp](https://github.com/SamiPerttu/fundsp) - audio synthesis library. You can create sounds, maybe even music, with just code. I have not used it extensively - only the basics to generate test cases for audio applications.
+        - [rustfft](https://github.com/ejmahler/RustFFT)
 
 <!-- https://en.wikibooks.org/wiki/A-level_Computing/AQA/Paper_2/Fundamentals_of_data_representation/Sounds -->
 
 <!-- TODO: what is digital vs analog -->
-<!-- TODO: people know how images are represented in code. 0 is black, 255 is white. similar for rgb. draw parallels to audio. -->
-<!-- TODO: music is a painting in time -->
 <!-- TODO: next steps/further reading. what can we do with audio data? processing, etc. -->
 
 [^1]: Source: [Patterns of hearing changes in women and men from denarians to nonagenarians](https://www.sciencedirect.com/science/article/pii/S2666606521000407) by Wasano et al.
+[^2]: Source: [Database of test images](https://sipi.usc.edu/database/database.php?volume=misc&image=16#top)

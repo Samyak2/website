@@ -22,7 +22,7 @@ const allData = allValuesX.map((x, i) => {
 
 // Move these variables outside of any function so they can be accessed globally
 let lowSampleData;
-let svg;
+let svg2;
 
 function showPoints1() {
   const pointsContainer = document.getElementById("points1");
@@ -84,7 +84,7 @@ function showPoints2() {
 }
 
 // Create a function to update the graph
-function updateGraph(numPoints) {
+function updateGraph2(numPoints) {
   const lowSampleDataX = interpolateNumbers(0, 10, numPoints);
   const lowSampleDataY = lowSampleDataX.map((x) => Math.sin(x));
   lowSampleData = lowSampleDataX.map((x, i) => ({ x, y: lowSampleDataY[i] }));
@@ -98,10 +98,10 @@ function updateGraph(numPoints) {
     .y((d) => y(d.y));
 
   // Update the path for lowSampleData
-  svg.select(".lowSamplePath").attr("d", lowSampleLine(lowSampleData));
+  svg2.select(".lowSamplePath").attr("d", lowSampleLine(lowSampleData));
 
   // Update scatter plot
-  const circles = svg.selectAll("circle").data(lowSampleData);
+  const circles = svg2.selectAll("circle").data(lowSampleData);
 
   circles
     .enter()
@@ -131,11 +131,11 @@ const line = d3
   .y((d) => y(d.value));
 
 // Function to initialize the graph
-function initializeGraph() {
+function initializeGraph2() {
   console.log("Initializing graph...");
 
   // Create the SVG container.
-  svg = d3
+  svg2 = d3
     .create("svg")
     .attr("width", width)
     .attr("height", height)
@@ -146,7 +146,7 @@ function initializeGraph() {
     );
 
   // Add the x-axis without labels.
-  svg
+  svg2
     .append("g")
     .attr("transform", `translate(0,${height - marginBottom})`)
     .call(
@@ -155,7 +155,7 @@ function initializeGraph() {
     .style("font-size", "1.2rem");
 
   // Add the y-axis, remove the domain line, add grid lines and a label.
-  svg
+  svg2
     .append("g")
     .attr("transform", `translate(${marginLeft},0)`)
     .call(d3.axisLeft(y).ticks(height / 40))
@@ -180,7 +180,7 @@ function initializeGraph() {
     .style("font-size", "1.2rem");
 
   // Append a path for the original line.
-  svg
+  svg2
     .append("path")
     .attr("fill", "none")
     .attr("stroke", "steelblue")
@@ -188,7 +188,7 @@ function initializeGraph() {
     .attr("d", line(allData));
 
   // Append a path for the lowSampleData line.
-  svg
+  svg2
     .append("path")
     .attr("class", "lowSamplePath")
     .attr("fill", "none")
@@ -196,15 +196,15 @@ function initializeGraph() {
     .attr("stroke-width", 2);
 
   // Initial graph update
-  updateGraph(24);
+  updateGraph2(24);
 
   console.log("Looking for container element...");
-  const container = document.getElementById("container");
+  const container = document.getElementById("graph-container-2");
   if (!container) {
     console.error("Container element not found!");
     return;
   }
-  container.append(svg.node());
+  container.append(svg2.node());
 
   console.log("Looking for slider elements...");
   const slider = document.getElementById("samplePoints");
@@ -219,10 +219,10 @@ function initializeGraph() {
   slider.addEventListener("input", (event) => {
     const numPoints = parseInt(event.target.value);
     samplePointsValue.textContent = numPoints;
-    updateGraph(numPoints);
+    updateGraph2(numPoints);
   });
 
   console.log("Graph initialization complete.");
 }
 
-initializeGraph();
+initializeGraph2();

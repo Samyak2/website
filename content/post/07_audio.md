@@ -167,15 +167,16 @@ Putting all of that together, sound is represented using these three properties:
 
 ## Further reading
 
-- What can we do with this data? Since audio is just a signal, we can use digital signal processing (DSP) algorithms on it. One such process is the Fourier Transform, which can help find out the frequencies present in the audio data. There's a class of algorithms for efficiently calculating the fourier transform of a signal in code - the [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform).
-- You can start playing around with audio data in code. There are libraries in most languages for reading sound from your device's mic or by reading a wav, mp3, etc file. Here are some popular ones:
-    - Python:
-        - Libraries for audio I/O: [python-sounddevice](https://github.com/spatialaudio/python-sounddevice) - has a simple interface for reading audio as a numpy array given the number of seconds, sample rate and number of channels.
-        - Libraries for audio processing: SciPy - [fourier transforms](https://docs.scipy.org/doc/scipy/tutorial/fft.html).
-    - Rust: [rust.audio](https://rust.audio/) is a good collection of resources. Some mentions:
-        - [cpal](https://github.com/rustaudio/cpal) - audio I/O library. This is not the simplest library to start with. It took me a while to figure out reading audio data into a Vec.
-        - [fundsp](https://github.com/SamiPerttu/fundsp) - audio synthesis library. You can create sounds, maybe even music, with just code. I have not used it extensively - only the basics to generate test cases for audio applications.
-        - [rustfft](https://github.com/ejmahler/RustFFT)
+What can we do with this data? Since audio is just a signal, we can use digital signal processing (DSP) algorithms on it. One such process is the Fourier Transform, which can help find out the frequencies present in the audio data. There's a class of algorithms for efficiently calculating the fourier transform of a signal in code - the [Fast Fourier Transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform).
+
+You can start playing around with audio data in code. There are libraries in most languages for reading sound from your device's mic or by reading a wav, mp3, etc file. Here are some popular ones:
+- Python:
+    - Libraries for audio I/O: [python-sounddevice](https://github.com/spatialaudio/python-sounddevice) - has a simple interface for reading audio as a numpy array given the number of seconds, sample rate and number of channels.
+    - Libraries for audio processing: SciPy - [fourier transforms](https://docs.scipy.org/doc/scipy/tutorial/fft.html).
+- Rust: [rust.audio](https://rust.audio/) is a good collection of resources. Some mentions:
+    - [cpal](https://github.com/rustaudio/cpal) - audio I/O library. This is not the simplest library to start with. It took me a while to figure out reading audio data into a Vec.
+    - [fundsp](https://github.com/SamiPerttu/fundsp) - audio synthesis library. You can create sounds, maybe even music, with just code. I have not used it extensively - only the basics to generate test cases for audio applications.
+    - [rustfft](https://github.com/ejmahler/RustFFT)
 
 <!-- https://en.wikibooks.org/wiki/A-level_Computing/AQA/Paper_2/Fundamentals_of_data_representation/Sounds -->
 

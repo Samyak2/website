@@ -1,4 +1,286 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Samyak Sarnayak</title><link>https://samyak.me/</link><description>Recent posts from on Samyak Sarnayak</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 04 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://samyak.me/index.xml" rel="self" type="application/rss+xml"/><item><title>tremolisto: a collection of isolated guitar parts</title><link>https://samyak.me/post/tremolisto/</link><pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate><guid>https://samyak.me/post/tremolisto/</guid><description>&lt;p>I have been collecting interesting parts of songs that feature a guitar. It&amp;rsquo;s been a few months now and I have 117 of them. This seems like a good time to introduce it.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Samyak Sarnayak</title><link>https://samyak.me/</link><description>Recent posts from on Samyak Sarnayak</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 05 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://samyak.me/index.xml" rel="self" type="application/rss+xml"/><item><title>How is sound represented in code?</title><link>https://samyak.me/post/audio/</link><pubDate>Tue, 05 Nov 2024 00:00:00 +0000</pubDate><guid>https://samyak.me/post/audio/</guid><description>&lt;p>First, a disclaimer: I&amp;rsquo;m not a musician, nor do I have any formal training in music. However, I have a genuine interest in it and have been learning guitar for a few months. I might get some music-related concepts wrong, so please feel free to correct me.&lt;/p>
+&lt;!-- As I was writing this article, the concepts seemed too obvious to me. But that was definitely not the case before I learnt of them. I'm sure there's a name for this phenomenon. -->
+&lt;h1 id="what-is-sound-anyway">
+What is sound anyway?
+&lt;a class="heading-anchor" href="#what-is-sound-anyway">
+#
+&lt;/a>
+&lt;/h1>
+&lt;p>You might have learnt about sound as &lt;em>waves&lt;/em> traveling through air. Air repeatedly gets compressed and expanded. Our ears perceive that as sound. &lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/p>
+&lt;img alt="a GIF of waves traveling through the air towards the right. The waves are created by a piston compressing the air from the left." src="http://blog.soton.ac.uk/soundwaves/files/2013/12/longituddots1.gif" style="max-width: 100%;" />
+&lt;p>Another way to look at sound is &lt;em>vibration&lt;/em>. When moving air hits the eardrum, it makes the drum vibrate and (oversimplifying it a lot) we perceive that as sound. It moves back and forth slightly from its resting position. &lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/p>
+&lt;img alt="a GIF of a membrane vibrating" src="https://chem.libretexts.org/@api/deki/files/54917/imageedit_1_8987729393.gif?revision=2" style="max-width: 100%;" />
+&lt;h2 id="frequencies">
+Frequencies
+&lt;a class="heading-anchor" href="#frequencies">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>Both the waves and the vibrations happen very quickly. Humans can generally &lt;span class="sidenote">
+&lt;label class="sidenote-label" for="sidenote-0">hear frequencies in the range of 20Hz to 20,000Hz.&lt;/label>
+&lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-0">&lt;/input>
+&lt;span class="sidenote-content sidenote-right">
+Those numbers are an ideal range. As we age, that range reduces a lot. If you&amp;rsquo;re above 50, that range goes up to only 8000 or 12000Hz. &lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>
+&lt;/span>
+&lt;/span>
+1 Hertz (written as 1Hz) is one back and forth movement in one second. Imagine something vibrating 20,000 times a second!&lt;/p>
+&lt;p>The frequency of (western) music generally ranges from 30Hz to around 4200Hz.&lt;/p>
+&lt;p>Low-frequency sounds are deep and thick, which is referred to as low pitch. High-frequency sounds are thin and sharp, which is known as high pitch.&lt;/p>
+&lt;span class="sidenote">
+&lt;label class="sidenote-label" for="sidenote-1">Here are two example sounds from a piano.&lt;/label>
+&lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-1">&lt;/input>
+&lt;span class="sidenote-content sidenote-right">
+However note (hehe) that a note on an instrument doesn't just consist of a single frequency.
+&lt;/span>
+&lt;/span>
+&lt;!-- A2: https://www.apronus.com/static/pno0x3-pianosounds/pno045.mp3 -->
+&lt;!-- A5: https://www.apronus.com/static/pno0x3-pianosounds/pno081.mp3 -->
+&lt;figure style="margin: 10px">
+&lt;figcaption>Low pitch (note A2):&lt;/figcaption>&lt;audio controls src="https://github.com/fuhton/piano-mp3/raw/refs/heads/master/piano-mp3/A2.mp3">&lt;/audio>
+&lt;/figure>
+&lt;figure style="margin: 10px">
+&lt;figcaption>High pitch (note A6):&lt;/figcaption>&lt;audio controls src="https://github.com/fuhton/piano-mp3/raw/refs/heads/master/piano-mp3/A6.mp3">&lt;/audio>
+&lt;/figure>
+&lt;h1 id="how-do-we-represent-sound-as-data">
+How do we represent sound as data?
+&lt;a class="heading-anchor" href="#how-do-we-represent-sound-as-data">
+#
+&lt;/a>
+&lt;/h1>
+&lt;p>Now that we know that sound is just waves, let&amp;rsquo;s look at the simplest wave. The &lt;em>sine&lt;/em> wave. It is called so because it&amp;rsquo;s the wave created by $$y = sin(x)$$&lt;/p>
+&lt;p>A wave has two important properties. The &lt;em>amplitude&lt;/em> (A) is the maximum displacement from the reference value which, in this case, is 0. The second is &lt;em>frequency&lt;/em> (f), which is how often the wave repeats and is usually measured in Hertz (Hz). For example, a sine wave of f=2Hz repeats the whole wave (from 0 to 0) twice in one second. In other words, the distance between two peaks of the wave is 1/f = 0.5 seconds.&lt;/p>
+&lt;p>For a sine wave with custom amplitude and frequency, the equation would be:&lt;/p>
+&lt;span class="sidenote">
+&lt;label class="sidenote-label" for="sidenote-2">$$y = A \cdot sin(f \cdot x)$$&lt;/label>
+&lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-2">&lt;/input>
+&lt;span class="sidenote-content sidenote-right">
+Actually, the equation used for the exact chart below is $$y = A \cdot sin(2\pi \cdot f \cdot x)$$ A simple sin(x) wave repeats every 2π distance on the x-axis. The multiplication by 2π ensures it repeats every 1.0 distance on the x-axis (or every 1/f distance).
+&lt;/span>
+&lt;/span>
+&lt;p>Here&amp;rsquo;s an interactive chart. Tweak the amplitude and frequency values below and notice the changes in the waveform.&lt;/p>
+&lt;div id="graph-container">&lt;/div>
+&lt;div class="slider-container">
+&lt;label for="amplitude">Amplitude: &lt;span id="amplitudeValue">1&lt;/span>&lt;/label>
+&lt;input type="range" id="amplitude" min="0.5" max="5" step="0.1" value="3.0" />
+&lt;p>&lt;label for="frequency">Frequency: &lt;span id="frequencyValue">1&lt;/span>&lt;/label>
+&lt;input type="range" id="frequency" min="0.1" max="5" step="0.1" value="0.5" />&lt;/p>
+&lt;/div>
+&lt;script type="module" async src="https://samyak.me/scripts/graphs1.js">&lt;/script>
+&lt;style>
+.slider-container {
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+margin-top: 20px;
+gap: 10px;
+}
+label {
+white-space: nowrap;
+}
+#samplePointsValue {
+min-width: 2em;
+text-align: right;
+}
+#samplePoints {
+flex-grow: 1;
+}
+&lt;/style>
+&lt;h3 id="into-a-digital-world">
+Into a digital world
+&lt;a class="heading-anchor" href="#into-a-digital-world">
+#
+&lt;/a>
+&lt;/h3>
+&lt;p>A wave is, by definition, &lt;em>analog&lt;/em>. However, in code, we only deal with the digital. The 1s and 0s. One way to go from analog to digital is by &lt;em>sampling&lt;/em>. That is, checking the amplitude at regular intervals and recording it. The regular interval is called the &lt;em>sampling rate&lt;/em>.
+Sampling never perfectly represents the source wave.&lt;/p>
+&lt;p>Here&amp;rsquo;s a sine wave and a sampling of it represented by dots. We can try reconstructing it by connecting the dots. As can be expected, the reconstructed wave becomes more and more accurate as we increase the sampling rate. With a high enough sample rate, the sample is close enough to the original.&lt;/p>
+&lt;div id="graph-container-2">&lt;/div>
+&lt;div class="slider-container">
+&lt;label for="samplePoints">Number of sample points:&lt;/label>
+&lt;span id="samplePointsValue">24&lt;/span>
+&lt;input type="range" id="samplePoints" min="3" max="99" value="24" step="3" />
+&lt;/div>
+&lt;script type="module" async src="https://samyak.me/scripts/graphs2.js">&lt;/script>
+&lt;h3 id="are-we-data-yet">
+Are we data yet?
+&lt;a class="heading-anchor" href="#are-we-data-yet">
+#
+&lt;/a>
+&lt;/h3>
+&lt;p>Okay, so we now have the audio as a bunch of points on a graph. To represent a point as data, we simply take its x and y-coordinates. In this case, the x-axis is time and the y is amplitude.
+So audio data is just a series of: $$[(t_1, a_1), (t_2, a_2), &amp;hellip;, (t_n, a_n)]$$&lt;/p>
+&lt;p>Here is some of the data from the above chart, showing the sampled points.&lt;/p>
+&lt;div id="points1" class="pointList">&lt;/div>
+&lt;style>
+.pointList {
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+white-space: nowrap;
+overflow-x: auto;
+font-family: monospace;
+}
+.pointReprFirst, .pointReprLast {
+padding-right: 12px;
+}
+&lt;/style>
+&lt;h3 id="an-optimization">
+An optimization
+&lt;a class="heading-anchor" href="#an-optimization">
+#
+&lt;/a>
+&lt;/h3>
+&lt;p>You can notice a pattern in the data above. The points are always at a regular interval. So the x-values are always a multiple of some number. There are &amp;ldquo;sampling rate&amp;rdquo; number of points in one second of data. So the distance between a data point and the next is &lt;code>1/(sampling rate)&lt;/code> seconds.&lt;/p>
+&lt;p>This is true even in the case of real-world audio data. We can assume that the data points (the amplitudes) are always sampled at the correct interval. This means we can drop the x-values entirely. Those values can be recreated entirely using the sampling rate. So audio data now is just an array of numbers!&lt;/p>
+&lt;div id="points2" class="pointList">&lt;/div>
+&lt;p>Now we know that audio data can be specified using two things:&lt;/p>
+&lt;ol>
+&lt;li>The sampling rate. The unit for this is usually Hertz (Hz) or Kilohertz (kHz).&lt;/li>
+&lt;li>The amplitude of the audio at regular intervals. It&amp;rsquo;s just a list/an array of numbers.&lt;/li>
+&lt;/ol>
+&lt;h2 id="images---a-parallel">
+Images - a parallel
+&lt;a class="heading-anchor" href="#images---a-parallel">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>Let us look at something that is a little bit easier to see as data. An image. Here&amp;rsquo;s an example of a simple black &amp;amp; white (also called grayscale) image &lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>:&lt;/p>
+&lt;p>&lt;img src="https://samyak.me/images/plane.png" alt="An image of a plane. Top view. An old airplane, might be a toy">&lt;/p>
+&lt;p>The resolution of this image is 256 pixels by 256 pixels. Totalling 65,536 pixels.
+Each pixel is represented by a number. 0 (the minimum value) is black and &lt;span class="sidenote">
+&lt;label class="sidenote-label" for="sidenote-7">255 (the maximum value) is white.&lt;/label>
+&lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-7">&lt;/input>
+&lt;span class="sidenote-content sidenote-right">
+This depends on the &lt;a href="https://en.wikipedia.org/wiki/Color_depth">bit depth&lt;/a> of the image. The example image uses 8-bit color, hence the range of 0-255.
+&lt;/span>
+&lt;/span>&lt;/p>
+&lt;p>So to represent an image, all we need is the resolution (height, width) and a bunch of numbers. In this case, an array of 65,536 numbers.&lt;/p>
+&lt;p>An image can be seen as a 2-d matrix - numbers arranged in rows and columns:&lt;/p>
+&lt;p>$$
+\begin{Bmatrix}
+104 &amp;amp; 102 &amp;amp; &amp;hellip; &amp;amp; 112 &amp;amp; 113 \\
+\vdots &amp;amp; \vdots &amp;amp; \ddots &amp;amp; \vdots &amp;amp; \vdots\\
+203 &amp;amp; 188 &amp;amp; &amp;hellip; &amp;amp; 179 &amp;amp; 172
+\end{Bmatrix}
+$$&lt;/p>
+&lt;p>Color images are similar. Instead of one matrix, you have three separate ones for &lt;span class="sidenote">
+&lt;label class="sidenote-label" for="sidenote-8">red, green and blue.&lt;/label>
+&lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-8">&lt;/input>
+&lt;span class="sidenote-content sidenote-right">
+RGB is only one of many &lt;a href="https://en.wikipedia.org/wiki/Color_model">color models&lt;/a>.
+&lt;/span>
+&lt;/span>
+Another way is to represent each value in the matrix as a tuple of three values (r, g, b).&lt;/p>
+&lt;h2 id="back-to-audio">
+Back to audio
+&lt;a class="heading-anchor" href="#back-to-audio">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>That digression into image as data probably raises more questions than it answers, such as: What&amp;rsquo;s the range of numbers in audio data? What&amp;rsquo;s the &lt;em>all black&lt;/em> and &lt;em>all white&lt;/em> of audio?&lt;/p>
+&lt;p>The sine wave we saw earlier will give us some hint into the range of values. Unlike images, audio data can be negative too. The zero value is the resting position of the drum or the string. The vibration happens in both directions, hence the positive and negative values.&lt;/p>
+&lt;p>The actual range depends on the sample&amp;rsquo;s &lt;a href="https://en.wikipedia.org/wiki/Audio_bit_depth">bit depth&lt;/a>. 16-bit audio, for example, has values in the range -32,768 to +32,767. When processing audio, the data is usually &lt;span class="sidenote">
+&lt;label class="sidenote-label" for="sidenote-9">converted to floating point and sometimes normalized to the range of -1.0 to 1.0.&lt;/label>
+&lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-9">&lt;/input>
+&lt;span class="sidenote-content sidenote-right">
+Why? I&amp;rsquo;m not sure. It may be related to the fact that audio processing usually involves a lot of addition and multiplication. With integers, you would need to handle overflows and underflows.
+&lt;/span>
+&lt;/span>&lt;/p>
+&lt;h3 id="black-and-white">
+Black and white
+&lt;a class="heading-anchor" href="#black-and-white">
+#
+&lt;/a>
+&lt;/h3>
+&lt;p>Here&amp;rsquo;s a sound sample with all zeros:&lt;/p>
+&lt;figure style="margin: 10px">
+&lt;figcaption>Black:&lt;/figcaption>&lt;audio controls src="https://samyak.me/audio/black.wav">&lt;/audio>
+&lt;/figure>
+&lt;p>You could try increasing the volume of your speakers, but you will hear nothing. As expected, it&amp;rsquo;s silent. This is the all black of audio.&lt;/p>
+&lt;p>Now let&amp;rsquo;s see a sample with all maximum values (+1.0 or +32,767). Maybe lower your volume before playing.&lt;/p>
+&lt;figure style="margin: 10px">
+&lt;figcaption>White:&lt;/figcaption>&lt;audio controls src="https://samyak.me/audio/white.wav">&lt;/audio>
+&lt;/figure>
+&lt;p>And&amp;hellip; nothing? Try increasing the volume. You may hear two glitches or beeps—one at the beginning and another at the end. Imagine you press a drum&amp;rsquo;s membrane and hold it there. Or pull a guitar&amp;rsquo;s string and hold it. It won&amp;rsquo;t make any sound, except at two instants—once when you press and another when you release.&lt;/p>
+&lt;p>This is a big difference between image and audio data. Sound is created by &lt;em>movement&lt;/em>. If there&amp;rsquo;s nothing changing across time, there&amp;rsquo;s no sound. Audio is &lt;em>temporal&lt;/em>. When the amplitude changes across time, like the sine wave we saw before, we get sound. A straight line is silence, no matter what amplitude it has.&lt;/p>
+&lt;p>In a way, &lt;em>a piece of music is a painting in time&lt;/em>.&lt;/p>
+&lt;h2 id="channels">
+Channels
+&lt;a class="heading-anchor" href="#channels">
+#
+&lt;/a>
+&lt;/h2>
+&lt;p>Similar to the R, G, B-values of color images, sound too can have multiple &lt;em>channels&lt;/em>. For example, most music is 2-channel. This is meant to be listened to with a pair of headphones. One channel for the left speaker and the other for the right. This is called &lt;span class="sidenote">
+&lt;label class="sidenote-label" for="sidenote-10">&lt;em>stereo audio&lt;/em>&lt;/label>
+&lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-10">&lt;/input>
+&lt;span class="sidenote-content sidenote-right">
+You might have also heard of &lt;a href="https://en.wikipedia.org/wiki/5.1_surround_sound">5.1 channel audio&lt;/a> usually in the context of movies and home theatres.
+&lt;/span>
+&lt;/span>&lt;/p>
+&lt;p>The way multi-channel audio is represented as data is similar to images. One method is to have multiple separate arrays of data—one array for each channel:&lt;/p>
+&lt;p>$$
+Ch_1 = [Ch_1t_1,\thickspace Ch_1t_2,\thickspace Ch_1t_3,\thickspace &amp;hellip;]\\
+Ch_2 = [Ch_2t_1,\thickspace Ch_2t_2,\thickspace Ch_2t_3,\thickspace &amp;hellip;]\\
+\vdots\\
+Ch_n = [Ch_nt_1,\thickspace Ch_nt_2,\thickspace Ch_nt_3,\thickspace &amp;hellip;]\\
+$$&lt;/p>
+&lt;p>Alternatively, we can have a single array where each time step is represented by N numbers—one for each channel—arranged sequentially: N numbers for time1, then N numbers for time2, and so on:
+$$
+[Ch_1t_1,\thickspace Ch_2t_1,\thickspace &amp;hellip;,\thickspace Ch_nt_1,\thickspace Ch_1t_2,\thickspace Ch_2t_2,\thickspace &amp;hellip;,\thickspace Ch_nt_2, &amp;hellip;]
+$$&lt;/p>
+&lt;h1 id="conclusion">
+Conclusion
+&lt;a class="heading-anchor" href="#conclusion">
+#
+&lt;/a>
+&lt;/h1>
+&lt;p>Putting all of that together, sound is represented using these three properties:&lt;/p>
+&lt;ol>
+&lt;li>The sampling rate. Example: 44.1kHz.&lt;/li>
+&lt;li>The number of channels. Example: 2.&lt;/li>
+&lt;li>An array of numbers representing the amplitude at regular intervals (1/(sampling rate) seconds) and for each channel.&lt;/li>
+&lt;/ol>
+&lt;h1 id="further-reading">
+Further reading
+&lt;a class="heading-anchor" href="#further-reading">
+#
+&lt;/a>
+&lt;/h1>
+&lt;p>What can we do with this data? Since audio is just a signal, we can use digital signal processing (DSP) algorithms on it. One such process is the Fourier Transform, which can help find out the frequencies present in the audio data. There&amp;rsquo;s a class of algorithms for efficiently calculating the fourier transform of a signal in code—the &lt;a href="https://en.wikipedia.org/wiki/Fast_Fourier_transform">Fast Fourier Transform&lt;/a>.&lt;/p>
+&lt;p>You can start playing around with audio data in code. There are libraries in most languages for reading sound from your device&amp;rsquo;s mic or by reading a wav, mp3, etc file. Here are some popular ones:&lt;/p>
+&lt;ul>
+&lt;li>Python:
+&lt;ul>
+&lt;li>Libraries for audio I/O: &lt;a href="https://github.com/spatialaudio/python-sounddevice">python-sounddevice&lt;/a> - has a simple interface for reading audio as a numpy array given the number of seconds, sample rate and number of channels.&lt;/li>
+&lt;li>Libraries for audio processing: SciPy - &lt;a href="https://docs.scipy.org/doc/scipy/tutorial/fft.html">fourier transforms&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Rust: &lt;a href="https://rust.audio/">rust.audio&lt;/a> is a good collection of resources. Some mentions:
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/rustaudio/cpal">cpal&lt;/a> - audio I/O library. This is not the simplest library to start with. It took me a while to figure out reading audio data into a Vec.&lt;/li>
+&lt;li>&lt;a href="https://github.com/SamiPerttu/fundsp">fundsp&lt;/a> - audio synthesis library. You can create sounds, maybe even music, with just code. I have not used it extensively—only the basics to generate test cases for audio applications.&lt;/li>
+&lt;li>&lt;a href="https://github.com/ejmahler/RustFFT">rustfft&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;!-- https://en.wikibooks.org/wiki/A-level_Computing/AQA/Paper_2/Fundamentals_of_data_representation/Sounds -->
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>Source of the image: &lt;a href="https://blog.soton.ac.uk/soundwaves/wave-basics/ways-of-showing-waves/">Ways of showing waves by The University of Southampton&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>Source of the image: &lt;a href="https://www.acs.psu.edu/drussell/Demos/MembraneCircle/Circle.html">Vibrational Modes of a Circular Membrane by Dan Russell&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>Source: &lt;a href="https://www.sciencedirect.com/science/article/pii/S2666606521000407">Patterns of hearing changes in women and men from denarians to nonagenarians&lt;/a> by Wasano et al.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4">
+&lt;p>Source: &lt;a href="https://sipi.usc.edu/database/database.php?volume=misc&amp;amp;image=16#top">Database of test images&lt;/a>&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>tremolisto: a collection of isolated guitar parts</title><link>https://samyak.me/post/tremolisto/</link><pubDate>Sun, 21 Apr 2024 00:00:00 +0000</pubDate><guid>https://samyak.me/post/tremolisto/</guid><description>&lt;p>I have been collecting interesting parts of songs that feature a guitar. It&amp;rsquo;s been a few months now and I have 117 of them. This seems like a good time to introduce it.&lt;/p>
 &lt;p>Check it out at: &lt;a href="https://tremolisto.samyak.me/">https://tremolisto.samyak.me/&lt;/a>&lt;/p>
 &lt;p>It focuses on solos and riffs. And is biased towards electric guitar. The guitar sections are available to play directly on the website. They are trimmed from the original audio, so some non-guitar sounds may be included.&lt;/p>
 &lt;p>This started as a simple list of songs I keep in my notes. It was meant to be a list of songs I could try playing once I started learning the guitar. But it grew quickly. I would need years or even decades of learning to be able to play some of those songs. Now it&amp;rsquo;s just a collection. I can listen to or reference riffs anytime, anywhere.&lt;/p>

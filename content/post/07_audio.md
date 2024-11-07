@@ -16,7 +16,7 @@ First, a disclaimer: I'm not a musician, nor do I have any formal training in mu
 
 You might have learnt about sound as *waves* traveling through air. Air repeatedly gets compressed and expanded. Our ears perceive that as sound. [^1]
 
-<img alt="a GIF of waves traveling through the air towards the right. The waves are created by a piston compressing the air from the left." src="http://blog.soton.ac.uk/soundwaves/files/2013/12/longituddots1.gif" style="max-width: 100%;" />
+<img alt="a GIF of waves traveling through the air towards the right. The waves are created by a piston compressing the air from the left." src="https://blog.soton.ac.uk/soundwaves/files/2013/12/longituddots1.gif" style="max-width: 100%;" />
 
 Another way to look at sound is *vibration*. When moving air hits the eardrum, it makes the drum vibrate and (oversimplifying it a lot) we perceive that as sound. It moves back and forth slightly from its resting position. [^2]
 

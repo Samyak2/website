@@ -1171,31 +1171,7 @@ Where to go from here
 &lt;/p>
 &lt;p>I&amp;rsquo;m Samyak Sarnayak. This post is mostly a placeholder to test &lt;a href="https://gohugo.io/">Hugo&lt;/a> and the &lt;a href="https://gitlab.com/avron/gruvhugo">gruvhugo&lt;/a> theme.&lt;/p>
 &lt;p>After porting over my old posts here, I have planned for a few more. Hopefully I will get to them soon.&lt;/p>
-&lt;p>The &lt;a href="https://samyak.me/about">about&lt;/a> page will be the first one to be filled here, after this one of course.&lt;/p>
-&lt;style>
-.smol-logo {
-height: 1em;
-position: relative;
-animation-duration: 1s;
-animation-name: slidedown;
-animation-iteration-count: infinite;
-animation-direction: alternate;
-}
-p {
-overflow: hidden;
-}
-@keyframes slidedown {
-from {
-top: 1.5em;
-}
-75% {
-top: 0.3em;
-}
-to {
-top: 0.2em;
-}
-}
-&lt;/style></description></item><item><title>On water and systems</title><link>https://samyak.me/post/water-docker/</link><pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate><guid>https://samyak.me/post/water-docker/</guid><description>&lt;p>There&amp;rsquo;s a lake a few hundred meters from your house, with plenty of water in it. Can you actually use the water though? Sure, you can take a bucket to the lake, fill it up, bring it back and use it. You&amp;rsquo;ll need more than a bucket of water, so you make multiple trips and take two buckets at a time. Now you&amp;rsquo;re spending quite a bit of your time and energy everyday in this. To make your life easier, you build a rudimentary plumbing system. You take a long enough pipe, connect a motor and that&amp;rsquo;s it, you now have easy access to water. You can use this, but what about your neighbour, your colony? Everyone will need to build their own pipelines, which isn&amp;rsquo;t sustainable as every one of them needs to do all of the maintenance themselves, costing a lot of time and resources. You would need a real plumbing system that has robust pipes, a temporary storage (a tank), a better motor and you would have to rethink your home&amp;rsquo;s architecture to stuff all the pipes in there. Only then do you get water at your tap.&lt;/p>
+&lt;p>The &lt;a href="https://samyak.me/about">about&lt;/a> page will be the first one to be filled here, after this one of course.&lt;/p></description></item><item><title>On water and systems</title><link>https://samyak.me/post/water-docker/</link><pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate><guid>https://samyak.me/post/water-docker/</guid><description>&lt;p>There&amp;rsquo;s a lake a few hundred meters from your house, with plenty of water in it. Can you actually use the water though? Sure, you can take a bucket to the lake, fill it up, bring it back and use it. You&amp;rsquo;ll need more than a bucket of water, so you make multiple trips and take two buckets at a time. Now you&amp;rsquo;re spending quite a bit of your time and energy everyday in this. To make your life easier, you build a rudimentary plumbing system. You take a long enough pipe, connect a motor and that&amp;rsquo;s it, you now have easy access to water. You can use this, but what about your neighbour, your colony? Everyone will need to build their own pipelines, which isn&amp;rsquo;t sustainable as every one of them needs to do all of the maintenance themselves, costing a lot of time and resources. You would need a real plumbing system that has robust pipes, a temporary storage (a tank), a better motor and you would have to rethink your home&amp;rsquo;s architecture to stuff all the pipes in there. Only then do you get water at your tap.&lt;/p>
 &lt;p>My point is that you could say that the water is right there but it&amp;rsquo;s not actually useful without all the plumbing around it. With the plumbing it&amp;rsquo;s a lot more convenient to do the things you do with water as you have it right at your tap, anytime you need it.&lt;/p>
 &lt;hr>
 &lt;p>I realized this when I was brushing my teeth one morning. The day before, I was working on &lt;a href="https://github.com/Samyak2/guntainer">making my own container runtime&lt;/a> to learn how containers work. I made a connection between this water story and containers.
@@ -1444,8 +1420,7 @@ Car Fight
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/MK5KUZ73Xok?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
->&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/MK5KUZ73Xok?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
 &lt;/div>
 &lt;p>A car &amp;ldquo;fighting&amp;rdquo; game that has mini Suns for projectiles and a random rigidbody for powerups. In this game, you fight with an enemy
 car by shooting balls at each other. The player car is Porsche 911 model that I found on the store in &lt;a href="https://www.sketchup.com/">SketchUp&lt;/a>.
@@ -1461,8 +1436,7 @@ Slingshot
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/iueriTNdTMk?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
->&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/iueriTNdTMk?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
 &lt;/div>
 &lt;p>A game where you slingshot a shiny ball onto a generic cuboid. That&amp;rsquo;s it, that&amp;rsquo;s the game. The game enters slow-mo as the ball nears
 the target and there is sound effect when it hits. I suspect this game was inspired by some game I played at that time.
@@ -1475,8 +1449,7 @@ Car Parking
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/xtm5Dy9rJYo?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
->&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/xtm5Dy9rJYo?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
 &lt;/div>
 &lt;p>Probably the only complete game I ever made. This game was most likely inspired from Dr. Driving. The objective is to park your &amp;ldquo;car&amp;rdquo;
 in the spot shown by the floating fish. There are two camera views - top down and behind.&lt;/p>
@@ -1488,8 +1461,7 @@ Space Shooter
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/_6UCF294Hw8?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
->&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/_6UCF294Hw8?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
 &lt;/div>
 &lt;p>This game was definitely inspired from Galaxy on Fire 2, which I played a lot for many years. Here, you control a spaceship that can
 shoot bullets. There are a few planets and a Sun, with distances shown on each of them and gravity simulated on them. You have two
@@ -1503,8 +1475,7 @@ Circuit Racing
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/7IJX1IW6-kA?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
->&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/7IJX1IW6-kA?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
 &lt;/div>
 &lt;p>A simple racing game with support for laps around a circuit track, which was built from the inbuilt highway pieces. Your player car
 is the same as in &lt;a href="#car-fight">Car Fight&lt;/a> and with a similar HUD (except there is no background for the minimap). Your opponents are
@@ -1518,8 +1489,7 @@ Infinite Plane
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/avPZZFxP2aI?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
->&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/avPZZFxP2aI?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
 &lt;/div>
 &lt;p>Not a game exactly but a fun thing to work on. The ground is an infinite plane that is procedurally generated as you move. Since
 there are no obstacles, you can reach impossible speeds where the ground moves so fast you can&amp;rsquo;t look at it for long. If you try to
@@ -1532,8 +1502,7 @@ Highway Network
 &lt;/h3>
 &lt;hr>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/8KkK1BSi9ks?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
->&lt;/iframe>
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/8KkK1BSi9ks?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
 &lt;/div>
 &lt;p>Another circuit racing game but this time with a much bigger map. The network of highways was made from small individual pieces of
 roads. Unfortunately, this project was left incomplete as I moved on to other things. The highways had many fun types of roads and

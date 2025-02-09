@@ -7,3 +7,5 @@ resources/_gen/
 
 # npm is used for prettier
 node_modules/
+
+**.DS_Store

@@ -11,7 +11,11 @@ body {
         line-height: 1.6rem;
         margin-bottom: 0.2rem;
         display: list-item;
-        list-style-type: disclosure-closed;
+        list-style-type: disc;
         list-style-position: outside;
+    }
+
+    li {
+        list-style-type: circle;
     }
 }

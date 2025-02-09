@@ -4,7 +4,8 @@ title = "Samyak Sarnayak"
 
 theme = "gruvhugo"
 
-paginate = "10" # Number of posts per page
+[pagination]
+pagerSize = "10" # Number of posts per page
 
 # enable shortcodes like css.inline
 enableInlineShortcodes = true
@@ -80,19 +81,14 @@ enableGitInfo = true
     url        = "post/"
 
   [[menu.main]]
-    identifier = "projects"
-    name       = "Projects"
-    url        = "projects"
-
-  [[menu.main]]
     identifier = "cv"
     name       = "CV"
     url        = "cv.pdf"
 
   [[menu.main]]
-    identifier = "research"
-    name       = "Research"
-    url        = "research"
+    identifier = "portfolio"
+    name       = "Portfolio"
+    url        = "portfolio"
 
 [permalinks]
   post = '/:section/:slug'

@@ -15,9 +15,9 @@ Peer reviewed
 Conference
 {{</smalltag>}}
 
-Built an open source tool to analyze garbage collection at an object-level granularity.
+Built an open source tool to analyze garbage collection in the JVM at an object-level granularity.
 
-📜 Paper: [Available on ACM Digital Library](https://dl.acm.org/doi/10.1145/3491204.3527473)
+📜 Paper: [Available on ACM Digital Library](https://dl.acm.org/doi/10.1145/3491204.3527473) (or [PDF](https://research.spec.org/icpe_proceedings/2022/companion/p121.pdf))
 
 💾 Code: [GitHub](https://github.com/metonymic-smokey/JavaGC)
 
@@ -50,6 +50,10 @@ Conference
 💻 Live Demo: [GANs running entirely in your browser](https://fashion.samyak.me/)
 
 📺 Presentation: [STCAI 2021](https://youtu.be/mHeglPANT7c?t=73)
+
+### Pre-Training Reformer Language Models for Abstractive Summarisation (2020) {#reformer}
+
+📜 Paper: [PDF](/papers/reformer.pdf)
 
 ## Open Source Work
 

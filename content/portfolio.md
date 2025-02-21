@@ -1,6 +1,8 @@
 ---
 title: Portfolio
 custom_scss: ["/sass/portfolio.scss"]
+aliases:
+- /research
 ---
 
 ## Publications

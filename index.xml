@@ -16,7 +16,8 @@ Frequencies
 #
 &lt;/a>
 &lt;/h2>
-&lt;p>Both the waves and the vibrations happen very quickly. Humans can generally &lt;span class="sidenote">
+&lt;p>Both the waves and the vibrations happen very quickly. Humans can generally
+&lt;span class="sidenote">
 &lt;label class="sidenote-label" for="sidenote-0">hear frequencies in the range of 20Hz to 20,000Hz.&lt;/label>
 &lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-0">&lt;/input>
 &lt;span class="sidenote-content sidenote-right">
@@ -147,7 +148,8 @@ Images - a parallel
 &lt;p>Let us look at something that is a little bit easier to see as data. An image. Here&amp;rsquo;s an example of a simple black &amp;amp; white (also called grayscale) image &lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>:&lt;/p>
 &lt;p>&lt;img src="https://samyak.me/images/plane.png" alt="An image of a plane. Top view. An old airplane, might be a toy">&lt;/p>
 &lt;p>The resolution of this image is 256 pixels by 256 pixels. Totalling 65,536 pixels.
-Each pixel is represented by a number. 0 (the minimum value) is black and &lt;span class="sidenote">
+Each pixel is represented by a number. 0 (the minimum value) is black and
+&lt;span class="sidenote">
 &lt;label class="sidenote-label" for="sidenote-7">255 (the maximum value) is white.&lt;/label>
 &lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-7">&lt;/input>
 &lt;span class="sidenote-content sidenote-right">
@@ -163,7 +165,8 @@ This depends on the &lt;a href="https://en.wikipedia.org/wiki/Color_depth">bit d
 203 &amp;amp; 188 &amp;amp; &amp;hellip; &amp;amp; 179 &amp;amp; 172
 \end{Bmatrix}
 $$&lt;/p>
-&lt;p>Color images are similar. Instead of one matrix, you have three separate ones for &lt;span class="sidenote">
+&lt;p>Color images are similar. Instead of one matrix, you have three separate ones for
+&lt;span class="sidenote">
 &lt;label class="sidenote-label" for="sidenote-8">red, green and blue.&lt;/label>
 &lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-8">&lt;/input>
 &lt;span class="sidenote-content sidenote-right">
@@ -179,7 +182,8 @@ Back to audio
 &lt;/h2>
 &lt;p>That digression into image as data probably raises more questions than it answers, such as: What&amp;rsquo;s the range of numbers in audio data? What&amp;rsquo;s the &lt;em>all black&lt;/em> and &lt;em>all white&lt;/em> of audio?&lt;/p>
 &lt;p>The sine wave we saw earlier will give us some hint into the range of values. Unlike images, audio data can be negative too. The zero value is the resting position of the drum or the string. The vibration happens in both directions, hence the positive and negative values.&lt;/p>
-&lt;p>The actual range depends on the sample&amp;rsquo;s &lt;a href="https://en.wikipedia.org/wiki/Audio_bit_depth">bit depth&lt;/a>. 16-bit audio, for example, has values in the range -32,768 to +32,767. When processing audio, the data is usually &lt;span class="sidenote">
+&lt;p>The actual range depends on the sample&amp;rsquo;s &lt;a href="https://en.wikipedia.org/wiki/Audio_bit_depth">bit depth&lt;/a>. 16-bit audio, for example, has values in the range -32,768 to +32,767. When processing audio, the data is usually
+&lt;span class="sidenote">
 &lt;label class="sidenote-label" for="sidenote-9">converted to floating point and sometimes normalized to the range of -1.0 to 1.0.&lt;/label>
 &lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-9">&lt;/input>
 &lt;span class="sidenote-content sidenote-right">
@@ -210,7 +214,8 @@ Channels
 #
 &lt;/a>
 &lt;/h2>
-&lt;p>Similar to the R, G, B-values of color images, sound too can have multiple &lt;em>channels&lt;/em>. For example, most music is 2-channel. This is meant to be listened to with a pair of headphones. One channel for the left speaker and the other for the right. This is called &lt;span class="sidenote">
+&lt;p>Similar to the R, G, B-values of color images, sound too can have multiple &lt;em>channels&lt;/em>. For example, most music is 2-channel. This is meant to be listened to with a pair of headphones. One channel for the left speaker and the other for the right. This is called
+&lt;span class="sidenote">
 &lt;label class="sidenote-label" for="sidenote-10">&lt;em>stereo audio&lt;/em>&lt;/label>
 &lt;input class="sidenote-checkbox" type="checkbox" checked id="sidenote-10">&lt;/input>
 &lt;span class="sidenote-content sidenote-right">

@@ -109,7 +109,57 @@ Let's look at a few examples of co/contra/invariance in various languages.
 
 We saw example of covariance (`typing.Sequence`) and invariance (`list`) already. Now let's look at an example for contravariance.
 
+Consider these functions:
+```python
+class Media:
+    ...
 
+class Anime(Media):
+    ...
+
+def watch_media(media: Media):
+    ...
+
+def watch_anime(anime: Anime):
+    ...
+```
+
+Here `Anime <: Media` since Anime subclasses Media. Notice here that we don't really use generic types, so how does variance factor in here?
+
+Generic types show up in the *type of the functions*. In python, functions are typed using `collections.abc.Callable` [^2]. The following are the types of these functions:
+- `watch_media` is `Callable[[Media], None]`: takes one argument of type `Media` and returns a value of type `None`.
+- `watch_anime` is `Callable[[Anime], None]`: takes one argument of type `Anime` and returns a value of type `None`.
+
+Now let's consider a function that takes a `Callable` as an *argument*:
+```python
+from collections.abc import Callable
+def sit_down(watcher: Callable[[Media], None]):
+    watcher(Media())
+```
+
+Can we do `sit_down(watch_anime)`? Nope:
+```python
+1. Argument of type "(anime: Anime) -> None" cannot be assigned to parameter "watcher" of type "(Media) -> None" in function "sit_down"
+     Type "(anime: Anime) -> None" is not assignable to type "(Media) -> None"
+       Parameter 1: type "Media" is incompatible with type "Anime"
+         "Media" is not assignable to "Anime"
+
+```
+
+Logically, `sit_down` needs a function that can handle all types of `Media`, not just `Anime`. This means `Callable[[Anime], None]` is *not* a subtype of `Callable[[Media], None]`. So `Callable[[T], ...]` is *not* covariant in T.
+
+What about the other way?
+```python
+from collections.abc import Callable
+def sit_down_2(watcher: Callable[[Anime], None]):
+    watcher(Anime())
+
+sit_down_2(watch_media)
+```
+
+`watch_media` can handle all types of `Media`, so it can obviously handle `Anime`. Now we have `Callable[[Media], None] <: Callable[[Anime], None]`, even though `Anime <: Media`. Hence, `Callable[[T], ...]` is **contravariant** in T.
+
+In fact, `Callable` is contravariant in all its argument types. That is, `Callable[[A2, B2, C2, ...], ...] <: Callable[[A1, B1, C1, ...], ...]` only if `A1 <: A2 and B1 <: B2 and C1 <: C2` and so on.
 
 ## Typescript
 
@@ -134,3 +184,4 @@ console.log(some_array); // [1, 2, 3, "hello world"]
 ## Go
 
 [^1]: Interestingly, even though Java is a compiled language, it does *not* do monomorphization. After compilation, a type parameter in a generic class is replaced with `object`. This `object` type can store any object in Java. But importantly, primitives (int, long, float, char, etc.) are not objects. So you can't really have a fast `Array<int>` in Java. You can have an `Array<Integer>`, but values of `Integer` types take 4x more memeory (16 bytes) compared to `int`s (4 bytes). So a generic `Array` in Java will always be slower than having specific arrays for each type (an `ArrayInt` for example).
+[^2]: Yes, there is a module in the python standard library named `abc`. In fact, there are two. There's the [`abc`](https://docs.python.org/3/library/abc.html) module that helps you define Abstract Base Classes (hence ABC). Then there's [`collections.abc`](https://docs.python.org/3/library/collections.abc.html).

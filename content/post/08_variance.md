@@ -9,7 +9,7 @@ tags:
 - pl
 ---
 
-Knowing about variance will help us better reason about behaviors of *generic* types. Even if you have never written custom generic types, you would have more likely than not used generic types.
+Understanding variance will help us better reason about behaviors of *generic* types. Even if you have never defined your own generic types, you have almost certainly interacted with them in everyday programming.
 
 Before we begin, there are a few terms we need to be familiar with.
 
@@ -39,6 +39,8 @@ The concept of variance shows up in the intersection of generics and subtyping.
     - If `B <: A` then `Something[A] <: Something[B]`.
 
 - A generic type `Something[T]` is **invariant** in T if `B` being a subtype of `A` does *not* mean that `Something[B]` is a subtype of `Something[A]`. In other words, there is no subtyping relation between `Something[A]` and `Something[B]`.
+
+    - If a `Something[A]` is required, there is no replacement for it. No `Something[B]` can be provided in the place of a `Something[A]`.
 
 # An example
 
@@ -137,7 +139,9 @@ def sit_down(watcher: Callable[[Media], None]):
     watcher(Media())
 ```
 
-Can we do `sit_down(watch_anime)`? Nope:
+Can we do `sit_down(watch_media)`? Yes.
+
+But can we do `sit_down(watch_anime)`? Nope:
 ```python
 1. Argument of type "(anime: Anime) -> None" cannot be assigned to parameter "watcher" of type "(Media) -> None" in function "sit_down"
      Type "(anime: Anime) -> None" is not assignable to type "(Media) -> None"
@@ -146,9 +150,9 @@ Can we do `sit_down(watch_anime)`? Nope:
 
 ```
 
-Logically, `sit_down` needs a function that can handle all types of `Media`, not just `Anime`. This means `Callable[[Anime], None]` is *not* a subtype of `Callable[[Media], None]`. So `Callable[[T], ...]` is *not* covariant in T.
+Logically, the `watcher` function in `sit_down` can get called with any type of `Media`, not just `Anime`. So we cannot pass a function that assumes it will always get an `Anime`. This means `Callable[[Anime], None]` is *not* a subtype of `Callable[[Media], None]`. So `Callable[[T], ...]` is *not* covariant in T.
 
-What about the other way?
+What about the other way around?
 ```python
 from collections.abc import Callable
 def sit_down_2(watcher: Callable[[Anime], None]):
@@ -163,19 +167,111 @@ In fact, `Callable` is contravariant in all its argument types. That is, `Callab
 
 ## Typescript
 
-Unlike python, arrays in Typescript are covariant! That means this program is valid and passes the typechecker:
+Unlike python, arrays in Typescript are covariant! That means the below program is valid and passes the typechecker. This is [intentional](https://www.typescriptlang.org/docs/handbook/type-compatibility.html#a-note-on-soundness) in the design of Typescript.
+
 ```typescript
 function some_func(input: (number | string)[]) {
-    console.log(input); // [1, 2, 3]
+    console.log(input);
     input.push("hello world");
 }
 
+// supposed to be an array of numbers only
 const some_array: number[] = [1, 2, 3];
 some_func(some_array);
-console.log(some_array); // [1, 2, 3, "hello world"]
+console.log(some_array); // [1, 2, 3, "hello world"] - oops!
 ```
 
+Now let's see an example for contravariance. Consider these interfaces:
+```typescript
+interface Media {
+  name: string;
+}
 
+interface Anime extends Media {
+  studio: string;
+}
+
+function watchMedia(media: Media) {
+}
+
+function watchAnime(anime: Anime) {
+}
+```
+Here `Anime <: Media` since the `Anime` interface extends the `Media` interface. Similar to the Python example, we come across variance in the types of *functions*. The types of the functions we defined can be written as:
+- `watchMedia` is `(media: Media) => void`: takes one argument of type `Media` and returns nothing.
+- `watchAnime` is `(anime: Anime) => void`: takes one argument of type `Anime` and returns nothing.
+
+Now consider this function that takes another function as an argument:
+```typescript
+function sitDown(watcher: (media: Media) => void) {
+  watcher({name: "Arcane"});
+}
+```
+Can we `sitDown(watchMedia)`? Yes.
+
+Can we `sitDown(watchAnime)`? Nope:
+```typescript
+Argument of type '(anime: Anime) => void' is not assignable to parameter of type '(media: Media) => void'.
+  Types of parameters 'anime' and 'media' are incompatible.
+    Property 'studio' is missing in type 'Media' but required in type 'Anime'.
+```
+
+Logically, the `watcher` function in `sitDown` can get called with any type of `Media`, not just `Anime`. So we cannot pass a function that assumes it will always get an `Anime`. This means `(anime: Anime) => void` is *not* a subtype of `(media: Media) => void`. So `(value: T): void` is *not* covariant in T.
+
+What about the other way?
+```typescript
+function sitDown2(watcher: (media: Anime) => void) {
+  watcher({name: "Vinland Saga", studio: "WIT"});
+}
+
+sitDown2(watchMedia);
+```
+
+This is fine because `watchMedia` can handle any `Media`, so it can obviously handle an `Anime`.
+
+Now we have `(media: Media) => void <: (anime: Anime) => void` even though `Anime <: Media`. This is called contravariance and we can say that `(value: T): void` is **contravariant** in `T`.
+
+Invariance in Typescript doesn't show up very often. If you know of better examples than the one I show here, please let me know.
+
+Consider the following functions:
+```typescript
+function makeSequel(media: Media): Media {
+  return {name: media.name + " 2"};
+}
+
+function makeSequelAnime(anime: Anime): Anime {
+  return {name: anime.name + " 2", studio: anime.studio};
+}
+```
+Both of them return a value with the same type as its input. The generic form of such a function would be `(value: T) => T`. Now consider the below function that takes such a function as its input:
+```typescript
+function applyTransform(transformer: (media: Media) => Media) {
+  return transformer({name: "Invincible"});
+}
+```
+
+`applyTransform(makeSequel)` works just fine, but `applyTransform(makeSequelAnime)` fails:
+```typescript
+Argument of type '(anime: Anime) => Anime' is not assignable to parameter of type '(media: Media) => Media'.
+  Types of parameters 'anime' and 'media' are incompatible.
+    Property 'studio' is missing in type 'Media' but required in type 'Anime'.
+```
+
+We can say that `(value: T) => T` is *not covariant* in T, because `(anime: Anime) => Anime` is not a subtype of `(media: Media) => Media`.
+
+Now consider another function that takes an Anime transformer instead:
+```typescript
+function applyAnimeTransform(transformer: (anime: Anime) => Anime) {
+  return transformer({name: "Frieren", studio: "Madhouse"});
+}
+```
+`applyAnimeTransform(makeSequelAnime)` works just fine, but `applyAnimeTransform(makeSequel)` fails:
+```typescript
+Argument of type '(media: Media) => Media' is not assignable to parameter of type '(anime: Anime) => Anime'.
+  Property 'studio' is missing in type 'Media' but required in type 'Anime'.
+```
+
+`(media: Media) => Media` is *not* a subtype of `(anime: Anime) => Anime`, which means that `(value: T) => T` is *not contravariant* in `T`. Since it is neither covariant nor contravariant, we can say that `(value: T) => T` is **invariant** in `T`.
 
 ## Rust
 

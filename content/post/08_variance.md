@@ -7,13 +7,20 @@ draft: true
 tags:
 - types
 - pl
+- rust
+- python
+- typescript
+- zig
+- go
 ---
+
+{{< toc >}}
 
 Understanding variance will help us better reason about behaviors of *generic* types. Even if you have never defined your own generic types, you have almost certainly interacted with them in everyday programming.
 
 Before we begin, there are a few terms we need to be familiar with.
 
-## Generic types
+# Generic types
 
 <!-- Wait - first, wait's a type? A type of a variable determines all the values it can hold. In Java, C++ and python, type usually means a *class*. In Rust, it can be a struct or a trait. In typescript, it can be a class or an interface. Types can be more complex too. For example, you can have a type for functions in languages that support sending functions around (as callbacks for example). -->
 
@@ -21,13 +28,13 @@ A type is considered generic if it has placeholders for other types within it. T
 
 The point of generics is usually to re-use code. You can write code for an array/list/hashmap once and have it support *any* type of element. In some compiled languages (for example, C++ and Rust), it also provides great runtime performance because of the compiler generating specific implementations for each type - a process known as *monomorphization* [^1].
 
-## Subtyping
+# Subtyping
 
 This can take many forms. One common form is through *inheritance* - in languages like Java, C++ and python. A class Y is a *subtype* of X if Y is a *sub-class* of X (i.e., Y extends X). This subtyping relationship is written as `Y <: X`. Another way to look at subtyping is substitution. If a Y can be used in places where a X is needed, we say Y is a subtype of X. For example, we can use a Cat in places where an Animal is needed. This means Cat is a subtype of Animal, or `Cat <: Animal`.
 
 In the case of Rust, there's no subtyping relationship between any *types*. This is because Rust doesn't support inheritance. Although, there are subtyping relations between *lifetimes*. More on this later (skip to the Rust section for it).
 
-## Variance
+# Variance
 
 The concept of variance shows up in the intersection of generics and subtyping.
 - A generic type `Something[T]` is **covariant** in T if `B` being a subtype of `A` means that `Something[B]` is a subtype of `Something[A]`.
@@ -97,7 +104,7 @@ Sequence is covariant because it's immutable. There's no append method and if yo
 
 Mutability is just one reason for changing the variance. There may be other reasons why a type is co/contra/invariant.
 
-# A note on multiple type parameters
+### A note on multiple type parameters
 
 In the [definition of variance](#variance) above, we said that "`Something[T]` is co/contra/invariant **in** `T`". Each type parameter of a generic can have different variance. For example, a function type `Function[ParameterType, ReturnType]` can be covariant in `ReturnType` and contravariant in `ParameterType`. We will see examples of such types in the next section.
 
@@ -274,6 +281,101 @@ Argument of type '(media: Media) => Media' is not assignable to parameter of typ
 `(media: Media) => Media` is *not* a subtype of `(anime: Anime) => Anime`, which means that `(value: T) => T` is *not contravariant* in `T`. Since it is neither covariant nor contravariant, we can say that `(value: T) => T` is **invariant** in `T`.
 
 ## Rust
+
+There are two kinds of subtyping relationships in Rust. We'll look at both of them separately.
+
+### Traits
+
+Consider the following traits:
+```rust
+trait Media {
+    fn name(&self) -> &str;
+}
+
+trait Anime: Media {
+    fn studio(&self) -> &str;
+}
+```
+
+The `Anime: Media` part means that `Media` is a {{% sidenote "supertrait" %}}Learn more about supertraits in the [rust book](https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#using-supertraits-to-require-one-traits-functionality-within-another-trait){{%/ sidenote %}} of `Anime`. Despite the naming, it doesn't denote any type of inheritance. You still need to impl `Media` and `Anime` traits separately. It is more accurately described as adding a *trait bound* of `Media` to any type that wants to implement `Anime`.
+
+Now consider the following structs that implement these traits:
+```rust
+struct NetflixShow {
+    pub name: String,
+}
+
+impl Media for NetflixShow {
+    fn name(&self) -> &str {
+        &self.name
+    }
+}
+
+
+struct MadhouseAnime {
+    pub name: String,
+}
+
+// note: we need to impl Media separately from Anime
+impl Media for MadhouseAnime {
+    fn name(&self) -> &str {
+        &self.name
+    }
+}
+
+impl Anime for MadhouseAnime {
+    fn studio(&self) -> &str {
+        "Madhouse"
+    }
+}
+```
+
+Before we get to variance, we need to establish a subtyping relationship between these types. In Rust, there is no subtyping relationship between structs (or enums) directly. So, there's no way to directly substitute a `MadhouseAnime` for a `NetflixShow` or vice versa. One way to achieve this is through *trait objects*. A trait object looks like {{% sidenote "`dyn SomeTrait`"%}}Learn more about trait objects in the [rust book](https://doc.rust-lang.org/book/ch18-02-trait-objects.html).{{%/ sidenote %}} and can hold any type that implements `SomeTrait`. We will usually see trait objects wrapped in a box like `Box<dyn SomeTrait>` or as a reference like `&dyn SomeTrait`. This is because trait objects are {{% sidenote "unsized." %}}Learn about sized types and why the Box (or ref) is needed in [this section](https://doc.rust-lang.org/book/ch20-03-advanced-types.html#dynamically-sized-types-and-the-sized-trait) of the rust book.{{%/ sidenote %}}
+
+With the traits above, we have that `Anime <: Media` since `Media` is a supertrait. This can be {{% sidenote "extended to trait objects too" %}}This feature was introduced in Rust 1.86, which was released on 3rd April 2025. Learn more about it in the [release notes](https://blog.rust-lang.org/2025/04/03/Rust-1.86.0.html#trait-upcasting). {{%/ sidenote %}} and we have that `dyn Anime <: dyn Media`.
+
+First let's see trait objects in action:
+```rust
+let some_anime: Box<dyn Anime> = Box::new(MadhouseAnime {
+    name: "Frieren".to_owned(),
+});
+```
+We can assign any type that implements `Anime` to `some_anime`. This can be further assigned to a trait object of the supertrait `Media`:
+```rust
+let some_media: Box<dyn Media> = some_anime;
+```
+
+This establishes the subtyping relationship of `dyn Anime <: dyn Media` and of `Box<dyn Anime> <: Box<dyn Media>`. Hence, we can say that `Box<T>` is covariant in `T`.
+
+An example of invariance can be seen in `Vec<T>`:
+```rust
+let some_animes: Vec<Box<dyn Anime>> = vec![some_anime];
+let some_medias: Vec<Box<dyn Media>> = some_animes;
+```
+We get the following error:
+```rust
+error[E0308]: mismatched types
+  --> src/main.rs:43:44
+   |
+43 |     let some_medias: Vec<Box<dyn Media>> = some_animes;
+   |                      -------------------   ^^^^^^^^^^^ expected trait `Media`, found trait `Anime`
+   |                      |
+   |                      expected due to this
+   |
+   = note: expected struct `Vec<Box<dyn Media>>`
+              found struct `Vec<Box<dyn Anime>>`
+```
+
+<!-- Now let's consider a function that takes in another function, which takes in a `Box<dyn Media>`: -->
+<!-- ```rust -->
+<!-- fn sit_down(watcher: impl Fn(Box<dyn Media>)) { -->
+<!--     watcher(Box::new(NetflixShow { -->
+<!--         name: "Sandman".to_owned(), -->
+<!--     })); -->
+<!-- } -->
+<!-- ``` -->
+
+### Lifetimes
 
 ## Zig
 

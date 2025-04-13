@@ -10,8 +10,6 @@ tags:
 - rust
 - python
 - typescript
-- zig
-- go
 ---
 
 {{< toc >}}

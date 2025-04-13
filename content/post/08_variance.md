@@ -1,7 +1,7 @@
 ---
 title: "Variance in type systems"
 summary: "A brief explanation of what covariant, contravariant and invariant mean. With examples in various languages."
-date: 2025-02-09
+date: 2025-04-14
 slug: "variance"
 draft: true
 tags:
@@ -32,7 +32,7 @@ The point of generics is usually to re-use code. You can write code for an array
 
 This can take many forms. One common form is through *inheritance* - in languages like Java, C++ and python. A class Y is a *subtype* of X if Y is a *sub-class* of X (i.e., Y extends X). This subtyping relationship is written as `Y <: X`. Another way to look at subtyping is substitution. If a Y can be used in places where a X is needed, we say Y is a subtype of X. For example, we can use a Cat in places where an Animal is needed. This means Cat is a subtype of Animal, or `Cat <: Animal`.
 
-In the case of Rust, there's no subtyping relationship between any *types*. This is because Rust doesn't support inheritance. Although, there are subtyping relations between *lifetimes*. More on this later (skip to the Rust section for it).
+In the case of Rust, there's no subtyping relationship between any *types*. This is because Rust doesn't support inheritance. Although, there are subtyping relations between *lifetimes*. More on this later (skip to the [Rust section](#rust) for it).
 
 # Variance
 

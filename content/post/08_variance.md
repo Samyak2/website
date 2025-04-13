@@ -254,8 +254,15 @@ function applyTransform(transformer: (media: Media) => Media) {
   return transformer({name: "Invincible"});
 }
 ```
-
-`applyTransform(makeSequel)` works just fine, but `applyTransform(makeSequelAnime)` fails:
+Here, this works just fine:
+```typescript
+applyTransform(makeSequel)
+```
+But this fails:
+```typescript
+applyTransform(makeSequelAnime)
+```
+With the following error:
 ```typescript
 Argument of type '(anime: Anime) => Anime' is not assignable to parameter of type '(media: Media) => Media'.
   Types of parameters 'anime' and 'media' are incompatible.
@@ -270,7 +277,15 @@ function applyAnimeTransform(transformer: (anime: Anime) => Anime) {
   return transformer({name: "Frieren", studio: "Madhouse"});
 }
 ```
-`applyAnimeTransform(makeSequelAnime)` works just fine, but `applyAnimeTransform(makeSequel)` fails:
+Here, this works fine:
+```typescript
+applyAnimeTransform(makeSequelAnime)
+```
+But this fails:
+```typescript
+applyAnimeTransform(makeSequel)
+```
+With the following error:
 ```typescript
 Argument of type '(media: Media) => Media' is not assignable to parameter of type '(anime: Anime) => Anime'.
   Property 'studio' is missing in type 'Media' but required in type 'Anime'.

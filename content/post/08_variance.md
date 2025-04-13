@@ -282,104 +282,245 @@ Argument of type '(media: Media) => Media' is not assignable to parameter of typ
 
 ## Rust
 
-There are two kinds of subtyping relationships in Rust. We'll look at both of them separately.
+Although Rust does not allow defining our own subtypes like in other languages (since it does not support inheritance), there is yet one subtyping relationship that exists. This relationship is on lifetimes instead of type parameters.
 
-### Traits
-
-Consider the following traits:
+A full explanation of lifetimes would make post way longer than it already is. I will try explaining them briefly. Lifetimes in Rust are regions of code where a variable is accessible. Consider this example:
 ```rust
-trait Media {
-    fn name(&self) -> &str;
-}
+fn main() {
+    let some_var = "hello there".to_owned(); // the lifetime of some_var starts here
 
-trait Anime: Media {
-    fn studio(&self) -> &str;
+    println!("The value of some_var is {}", some_var);
+    // the lifetime of some_var ends at the end of the block implicitly
 }
 ```
 
-The `Anime: Media` part means that `Media` is a {{% sidenote "supertrait" %}}Learn more about supertraits in the [rust book](https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#using-supertraits-to-require-one-traits-functionality-within-another-trait){{%/ sidenote %}} of `Anime`. Despite the naming, it doesn't denote any type of inheritance. You still need to impl `Media` and `Anime` traits separately. It is more accurately described as adding a *trait bound* of `Media` to any type that wants to implement `Anime`.
-
-Now consider the following structs that implement these traits:
+We can cut short the lifetime of a variable by calling `drop` on it:
 ```rust
-struct NetflixShow {
-    pub name: String,
-}
 
-impl Media for NetflixShow {
-    fn name(&self) -> &str {
-        &self.name
+fn main() {
+    let some_var = "hello there".to_owned(); // the lifetime of some_var starts here
+
+    drop(some_var); // the lifetime of some_var ends here!
+
+    // oops can't use it anymore!
+    println!("The value of some_var is {}", some_var);
+}
+```
+
+For most rust programs, lifetimes become a problem when references are involved. They will often be implicit and unnamed like in `&str`, but sometimes we need to name them like in `&'a str`. Lifetime names start with apostrophe and are followed by the name. Lifetimes of functions and structs are specified in the same manner as type parameters. In other words, functions and structs can be *generic* over lifetimes.
+
+Now let's understand the subtyping relationship between lifetimes. Consider this struct:
+```rust
+struct Token<'a> {
+    pub session_name: &'a str
+}
+```
+This means that a `Token` must live at least as long as its `session_name`. Now consider a function that creates a token:
+```rust
+fn create_token_1<'a>(session_name: &'a str) -> Token<'a> {
+    Token { session_name }
+}
+```
+Here too, the returned `Token` lives at least as long as the `session_name` being passed in. Rust's borrow checker makes sure of this. Let's create a token and use it:
+```rust
+let session_name: String = "browser1".to_owned();
+let token = create_token_1(&session_name);
+
+// this works
+println!("I have a token for {}", token.session_name);
+```
+
+Now if we try to drop the `session_name` before the usage of `token`:
+```rust
+let session_name: String = "browser1".to_owned();
+let token = create_token_1(&session_name);
+
+// not allowed!
+drop(session_name);
+
+println!("I have a token for {}", token.session_name);
+```
+We get an error:
+```rust
+error[E0505]: cannot move out of `session_name` because it is borrowed
+  --> src/bin/lifetimes.rs:20:10
+   |
+17 |     let session_name: String = "browser1".to_owned();
+   |         ------------ binding `session_name` declared here
+18 |     let token = create_token_1(&session_name);
+   |                                ------------- borrow of `session_name` occurs here
+19 |
+20 |     drop(session_name);
+   |          ^^^^^^^^^^^^ move out of `session_name` occurs here
+21 |
+22 |     println!("I have a token for {}", token.session_name);
+   |                                       ------------------ borrow later used here
+   |
+```
+
+Now let's revisit the function and try to provide different lifetimes for the input and output:
+```rust
+fn create_token_2<'a, 'b>(session_name: &'a str) -> Token<'b> {
+    Token { session_name }
+}
+```
+This is not allowed. Recall that the definition of `Token` takes its lifetime from the lifetime of the inner `session_name`. In this case, we're constructing a `Token<'a>` but the return type requires a `Token<'b>`. `'a` and `'b` are two lifetimes with no relationship. We can define this relationship explicitly:
+```rust
+fn create_token_2<'a, 'b>(session_name: &'a str) -> Token<'b>
+where
+    'a: 'b,
+{
+    Token { session_name }
+}
+```
+Here `'a: 'b` means that lifetime `'a` is at least as long as lifetime `'b`. In other words, any variable with lifetime `'a` can be used in the place where a lifetime of `'b` is needed. That's subtyping! So we can write this as `'a <: 'b`. Notice here that `'a` is the *longer* lifetime compared to `'b`. Generalizing this, any lifetime `'long` which encompasses another lifetime `'short` is a *subtype*: `'long <: 'short`.
+
+There is a special lifetime in Rust named `'static`. References with a lifetime of `'static` live for the duration of the program. That is, we can assume that they are never dropped. We can say that the `'static` lifetime is longer than all other lifetimes. Or in other words, `'static` is a subtype of all lifetimes.
+
+Now that the relationship is established, let's look at examples of variance. Actually, we have already looked at covariance. Let's simplify our previous example a bit:
+```rust
+fn create_token_3<'a, 'b>(session_name: &'a str) -> &'b str
+where
+    'a: 'b,
+{
+    session_name
+}
+```
+Here we are assigning a `&'a str` to a `&'b str`, which means `&'a str <: &'b str`. Since we know `'a <: 'b`, we can say that `&'a T` is {{% sidenote "**covariant**" %}}`&'a T` is also covariant in `T`. For example, `&'a &'b str` is a subtype of `&'a &'c str` if `'b <: 'c`.{{%/ sidenote %}} in `'a`.
+
+Now consider this example:
+```rust
+fn example<'long, 'short>(mut some_str: &'long str)
+where
+    'long: 'short,
+{
+    let mut_ref_to_ref_str: &mut &'short str = &mut some_str;
+}
+```
+This function defines two lifetimes with the relationship `'long <: 'short` i.e., `'long` lives at least as long as `'short`. We're passing in a `&str` with lifetime `'long`. The `mut_ref_to_ref_str` is a mutable reference to an immutable reference to a `str`. In short, a mutable reference to a `&str`. This means we can't modify the inner `&str`, but we can make `mut_ref_to_ref_str` point to another `&str`. Sadly, the above function does not compile:
+```rust
+error: lifetime may not live long enough
+  --> src/bin/lifetimes.rs:42:29
+   |
+38 | fn example<'long, 'short>(mut some_str: &'long str)
+   |            -----  ------ lifetime `'short` defined here
+   |            |
+   |            lifetime `'long` defined here
+...
+42 |     let mut_ref_to_ref_str: &mut &'short str = &mut some_str;
+   |                             ^^^^^^^^^^^^^^^^ type annotation requires that `'short` must outlive `'long`
+   |
+   = help: consider adding the following bound: `'short: 'long`
+   = note: requirement occurs because of a mutable reference to `&str`
+```
+Even though `'long <: 'short` and `&'long str <: &'short str`, `&mut &'long str` is *not* a subtype of `&mut &'short str`. But why is this not allowed? Let's see what happens when this is allowed. We would be allowed to use the mutable reference to make `mut_ref_to_ref_str` point to a `&'short str`:
+```rust
+fn example<'long, 'short>(mut some_str: &'long str)
+where
+    'long: 'short,
+{
+    let mut_ref_to_ref_str: &mut &'short str = &mut some_str;
+
+    {
+        let short_lived_string: String = "hello there".to_owned();
+        let short_ref: &'short str = &short_lived_string;
+        *mut_ref_to_ref_str = short_ref;
+        // short_lived_string is dropped!
     }
-}
 
-
-struct MadhouseAnime {
-    pub name: String,
-}
-
-// note: we need to impl Media separately from Anime
-impl Media for MadhouseAnime {
-    fn name(&self) -> &str {
-        &self.name
-    }
-}
-
-impl Anime for MadhouseAnime {
-    fn studio(&self) -> &str {
-        "Madhouse"
-    }
+    // some_str will not point to a &str with a 'short lifetime!
 }
 ```
+At the end of this function, `some_str` is actually assigned to `short_lived_string` which is dropped at the end of the inner block. This means that using `some_str` after the block is actually a use-after-free! Rust is designed to prevent such memory bugs, so it makes sense that this is not allowed. So we can say that `&mut T` is *not covariant* in `T`.
 
-Before we get to variance, we need to establish a subtyping relationship between these types. In Rust, there is no subtyping relationship between structs (or enums) directly. So, there's no way to directly substitute a `MadhouseAnime` for a `NetflixShow` or vice versa. One way to achieve this is through *trait objects*. A trait object looks like {{% sidenote "`dyn SomeTrait`"%}}Learn more about trait objects in the [rust book](https://doc.rust-lang.org/book/ch18-02-trait-objects.html).{{%/ sidenote %}} and can hold any type that implements `SomeTrait`. We will usually see trait objects wrapped in a box like `Box<dyn SomeTrait>` or as a reference like `&dyn SomeTrait`. This is because trait objects are {{% sidenote "unsized." %}}Learn about sized types and why the Box (or ref) is needed in [this section](https://doc.rust-lang.org/book/ch20-03-advanced-types.html#dynamically-sized-types-and-the-sized-trait) of the rust book.{{%/ sidenote %}}
-
-With the traits above, we have that `Anime <: Media` since `Media` is a supertrait. This can be {{% sidenote "extended to trait objects too" %}}This feature was introduced in Rust 1.86, which was released on 3rd April 2025. Learn more about it in the [release notes](https://blog.rust-lang.org/2025/04/03/Rust-1.86.0.html#trait-upcasting). {{%/ sidenote %}} and we have that `dyn Anime <: dyn Media`.
-
-First let's see trait objects in action:
+If we reverse the assignment to be:
 ```rust
-let some_anime: Box<dyn Anime> = Box::new(MadhouseAnime {
-    name: "Frieren".to_owned(),
-});
+fn example<'long, 'short>(mut some_str: &'short str)
+where
+    'long: 'short,
+{
+    let mut_ref_to_ref_str: &mut &'long str = &mut some_str;
+}
 ```
-We can assign any type that implements `Anime` to `some_anime`. This can be further assigned to a trait object of the supertrait `Media`:
-```rust
-let some_media: Box<dyn Media> = some_anime;
-```
+This is obviously wrong since `'short` is a shorter lifetime. So `&mut T` is *not contravariant* in T. The conclusion is that `&mut T` is **invariant** in `T`.
 
-This establishes the subtyping relationship of `dyn Anime <: dyn Media` and of `Box<dyn Anime> <: Box<dyn Media>`. Hence, we can say that `Box<T>` is covariant in `T`.
-
-An example of invariance can be seen in `Vec<T>`:
+Now let's look at a function that takes another function (pointer) as its argument:
 ```rust
-let some_animes: Vec<Box<dyn Anime>> = vec![some_anime];
-let some_medias: Vec<Box<dyn Media>> = some_animes;
+fn sit_down(watcher: fn(&str)) {
+    let anime: String = "vinland saga".to_owned();
+    watcher(&anime);
+}
 ```
-We get the following error:
+`watcher` is a function that takes in a `&str` with some lifetime. We are passing it a temporary, local `&str` created within in the `sit_down` function.
+
+Now let's try to pass it a function that takes a `&str` with a lifetime that is a subtype. Since `'static` is a subtype of all lifetimes, let's use that:
+```rust
+fn static_watcher(name: &'static str) {
+    println!("watching static name {}", name);
+}
+
+fn main() {
+    sit_down(static_watcher);
+}
+```
+This does not work:
 ```rust
 error[E0308]: mismatched types
-  --> src/main.rs:43:44
-   |
-43 |     let some_medias: Vec<Box<dyn Media>> = some_animes;
-   |                      -------------------   ^^^^^^^^^^^ expected trait `Media`, found trait `Anime`
-   |                      |
-   |                      expected due to this
-   |
-   = note: expected struct `Vec<Box<dyn Media>>`
-              found struct `Vec<Box<dyn Anime>>`
+   --> src/bin/lifetimes.rs:120:14
+    |
+120 |     sit_down(static_watcher);
+    |     -------- ^^^^^^^^^^^^^^ one type is more general than the other
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected fn pointer `for<'a> fn(&'a _)`
+                  found fn item `fn(&'static _) {static_watcher}`
+```
+This makes sense since `static_watcher` can only handle strings with a `'static` lifetime and within `sit_down` we are passing a local string that has a shorter lifetime. `fn(&'static str)` is not a subtype of `fn(&'a str)` even though `'static <: 'a`, so we can say that `fn(&'a T)` is *not covariant* in `'a`.
+
+What about the other way around?
+```rust
+fn sit_down_static(watcher: fn(&'static str)) {
+    watcher("vinland saga");
+}
+
+fn any_ref_watcher<'a>(name: &'a str) {
+    println!("any_ref_watcher watching {}", name);
+}
+
+fn main() {
+    sit_down_static(any_ref_watcher);
+}
+```
+Here we're asking for a `watcher` that can handle `&str` with static lifetimes and we're passing a function that handles any `&'a str`. This compiles. We have `fn(&'a) <: fn(&'static)` even though `'static <: 'a`. This means that `fn(&'a T)` is **contravariant** in `'a`.
+
+The Rustonomicon has a table summarizing the variance of some common generic types [here](https://doc.rust-lang.org/nomicon/subtyping.html#variance).
+
+### A note on trait upcasting
+
+Rust 1.86, which was released in April 2025, introduced [*trait upcasting*](https://blog.rust-lang.org/2025/04/03/Rust-1.86.0.html#trait-upcasting). Consider the following traits:
+```rust
+trait Media {}
+
+trait Anime: Media {}
+```
+The `Anime: Media` defines a that `Media` is a [*supertrait*](https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#using-supertraits-to-require-one-traits-functionality-within-another-trait) of `Anime`. With 1.86 and above, we can now assign a `dyn Anime` trait object to a `dyn Media` trait object. For example, this works:
+```rust
+struct Frieren;
+impl Media for Frieren {}
+impl Anime for Frieren {}
+
+fn main() {
+    let some_anime: Box<dyn Anime> = Box::new(Frieren);
+    let some_media: Box<dyn Media> = some_anime; // this works
+}
 ```
 
-<!-- Now let's consider a function that takes in another function, which takes in a `Box<dyn Media>`: -->
-<!-- ```rust -->
-<!-- fn sit_down(watcher: impl Fn(Box<dyn Media>)) { -->
-<!--     watcher(Box::new(NetflixShow { -->
-<!--         name: "Sandman".to_owned(), -->
-<!--     })); -->
-<!-- } -->
-<!-- ``` -->
+This may look like a subtyping relationship, like `Anime <: Media`. But nope! It's not. Rust 1.86 does *not* introduce a new subtyping relationship. Lifetimes are still the only subtypes. Further, `Box<T>` may look like it's covariant in `T`. This is just coercion and does not involve variance. For more detailed explanations, see the responses to [this discussion on the Rust Internals Forum](https://internals.rust-lang.org/t/why-are-fn-types-not-contravariant-in-their-argument-types/22700/2).
 
-### Lifetimes
-
-## Zig
-
-## Go
+<!-- ## Zig -->
+<!---->
+<!-- ## Go -->
 
 [^1]: Interestingly, even though Java is a compiled language, it does *not* do monomorphization. After compilation, a type parameter in a generic class is replaced with `object`. This `object` type can store any object in Java. But importantly, primitives (int, long, float, char, etc.) are not objects. So you can't really have a fast `Array<int>` in Java. You can have an `Array<Integer>`, but values of `Integer` types take 4x more memeory (16 bytes) compared to `int`s (4 bytes). So a generic `Array` in Java will always be slower than having specific arrays for each type (an `ArrayInt` for example).
 [^2]: Yes, there is a module in the python standard library named `abc`. In fact, there are two. There's the [`abc`](https://docs.python.org/3/library/abc.html) module that helps you define Abstract Base Classes (hence ABC). Then there's [`collections.abc`](https://docs.python.org/3/library/collections.abc.html).

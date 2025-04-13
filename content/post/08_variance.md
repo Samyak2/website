@@ -1,7 +1,7 @@
 ---
 title: "Variance in type systems"
 summary: "A brief explanation of what covariant, contravariant and invariant mean. With examples in various languages."
-date: 2025-04-14
+date: 2025-04-13
 slug: "variance"
 draft: true
 tags:

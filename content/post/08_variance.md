@@ -3,7 +3,6 @@ title: "Variance in type systems"
 summary: "A brief explanation of what covariant, contravariant and invariant mean. With examples in various languages."
 date: 2025-04-13
 slug: "variance"
-draft: true
 tags:
 - types
 - pl
@@ -534,6 +533,12 @@ This may look like a subtyping relationship, like `Anime <: Media`. But nope! It
 <!-- ## Zig -->
 <!---->
 <!-- ## Go -->
+
+---
+
+I hope this blog post helped explain some behavior of type systems through the understanding of variance. Please reach out to me directly for any feedback. Thank you for reading!
+
+Acknowledgements: Thank you, *Sathvik Srinivas*, for proofreading and suggesting improvements to this post.
 
 [^1]: Interestingly, even though Java is a compiled language, it does *not* do monomorphization. After compilation, a type parameter in a generic class is replaced with `object`. This `object` type can store any object in Java. But more importantly, primitives (int, long, float, char, etc.) are not objects. So you can't really have a fast `Array<int>` in Java. You can have an `Array<Integer>`, but values of `Integer` types take 4x more memory (16 bytes) compared to `int`s (4 bytes). So a generic `Array` in Java will always be slower than specific arrays for each type (an `ArrayInt` for example).
 [^2]: Yes, there is a module in the Python standard library named `abc`. In fact, there are two. There's the [`abc`](https://docs.python.org/3/library/abc.html) module that helps you define Abstract Base Classes (hence ABC). Then there's [`collections.abc`](https://docs.python.org/3/library/collections.abc.html).

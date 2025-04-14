@@ -24,7 +24,7 @@ Before we begin, there are a few terms we need to be familiar with.
 
 A type is considered generic if it has placeholders for other types within it. These placeholders are called **type parameters**. For example, an array is a type which is generic over its element type. You will see this in different forms in different languages. `list[T]` in Python; `std::vector<T>` in C++; `Vec<T>` in Rust; `List<T>` in java and so on.
 
-The point of generics is usually to re-use code. You can write code for an array/list/hashmap once and have it support *any* type of element. In some compiled languages (for example, C++ and Rust), it also provides great runtime performance because of the compiler generating specific implementations for each type - a process known as *monomorphization* [^1].
+The point of generics is usually to re-use code. You can write code for an array/list/hashmap once and have it support *any* type of element. In some compiled languages (for example, C++ and Rust), generics also provide great runtime performance because the compiler generates specific implementations for each type — a process known as *monomorphization* [^1].
 
 # Subtyping
 
@@ -49,7 +49,7 @@ The concept of variance shows up in the intersection of generics and subtyping.
 
 # An example
 
-Let's walk through this using an example in Python. Consider this function:
+Let's understand this with an example in Python. Consider this function:
 
 ```python
 def some_func(input: list[int | str]):
@@ -78,7 +78,7 @@ a_int_or_str: int | str = 5
 ```
 That means `int` can be assigned to `int | str`. In other words, `int` is a subtype of `int | str`.
 
-The error says that `list[T]` is invariant on `T`. But why? What's wrong in passing a `list[int]` to a `list[int | str]`? The reason, in Python, is mutability. A list can be mutated at any point. The function can append a string to the input:
+The error says that `list[T]` is invariant on `T`. But why? What's wrong with passing a `list[int]` to a `list[int | str]`? The reason, in Python, is mutability. A list can be mutated at any point. The function can append a string to the input:
 ```python
 def some_func(input: list[int | str]):
     print("i take int or str", input)
@@ -146,7 +146,7 @@ def sit_down(watcher: Callable[[Media], None]):
 
 Can we do `sit_down(watch_media)`? Yes.
 
-But can we do `sit_down(watch_anime)`? Nope:
+But can we do `sit_down(watch_anime)`? Nope.
 ```python
 1. Argument of type "(anime: Anime) -> None" cannot be assigned to parameter "watcher" of type "(Media) -> None" in function "sit_down"
      Type "(anime: Anime) -> None" is not assignable to type "(Media) -> None"
@@ -214,7 +214,7 @@ function sitDown(watcher: (media: Media) => void) {
 ```
 Can we `sitDown(watchMedia)`? Yes.
 
-Can we `sitDown(watchAnime)`? Nope:
+Can we `sitDown(watchAnime)`? Nope.
 ```typescript
 Argument of type '(anime: Anime) => void' is not assignable to parameter of type '(media: Media) => void'.
   Types of parameters 'anime' and 'media' are incompatible.
@@ -444,7 +444,7 @@ where
     // some_str will not point to a &str with a 'short lifetime!
 }
 ```
-At the end of this function, `some_str` is actually assigned to `short_lived_string` which is dropped at the end of the inner block. This means that using `some_str` after the block is actually a use-after-free! Rust is designed to prevent such memory bugs, so it makes sense that this is not allowed. Hence, we can say that `&mut T` is *not covariant* in `T`.
+At the end of this function, `some_str` is actually assigned to `short_lived_string` which is dropped at the end of the inner block. This means that using `some_str` after the block is actually a use-after-free! Rust is designed to prevent such memory bugs. So it makes sense that this is not allowed. Hence, we can say that `&mut T` is *not covariant* in `T`.
 
 If we reverse the assignment to be:
 ```rust
@@ -489,7 +489,7 @@ error[E0308]: mismatched types
     = note: expected fn pointer `for<'a> fn(&'a _)`
                   found fn item `fn(&'static _) {static_watcher}`
 ```
-This makes sense since `static_watcher` can only handle strings with a `'static` lifetime and within `sit_down`, we are passing a local string that has a shorter lifetime. `fn(&'static str)` is not a subtype of `fn(&'a str)` even though `'static <: 'a`. Hence, we can say that `fn(&'a T)` is *not covariant* in `'a`.
+`static_watcher` can only handle strings with a `'static` lifetime, but within `sit_down`, we are passing a local string that has a shorter lifetime. This means `fn(&'static str)` is not a subtype of `fn(&'a str)` even though `'static <: 'a`. Hence, we can say that `fn(&'a T)` is *not covariant* in `'a`.
 
 What about doing it the other way around?
 ```rust
@@ -535,5 +535,5 @@ This may look like a subtyping relationship, like `Anime <: Media`. But nope! It
 <!---->
 <!-- ## Go -->
 
-[^1]: Interestingly, even though Java is a compiled language, it does *not* do monomorphization. After compilation, a type parameter in a generic class is replaced with `object`. This `object` type can store any object in Java. But importantly, primitives (int, long, float, char, etc.) are not objects. So you can't really have a fast `Array<int>` in Java. You can have an `Array<Integer>`, but values of `Integer` types take 4x more memory (16 bytes) compared to `int`s (4 bytes). So a generic `Array` in Java will always be slower than specific arrays for each type (an `ArrayInt` for example).
+[^1]: Interestingly, even though Java is a compiled language, it does *not* do monomorphization. After compilation, a type parameter in a generic class is replaced with `object`. This `object` type can store any object in Java. But more importantly, primitives (int, long, float, char, etc.) are not objects. So you can't really have a fast `Array<int>` in Java. You can have an `Array<Integer>`, but values of `Integer` types take 4x more memory (16 bytes) compared to `int`s (4 bytes). So a generic `Array` in Java will always be slower than specific arrays for each type (an `ArrayInt` for example).
 [^2]: Yes, there is a module in the Python standard library named `abc`. In fact, there are two. There's the [`abc`](https://docs.python.org/3/library/abc.html) module that helps you define Abstract Base Classes (hence ABC). Then there's [`collections.abc`](https://docs.python.org/3/library/collections.abc.html).

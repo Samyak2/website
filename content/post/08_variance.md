@@ -46,9 +46,15 @@ The concept of variance shows up in the intersection of generics and subtyping.
 
     - If a `Something[A]` is required, there is no replacement for it. No `Something[B]` can be provided in place of a `Something[A]`.
 
-# An example
+# Examples
 
-Let's understand this with an example in Python. Consider this function:
+Let's understand this concept with examples in a few different languages - [Python](#python), [TypeScript](#typescript) and [Rust](#rust).
+
+## Python
+
+If you write Python and have not yet used type annotations, you should! You may find Python much more enjoyable while also being more confident in your own code. Check out this [comprehensive guide on Python type annotations](https://realpython.com/python-type-checking/).
+
+Let's consider this function:
 
 ```python
 def some_func(input: list[int | str]):
@@ -105,15 +111,11 @@ Mutability is just one reason for changing the variance. There may be other reas
 
 In the [definition of variance](#variance) above, we said that "`Something[T]` is co/contra/invariant **in** `T`". Each type parameter of a generic can have different variance. For example, a function type `Function[ParameterType, ReturnType]` can be covariant in `ReturnType` and contravariant in `ParameterType`. We will see examples of such types in the next section.
 
-For generics with only a single type parameter, saying "list is invariant" is equivalent to "list[T] is invariant in T".
+For generics with only a single type parameter, saying "list is invariant" is equivalent to saying "list[T] is invariant in T".
 
-# Other languages
+### Contravariance
 
-Let's look at a few examples of co/contra/invariance in various languages.
-
-## Python
-
-We saw example of covariance (`typing.Sequence`) and invariance (`list`) already. Now let's look at an example for contravariance.
+We looked at examples of covariance (`typing.Sequence`) and invariance (`list`). Now let's look at an example for contravariance.
 
 Consider these functions:
 ```python
@@ -538,7 +540,7 @@ This may look like a subtyping relationship, like `Anime <: Media`. But nope! It
 
 I hope this blog post helped explain some behavior of type systems through the understanding of variance. Please reach out to me directly for any feedback. Thank you for reading!
 
-Acknowledgements: Thank you, *Sathvik Srinivas*, for proofreading and suggesting improvements to this post.
+Acknowledgements: Thank you, *Sathvik*, [*Fenil*](https://x.com/fenil_jain_) and [*Ish*](https://github.com/ishbosamiya), for proofreading and suggesting improvements to this post.
 
 [^1]: Interestingly, even though Java is a compiled language, it does *not* do monomorphization. After compilation, a type parameter in a generic class is replaced with `object`. This `object` type can store any object in Java. But more importantly, primitives (int, long, float, char, etc.) are not objects. So you can't really have a fast `Array<int>` in Java. You can have an `Array<Integer>`, but values of `Integer` types take 4x more memory (16 bytes) compared to `int`s (4 bytes). So a generic `Array` in Java will always be slower than specific arrays for each type (an `ArrayInt` for example).
 [^2]: Yes, there is a module in the Python standard library named `abc`. In fact, there are two. There's the [`abc`](https://docs.python.org/3/library/abc.html) module that helps you define Abstract Base Classes (hence ABC). Then there's [`collections.abc`](https://docs.python.org/3/library/collections.abc.html).

@@ -321,7 +321,7 @@ fn main() {
 }
 ```
 
-For most rust programs, lifetimes become a problem when references are involved. They will often be implicit and unnamed like in `&str`, but sometimes we need to name them like in `&'a str`. Lifetime names start with apostrophe and are followed by the name. Lifetimes of functions and structs are specified in the same manner as type parameters. In other words, functions and structs can be *generic* over lifetimes.
+For most rust programs, lifetimes become a problem when references are involved. They will often be implicit and unnamed like in `&str`, but sometimes we need to name them like in `&'a str`. Lifetime names start with apostrophe and are followed by the name. Lifetimes of functions and structs are specified in the same manner as type parameters. For example, `Bytes<'a>` means a `Bytes` struct with the named lifetime `'a`. In other words, functions and structs can be *generic* over lifetimes.
 
 Now let's understand the subtyping relationship between lifetimes. Consider this struct:
 ```rust
@@ -329,13 +329,13 @@ struct Token<'a> {
     pub session_name: &'a str
 }
 ```
-This means that a `Token` must live at least as long as its `session_name`. Now consider a function that creates a token:
+This means that the `session_name` must live at least as long as the `Token` that holds a reference to it. In other words, the reference held by `session_name` *outlives* the `Token`. Now consider a function that creates a token:
 ```rust
 fn create_token_1<'a>(session_name: &'a str) -> Token<'a> {
     Token { session_name }
 }
 ```
-Here too, the returned `Token` lives at least as long as the `session_name` being passed in. Rust's borrow checker makes sure of this. Let's create a token and use it:
+Here too, the `session_name` that is passed in lives at least as long as the returned `Token` (or `session_name` *outlives* the returned `Token`). Rust's borrow checker makes sure of this. Let's create a token and use it:
 ```rust
 let session_name: String = "browser1".to_owned();
 let token = create_token_1(&session_name);
@@ -387,7 +387,7 @@ where
     Token { session_name }
 }
 ```
-Here `'a: 'b` means that lifetime `'a` is at least as long as lifetime `'b`. In other words, any variable with lifetime `'a` can be used in the place where a lifetime of `'b` is needed. That's subtyping! So we can write this as `'a <: 'b`. Notice here that `'a` is the *longer* lifetime compared to `'b`. Generalizing this, any lifetime `'long` which encompasses another lifetime `'short` is a *subtype*: `'long <: 'short`.
+Here `'a: 'b` means that lifetime `'a` is at least as long as lifetime `'b` (`'a` outlives `'b`). In other words, any variable with lifetime `'a` can be used in the place where a lifetime of `'b` is needed. That's subtyping! So we can write this as `'a <: 'b`. Notice here that `'a` is the *longer* lifetime compared to `'b`. Generalizing this, any lifetime `'long` which encompasses another lifetime `'short` is a *subtype*: `'long <: 'short`.
 
 There is a special lifetime in Rust named `'static`. References with a lifetime of `'static` live for the duration of the program. That is, we can assume that they are never dropped. We can say that the `'static` lifetime is longer than all other lifetimes. Or in other words, `'static` is a subtype of all lifetimes.
 
@@ -442,7 +442,7 @@ where
         // short_lived_string is dropped!
     }
 
-    // some_str will not point to a &str with a 'short lifetime!
+    // some_str will now point to a &str with a 'short lifetime!
 }
 ```
 At the end of this function, `some_str` is actually assigned to `short_lived_string` which is dropped at the end of the inner block. This means that using `some_str` after the block is actually a use-after-free! Rust is designed to prevent such memory bugs. So it makes sense that this is not allowed. Hence, we can say that `&mut T` is *not covariant* in `T`.

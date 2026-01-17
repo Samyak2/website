@@ -5,7 +5,7 @@ draft: false
 slug: "mob"
 summary: "Have you ever wanted to just think about what needs to be done and the code for it automagically gets written? Well, I have. In its ideal form, this is what pair/mob programming would do — the navigator(s) simply think about and express their idea of what needs to happen and the driver magically gets it done. In the real world though, this does not happen."
 tags:
- - Rust
+ - rust
  - Mob Programming
 ---
 

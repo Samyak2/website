@@ -22,6 +22,7 @@ Scheduled at [Rust India Conference 2026](https://hasgeek.com/rustbangalore/rust
 - [Never snooze a future - Jack O'Connor](https://jacko.io/snooze.html)
 - [Cancelling async rust by Rain](https://sunshowers.io/posts/cancelling-async-rust/) or [Oxide RFD 400](https://rfd.shared.oxide.computer/rfd/400)
 - [Using Rust async for Query Execution and Cancelling Long-Running Queries - DataFusion Team](https://datafusion.apache.org/blog/2025/06/30/cancellation/)
+- [Tokio blog post introducing task budgets](https://tokio.rs/blog/2020-04-preemption) and [`tokio::task::coop` docs](https://docs.rs/tokio/latest/tokio/task/coop/index.html).
 - TODO: Andrew Lamb's talk on using tokio for CPU heavy tasks for DataFusion.
 - [Deadlocking a tokio mutex without holding a lock](https://www.e6data.com/blog/deadlocking-tokio-mutex-without-holding-lock)
 - [Oxide RFD 609 - Futurelock](https://rfd.shared.oxide.computer/rfd/0609)

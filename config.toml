@@ -90,6 +90,11 @@ enableGitInfo = true
     name       = "Portfolio"
     url        = "portfolio"
 
+  [[menu.main]]
+    identifier = "talks"
+    name       = "Talks"
+    url        = "talks"
+
 [permalinks]
   post = '/:section/:slug'
 

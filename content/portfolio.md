@@ -77,6 +77,8 @@ Conference
 
 ### Miscellaneous contributions
 
+- [datafusion](https://github.com/apache/datafusion/pulls?q=sort%3Aupdated-desc+is%3Apr+author%3ASamyak2+) and the surrounding arrow ecosystem: [arrow-rs](https://github.com/apache/arrow-rs/pulls?q=sort%3Aupdated-desc+is%3Apr+author%3ASamyak2+), [sqlparser-rs](https://github.com/apache/datafusion-sqlparser-rs/pulls?q=sort%3Aupdated-desc+is%3Apr+author%3ASamyak2+), [datafusion-variant](https://github.com/datafusion-contrib/datafusion-variant/pulls?q=sort%3Aupdated-desc+is%3Apr+author%3ASamyak2+)
+- [meilisearch](https://github.com/meilisearch/milli/pulls?q=sort%3Aupdated-desc+is%3Apr+author%3ASamyak2) (search engine library)
 - [limbo](https://github.com/tursodatabase/limbo/pulls?q=is:pr+author:Samyak2) (SQLite re-write in rust)
 - [salvo](https://github.com/salvo-rs/salvo/pulls?q=+is:pr+author:Samyak2) (Rust web framework)
 - [pest.vim](https://github.com/pest-parser/pest.vim/pulls?q=is:pr+author:Samyak2) (vim support for pest parser)
@@ -85,21 +87,20 @@ Conference
 
 A few interesting projects I was involved in at my workplaces.
 
-### Snowflake SQL query optimizer
+### Open Variant data type
 
-- Analyzed top SQL queries of multiple Fortune 500 companies to provide recommendations for cost/performance optimization.
-- Semi-automated using an existing SQL parser.
-- **Place**: Chaos Genius
+- Implemented support for reading and processing variant type columns in the e6data query engine.
+- [Blog post](https://www.e6data.com/blog/faster-json-sql-variant-data-type)
+- **Place**: e6data
 - **Involvement**: fully owned the project.
-- **Impact**: a significant part of the product.
+- **Impact**: first query engine after Spark/Databricks to support querying open variant data. Unlocked more customer use cases.
 
-### Snowflake warehouse optimizer
+### Distributed hash join
 
-- Built a rule-based optimizer for Snowflake Virtual Warehouses.
-- Provides recommendations to reduce cost and maximize usage of warehouses.
-- **Place**: Chaos Genius
-- **Involvement**: fully owned the project.
-- **Impact**: a significant part of the product.
+- Implemented partitioned, shuffled hash join to allow joins where the build-side table does not fit in memory.
+- **Place**: e6data
+- **Involvement**: co-owned the project.
+- **Impact**: unlocked customer use cases by being able to run more queries than before.
 
 ### Chaos Genius open-source analytics tool
 

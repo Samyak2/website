@@ -14,7 +14,7 @@ At [Rust India Conference 2026](https://hasgeek.com/rustbangalore/rust-india-con
 
 ## Recording
 
-TODO
+[YouTube](https://youtu.be/Po7iKR8sK7c)
 
 ## Slides
 

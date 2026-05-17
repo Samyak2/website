@@ -12,6 +12,15 @@ tags:
 
 At [Rust India Conference 2026](https://hasgeek.com/rustbangalore/rust-india-conference-2026/).
 
+Covers the following topics:
+- Introduction to the internals of async Rust and how cancellation works: a **mental model of Rust futures**, how `tokio::select!` works
+- Two **"types" of cancellations**: dropping and pausing. And why pausing is almost always a bug.
+- **Problems** with cancellation: invalid state being leaked, deadlocks, etc.
+- How **DataFusion uses tokio task budgets** to cancel CPU-heavy futures.
+    - Builds to up the idea of task budgets from first principles.
+- Production bug we had faced at e6data, related to cancellation: the app was **deadlocked even when the mutexes were unlocked**.
+    - Includes a brief look at the **internals of Tokio's mutex**.
+
 ## Recording
 
 [YouTube](https://youtu.be/Po7iKR8sK7c)

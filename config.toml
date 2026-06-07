@@ -39,29 +39,29 @@ enableGitInfo = true
   licenseUrl = ""
 
  # Social icons
-  [[params.social]]
-    name = "github"
-    url  = "https://github.com/Samyak2"
+  # [[params.social]]
+  #   name = "github"
+  #   url  = "https://github.com/Samyak2"
 
   # [[params.social]]
   #   name = "gitlab"
   #   url  = "https://gitlab.com/samyaks"
 
-  [[params.social]]
-    name = "email"
-    url  = "mailto:samyak201@gmail.com"
-
   # [[params.social]]
   #   name = "gpg"
   #   url  = "https://keys.openpgp.org/"
 
-  [[params.social]]
-    name = "twitter"
-    url  = "https://twitter.com/Samyak210"
+  # [[params.social]]
+  #   name = "bsky"
+  #   url  = "https://bsky.app/profile/samyak.me"
 
-  [[params.social]]
-    name = "mastodon"
-    url = "https://hachyderm.io/@samyak"
+  # [[params.social]]
+  #   name = "twitter"
+  #   url  = "https://twitter.com/Samyak210"
+
+  # [[params.social]]
+  #   name = "mastodon"
+  #   url = "https://hachyderm.io/@samyak"
 
 [params.style]
   custom_scss = ["/sass/custom.scss"]

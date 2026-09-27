@@ -15,13 +15,13 @@ The [Volcano model](https://paperhub.s3.amazonaws.com/dace52a42c07f7f8348b08dc2b
     Join
    /    \
 Scan    Aggregate
-          \
+           \
           Scan
 ```
 
 With this definition, we can see that it's used in pretty much every database that exists today. PostgreSQL, MySQL, Clickhouse, Snowflake, Spark and many many others.
 
-I'm arguing in this post that this model is broken. All it does is gives the user of the database a nice tree to look at. Beyond that, it's not very helpful. I'm not selling an alternative - I have none. Another disclaimer - I work on analytics query engines, so my experience with transactional database internals is limited.
+I'm arguing in this post that this model is broken. All it does is gives the user of the database a nice tree to look at. Beyond that, it's not very helpful. I'm not selling an alternative - I have none. Another disclaimer - I work on analytics query engines, so my experience with the internals of transactional databases is limited.
 
 I hope that this helps people revisit this model - can we do better? I don't have the answer. Just questions.
 
@@ -35,7 +35,7 @@ Unfortunately, a guess is all it is. Here's a few examples where this doesn't wo
 
 ### Joins
 
-Joins usually run their child operators in a specific sequence. For example, a *hash join* runs the *build* side completely first and then starts the *probe* side. The query plan doesn't really show this, unless you *know* that a hash join executes this way.
+Joins usually run their child operators in a specific sequence. For example, a *hash join* runs the *build* side completely first and then starts the *probe* side. The query plan doesn't really show this unless you *know* that a hash join executes this way.
 
 ### Pipeline breakers
 
@@ -47,7 +47,7 @@ A similar thing happens in joins, specifically the build side of a hash join. Th
 
 ### Dynamic filters
 
-Dynamic filters, also known as "sideways information passing", is a common optimization in databases. The idea is to use runtime information to filter out rows being read as and when we learn more information about the data. Here's a [great blog from DataFusion folks](https://datafusion.apache.org/blog/2025/09/10/dynamic-filters/) on dynamic filters.
+Dynamic filters, or "sideways information passing", is a common optimization in databases. The idea is to use runtime information to filter out rows being read as and when we learn more information about the data. Here's a [great blog from DataFusion folks](https://datafusion.apache.org/blog/2025/09/10/dynamic-filters/) on dynamic filters.
 
 Consider a join query like:
 ```sql
@@ -88,7 +88,7 @@ Scan(calendar)      Join
 
 Here, `calendar` and `promotions` are the build sides of the join and `sales` is the probe side. This means that `calendar` and `promotions` have to complete before `sales` starts. But what about the scheduling of `calendar` and `promotions` themselves? Can they be parallelized?
 
-We could scan `calendar` first and use the `date_id` values from there to filter the `promotions` table and then filter out `sales`. Now there's a dependency of `calendar -> promotions -> sales` that's not reflected at all in the operator tree!
+We could scan `calendar` first, use the `date_id` values from there to filter the `promotions` table and then filter out `sales`. Now there's a dependency of `calendar -> promotions -> sales` that's not reflected at all in the operator tree!
 
 ## 2. Code organization
 
@@ -116,9 +116,9 @@ Scan: filter="age > 30"
 
 The filter is "pushed down" to the scan. The scan operator can then be smart about it instead of reading all rows and then filtering later.
 
-Limit pushdown is similar where if you have something like `LIMIT 10` in your query, the scan can then prepare just enough work to fulfill the limit.
+Limit pushdown is something similar, where if you have something like `LIMIT 10` in your query, the scan can then prepare just enough work to fulfill the limit.
 
-Aggregate pushdown is a more niche optimizations. It can be useful when you have something like `max(age) FROM ...`, especially in analytics databases. Parquet files store stats like minimums and maximums in the *footer* (like a metadata for the file). Which means that the scan can skip reading the whole file and read just the footer!
+Aggregate pushdown is a more niche optimization. It can be useful when you have something like `max(age) FROM ...`, especially in analytics databases. Parquet files store stats like minimums and maximums in the *footer* (like a metadata for the file). Which means that the scan can skip reading the whole file and read just the footer!
 
 With everything pushed down, the scan operator becomes quite complex. It's doing a lot more than just "scanning" the data. You might as well have an operator like this lol:
 ```
@@ -142,3 +142,5 @@ The perf interface is one thing that I don't have anything negative to say about
 Those were my points on why the volcano model doesn't work very well. It's a very loaded abstraction and breaks down even in common query shapes.
 
 If you, the reader, have seen or thought of any alternatives, I would like to hear about them!
+
+Acknowledgements: Thank you, *Sathvik Srinivas*, for proofreading and suggesting improvements to this post.

@@ -9,7 +9,7 @@ tags:
 draft: true
 ---
 
-The [Volcano model](https://paperhub.s3.amazonaws.com/dace52a42c07f7f8348b08dc2b186061.pdf) in databases has been very popular since it was introduced in 1994. For the purposes of this article, I do not mean the exact interface of "open(), next(), close()". I'm using the term much more loosely. Volcano model is one where the execution of a query is split into *operators* organized into a tree, which we call the *query plan*. Something like:
+The [Volcano model](https://paperhub.s3.amazonaws.com/dace52a42c07f7f8348b08dc2b186061.pdf) [^1] in databases has been very popular since it was introduced in 1994. For the purposes of this article, I do not mean the exact interface of "open(), next(), close()". I'm using the term much more loosely. Volcano model is one where the execution of a query is split into *operators* organized into a tree, which we call the *query plan*. Something like:
 
 ```
     Join
@@ -35,19 +35,19 @@ Unfortunately, a guess is all it is. Here's a few examples where this doesn't wo
 
 ### Joins
 
-Joins usually run their child operators in a specific sequence. For example, a *hash join* runs the *build* side completely first and then starts the *probe* side. The query plan doesn't really show this unless you *know* that a hash join executes this way.
+Joins usually run their child operators in a specific sequence. For example, a *hash join* runs the *build* side completely first and then starts the *probe* side. The query plan doesn't really show this unless you *know* that a hash join executes this way [^2].
 
 ### Pipeline breakers
 
 The Volcano model is also sometimes called the *iterator* model. Rows (tuples?) flow up through the operator tree. Again, this breaks down quickly. There are operators which *block* this "pipeline" of data flowing through. They are sometimes referred to as *pipeline breakers*.
 
-One example is aggregations. An aggregate cannot (usually) emit data unless it has fully consumed the input. The flow stops here and resumes once the aggregation is complete.
+One example is aggregations. An aggregate cannot (usually) emit data unless it has fully consumed the input. The flow stops here and resumes once the aggregation is complete [^3].
 
 A similar thing happens in joins, specifically the build side of a hash join. The build side blocks until it has read all its input.
 
 ### Dynamic filters
 
-Dynamic filters, or "sideways information passing", is a common optimization in databases. The idea is to use runtime information to filter out rows being read as and when we learn more information about the data. Here's a [great blog from DataFusion folks](https://datafusion.apache.org/blog/2025/09/10/dynamic-filters/) on dynamic filters.
+Dynamic filtering, or "sideways information passing", is a common optimization in databases. The idea is to use runtime information to filter out rows being read as and when we learn more information about the data. Here's a [great blog from DataFusion folks](https://datafusion.apache.org/blog/2025/09/10/dynamic-filters/) on dynamic filters.
 
 Consider a join query like:
 ```sql
@@ -114,13 +114,13 @@ To:
 Scan: filter="age > 30"
 ```
 
-The filter is "pushed down" to the scan. The scan operator can then be smart about it instead of reading all rows and then filtering later.
+The filter is "pushed down" to the scan. The scan operator can then be smart about it instead of reading all rows and then filtering later [^4].
 
 Limit pushdown is something similar, where if you have something like `LIMIT 10` in your query, the scan can then prepare just enough work to fulfill the limit.
 
 Aggregate pushdown is a more niche optimization. It can be useful when you have something like `max(age) FROM ...`, especially in analytics databases. Parquet files store stats like minimums and maximums in the *footer* (like a metadata for the file). Which means that the scan can skip reading the whole file and read just the footer!
 
-With everything pushed down, the scan operator becomes quite complex. It's doing a lot more than just "scanning" the data. You might as well have an operator like this lol:
+With everything pushed down, the scan operator becomes quite complex. It's doing a lot more than just "scanning" the data. You might as well have an operator like this lol [^5]:
 ```
 DoQuery: filter="age > 30", limit=10, agg=max(income)
 ```
@@ -144,3 +144,9 @@ Those were my points on why the volcano model doesn't work very well. It's a ver
 If you, the reader, have seen or thought of any alternatives, I would like to hear about them!
 
 Acknowledgements: Thank you, *Sathvik Srinivas*, for proofreading and suggesting improvements to this post.
+
+[^1]: Goetz Graefe, the author of the Volcano paper, has been involved in a bunch of cool database projects including Microsoft SQL Server, Google Napa (data warehouse) and Google F1 Lightning (HTAP system).
+[^2]: [DataFusion code example](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/physical-plan/src/joins/hash_join/exec.rs#L1761). We can see that the `HashJoinExec` operator internally does this scheduling and synchronization.
+[^3]: [DataFusion code example](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/physical-plan/src/aggregates/grouped_hash_stream.rs#L1333). We can see that the `AggregateExec` operator typically emits rows only once the input is done. "Typically" because there are exceptions that can be seen in the file.
+[^4]: In data lake query engines (or lakehouse query engines), the scan can filter out things at multiple levels: skip entire partitions (partition pruning) using the partitioning info of the table, skip entire files using stats from the table format (Delta, Iceberg, etc.) and skip *row groups* within a parquet file using footer stats. All of this can be done before a filter operator above the scan sees any rows.
+[^5]: Just look at the [complexity](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource/src/file_scan_config/mod.rs#L153) [involved](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource-parquet/src/source.rs#L271-L290) in DataFusion's data source code. Most of this is essential complexity - they have done a great job of creating good abstractions.

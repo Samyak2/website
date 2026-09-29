@@ -129,13 +129,13 @@ DoQuery: filter="age > 30", limit=10, agg=max(income)
 
 As we saw earlier, dynamic filters add a filter to a scan at runtime. There needs to be some synchronization between the join operator and the scan operator. They are no longer independent operators.
 
-You could come up with a fairly clean and generic API for this. For example, DataFusion's [`DynamicFilterPhysicalExpr`](https://docs.rs/datafusion/55.1.0/datafusion/physical_expr/expressions/struct.DynamicFilterPhysicalExpr.html). Sadly, this still does not hide the fact that there is some shared mutable state between the two. This matters for things like [serialization](https://github.com/datafusion-contrib/datafusion-distributed/issues/180) where you can no longer independently serialize/deserialize the two operators -- you need to connect the dynamic filters on deserialization.
+You could come up with a fairly clean and generic API for this. For example, DataFusion's [`DynamicFilterPhysicalExpr`](https://docs.rs/datafusion/55.1.0/datafusion/physical_expr/expressions/struct.DynamicFilterPhysicalExpr.html). Sadly, this still does not hide the fact that there is some shared mutable state between the two. This matters for things like serialization where you can no longer independently serialize/deserialize the two operators -- you need to connect the dynamic filters on deserialization [^6].
 
 ## 3. Perf interface for users
 
 The operator tree provides a natural interface to show performance characteristics of a query. This is usually exposed through an `EXPLAIN ANALYZE`. The tree with the metrics give an indication of where a query's execution time is being spent. This provides actionable insights to a user. For example, a table scan taking most of the execution time could indicate the need for more/better filters.
 
-The perf interface is one thing that I don't have anything negative to say about. Having said that, any alternate abstraction should be able to show the perf characteristics too - although with an unfamiliar format.
+The perf interface is one thing that I don't have anything negative to say about [^7]. Having said that, any alternate abstraction should be able to show the perf characteristics too - although with an unfamiliar format.
 
 ## Conclusion
 
@@ -150,3 +150,5 @@ Acknowledgements: Thank you, *Sathvik Srinivas*, for proofreading and suggesting
 [^3]: [DataFusion code example](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/physical-plan/src/aggregates/grouped_hash_stream.rs#L1333). We can see that the `AggregateExec` operator typically emits rows only once the input is done. "Typically" because there are exceptions that can be seen in the file.
 [^4]: In data lake query engines (or lakehouse query engines), the scan can filter out things at multiple levels: skip entire partitions (partition pruning) using the partitioning info of the table, skip entire files using stats from the table format (Delta, Iceberg, etc.) and skip *row groups* within a parquet file using footer stats. All of this can be done before a filter operator above the scan sees any rows.
 [^5]: Just look at the [complexity](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource/src/file_scan_config/mod.rs#L153) [involved](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource-parquet/src/source.rs#L271-L290) in DataFusion's data source code. Most of this is essential complexity - they have done a great job of creating good abstractions.
+[^6]: This matters for distributed query engines like [datafusion-distributed](https://github.com/datafusion-contrib/datafusion-distributed/issues/180). Credit where it's due, there has been some [recent](https://github.com/apache/datafusion/pull/21807) [work](https://github.com/apache/datafusion/pull/22011) to make dynamic filters work across serialization.
+[^7]: From the perspective of someone who works on the internals of query engines, the `EXPLAIN ANALYZE` doesn't *always* help. We still end up needing CPU profiles (as flamegraphs), heap profiles and plain old logs.

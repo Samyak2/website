@@ -19,7 +19,7 @@ Scan    Aggregate
           Scan
 ```
 
-With this definition, we can see that it's used in pretty much every database that exists today. PostgreSQL, MySQL, Snowflake, Spark and many many others. Systems like DuckDB and ClickHouse also fit this definition, even though they do not use the pull-based, iterator model.
+With this definition, we can see that it's used in pretty much every database that exists today. PostgreSQL, MySQL, MS SQL Server, Spark and many many others. Systems like DuckDB, ClickHouse and Snowflake also fit this definition, even though they do not use the pull-based, iterator model.
 
 I'm arguing in this post that this model is broken. All it does is gives the user of the database a nice tree to look at. Beyond that, it's not very helpful. I'm not selling an alternative - I have none. Another disclaimer - I work on analytics query engines, so my experience with the internals of transactional databases is limited.
 
@@ -39,7 +39,7 @@ Joins usually run their child operators in a specific sequence. For example, a *
 
 ### Pipeline breakers
 
-The Volcano model is also sometimes called the *iterator* model. Rows (tuples?) flow up through the operator tree. Again, this breaks down quickly. There are operators which *block* this "pipeline" of data flowing through. They are sometimes referred to as *pipeline breakers*.
+In the Volcano model, rows (tuples?) flow up through the operator tree. Again, this breaks down quickly. There are operators which *block* this "pipeline" of data flowing through. They are sometimes referred to as *pipeline breakers*.
 
 One example is aggregations. An aggregate cannot (usually) emit data unless it has fully consumed the input. The flow stops here and resumes once the aggregation is complete [^3].
 

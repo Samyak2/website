@@ -139,7 +139,7 @@ The perf interface is one thing that I don't have anything negative to say about
 
 ## Conclusion
 
-Those were my points on why the volcano model doesn't work very well. It's a very loaded abstraction and breaks down even in common query shapes.
+These are my justifications for why the volcano model doesn't work very well. It's a very loaded abstraction and breaks down even in common query shapes.
 
 If you, the reader, have seen or thought of any alternatives, I would like to hear about them!
 
@@ -149,6 +149,6 @@ Acknowledgements: Thank you, *Sathvik Srinivas*, for proofreading and suggesting
 [^2]: [DataFusion code example](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/physical-plan/src/joins/hash_join/exec.rs#L1761). We can see that the `HashJoinExec` operator internally does this scheduling and synchronization.
 [^3]: [DataFusion code example](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/physical-plan/src/aggregates/grouped_hash_stream.rs#L1333). We can see that the `AggregateExec` operator typically emits rows only once the input is done. "Typically" because there are exceptions that can be seen in the file.
 [^4]: In data lake query engines (or lakehouse query engines), the scan can filter out things at multiple levels: skip entire partitions (partition pruning) using the partitioning info of the table, skip entire files using stats from the table format (Delta, Iceberg, etc.) and skip *row groups* within a parquet file using footer stats. All of this can be done before a filter operator above the scan sees any rows.
-[^5]: Just look at the [complexity](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource/src/file_scan_config/mod.rs#L153) [involved](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource-parquet/src/source.rs#L271-L290) in DataFusion's data source code. Most of this is essential complexity - they have done a great job of creating good abstractions.
+[^5]: Take a look at the [complexity](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource/src/file_scan_config/mod.rs#L153) [involved](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource-parquet/src/source.rs#L271-L290) in DataFusion's data source code. Most of this is essential complexity. They have done a great job of creating good abstractions.
 [^6]: This matters for distributed query engines like [datafusion-distributed](https://github.com/datafusion-contrib/datafusion-distributed/issues/180). Credit where it's due, there has been some [recent](https://github.com/apache/datafusion/pull/21807) [work](https://github.com/apache/datafusion/pull/22011) to make dynamic filters work across serialization.
 [^7]: From the perspective of someone who works on the internals of query engines, the `EXPLAIN ANALYZE` doesn't *always* help. We still end up needing CPU profiles (as flamegraphs), heap profiles and plain old logs.

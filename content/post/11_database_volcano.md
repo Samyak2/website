@@ -9,7 +9,7 @@ tags:
 draft: true
 ---
 
-The [Volcano model](https://paperhub.s3.amazonaws.com/dace52a42c07f7f8348b08dc2b186061.pdf) [^1] in databases has been very popular since it was introduced in 1994. For the purposes of this article, I do not mean the exact interface of "open(), next(), close()". I'm using the term much more loosely. Volcano model is one where the execution of a query is split into *operators* organized into a tree, which we call the *query plan*. Something like:
+The [Volcano model](https://paperhub.s3.amazonaws.com/dace52a42c07f7f8348b08dc2b186061.pdf) in databases has been very popular since it was formalized in the early 90s [^1]. For the purposes of this article, I do not mean the exact interface of "open(), next(), close()". I'm also not referring to the pull-based, "iterator"-like design [^8]. I'm using the term much more loosely. Volcano model is one where the execution of a query is split into *operators* organized into a tree, which we call the *query plan*. Something like:
 
 ```
     Join
@@ -19,7 +19,7 @@ Scan    Aggregate
           Scan
 ```
 
-With this definition, we can see that it's used in pretty much every database that exists today. PostgreSQL, MySQL, Clickhouse, Snowflake, Spark and many many others.
+With this definition, we can see that it's used in pretty much every database that exists today. PostgreSQL, MySQL, Snowflake, Spark and many many others. Systems like DuckDB and ClickHouse also fit this definition, even though they do not use the pull-based, iterator model.
 
 I'm arguing in this post that this model is broken. All it does is gives the user of the database a nice tree to look at. Beyond that, it's not very helpful. I'm not selling an alternative - I have none. Another disclaimer - I work on analytics query engines, so my experience with the internals of transactional databases is limited.
 
@@ -60,7 +60,7 @@ There is no filter on the larger table `sales` (say, a few billion rows), but th
 
 With dynamic filters, we instead construct a filter at runtime, that looks roughly like
 ```
-sales.date_id in (1001, 1002, 1003, ...[+329 others])
+sales.date_id in (1001, 1002, 1003, ...[+28 others])
 ```
 These are the `date_id` values that we scanned from the `calendar` table. This could also be a bloom filter. The point is that we push a filter based on runtime values, to reduce the amount of data scanned.
 
@@ -152,3 +152,4 @@ Acknowledgements: Thank you, *Sathvik Srinivas*, for proofreading and suggesting
 [^5]: Take a look at the [complexity](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource/src/file_scan_config/mod.rs#L153) [involved](https://github.com/apache/datafusion/blob/871058cd7302ef8fa746e52329992408bc9c6c7e/datafusion/datasource-parquet/src/source.rs#L271-L290) in DataFusion's data source code. Most of this is essential complexity. They have done a great job of creating good abstractions.
 [^6]: This matters for distributed query engines like [datafusion-distributed](https://github.com/datafusion-contrib/datafusion-distributed/issues/180). Credit where it's due, there has been some [recent](https://github.com/apache/datafusion/pull/21807) [work](https://github.com/apache/datafusion/pull/22011) to make dynamic filters work across serialization.
 [^7]: From the perspective of someone who works on the internals of query engines, the `EXPLAIN ANALYZE` doesn't *always* help. We still end up needing CPU profiles (as flamegraphs), heap profiles and plain old logs.
+[^8]: [Here](https://justinjaffray.com/query-engines-push-vs.-pull/) is a great post from Justin Jaffray explaining the difference between push-based and pull-based execution models. Even though the pull-based approach is what is referred to as "Volcano", there are two separate concepts here. Pull vs push is the exact execution model. I'm referring to just the "Operator" abstraction. There's no reason why a push-based engine cannot use operators as an abstraction. In fact, our earlier Java-based query engine at [e6data](https://e6data.com/blog) was exactly this - Operator model with push-based execution.
